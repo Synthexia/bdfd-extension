@@ -1,0 +1,333 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "BDScript",
+	"patterns": [
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#escape"
+		},
+		{
+			"include": "#brackets"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#parentheses"
+		}
+	],
+	"repository": {
+		"functions": {
+			"patterns": [
+				{
+					"match": "\\$((?:ad{2}|edit)But{2}on|removeBut{2}ons|newSelectMenu|editSelectMenu(?:Option)?|ad{2}SelectMenuOption|newModal|input|ad{2}TextInput|(?:un)?registerGuildCom{2}ands|autoCompleteOption(?:Name|Value)|ap{2}endOptionSug{2}estion|customID|defer|ephemeral|slashID|removeComponent)",
+					"captures": {
+						"0": {
+							"name": "f.interactions.bds"
+						}
+					}
+				},{
+					"match": "\\$(changeUsername(?:WithID)?|findUser|getUserStatus|user(?:Server)?Avatar|user(?:ID|Info|Joined(?:Discord)?|Perms|name)|author(?:ID|Avatar)|(?:un)?ban(?:ID)?|discriminator|dm(?:Chan{2}elID)?|kick(?:Mention)?|mentioned(?!Channels|Roles)|nickname|(?:un)?timeout|(?:un)?mute|hypesquad|getCustomStatus)",
+					"captures": {
+						"0": {
+							"name": "f.discord.user.bds"
+						}
+					}
+				},{
+					"match": "\\$creationDate",
+					"captures": {
+						"0": {
+							"name": "f.discord.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(guildID|get(ServerInvite|InviteInfo)|server(Description|Icon|Info|Name(?:s)?|Owner|Region|VerificationLvl|Emojis)|ad{2}Emoji|bo{2}stCount)",
+					"captures": {
+						"0": {
+							"name": "f.discord.guild.bds"
+						}
+					}
+				},{
+					"match": "\\$(and|or|stop|enabled)",
+					"captures": {
+						"0": {
+							"name": "f.limiters.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(else(?:if)?|end(?:if)|if)",
+					"captures": {
+						"0": {
+							"name": "f.limiters.if.bds"
+						}
+					}
+				},{
+					"match": "\\$(only(?:If(?:MessageContains)?|Admin|NSFW|Perms|Bot(?:(Chan{2}el)?Perms)|For(?:Categories|Chan{2}els|(?:Role)?IDs|Roles|Users|Servers)))",
+					"captures": {
+						"0": {
+							"name": "f.limiters.onlyIf.bds"
+						}
+					}
+				},{
+					"match": "\\$(is(?:Admin|Ban{2}ed|Bo{2}lean|Bot|Hoisted|Mentionable|NSFW|Number|UserDMEnabled|ValidHex|Slash|TimedOut))",
+					"captures": {
+						"0": {
+							"name": "f.limiters.is.bds"
+						}
+					}
+				},{
+					"match": "\\$(check(?:Contains|UserPerms|Condition)|argsCheck)",
+					"captures": {
+						"0": {
+							"name": "f.limiters.check.bds"
+						}
+					}
+				},{
+					"match": "\\$(blackList(?:Users|Servers|Roles(?:IDs)?|IDs))",
+					"captures": {
+						"0": {
+							"name": "f.limiters.blacklist.bds"
+						}
+					}
+				},{
+					"match": "\\$(ignore(?:Chan{2}els|Links|Trig{2}erCase))",
+					"captures": {
+						"0": {
+							"name": "f.limiters.ignore.bds"
+						}
+					}
+				},{
+					"match": "\\$((?:guild|user|role|chan{2}el|serverChan{2}el)Exists|varExistError)",
+					"captures": {
+						"0": {
+							"name": "f.limiters.exists.bds"
+						}
+					}
+				},{
+					"match": "\\$(changeCo{2}ldownTime|co{2}ldown|(?:get|global|server)Co{2}ldown)",
+					"captures": {
+						"0": {
+							"name": "f.limiters.cooldown.bds"
+						}
+					}
+				},{
+					"match": "\\$(clear(?!Reactions)|mes{2}age(?:ID)?|(?:repeat|send(?:Embed)?|(?:un)?pin|get|edit|delete|chan{2}elSend|authorOf|noMention|publish):?Mes{2}age|(?:replace|crop):?Text|reply(?:In)?|editIn|remove(?:Contains|Links)|al{2}ow(?:User|Role)Mentions|al{2}owMention|delete(?:In|com{2}and)|t{2}s|url|unescape|trim(?:Space|Content)?|to(?:Up{2}ercase|TitleCase|Lowercase)|customImage|repliedMes{2}ageID|nomention)",
+					"captures": {
+						"0": {
+							"name": "f.messages.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(textSplit|splitText|removeSplitTextElement|(?:join|edit)SplitText|getTextSplit(?:Length|Index))",
+					"captures": {
+						"0": {
+							"name": "f.messages.textSplit.bds"
+						}
+					}
+				},{
+					"match": "\\$(userReacted|(?:get|clear|await|ad{2}(?:Cmd)?)Reactions|(?:used|custom)Emoji)",
+					"captures": {
+						"0": {
+							"name": "f.messages.reactions.bds"
+						}
+					}
+				},{
+					"match": "\\$(author(?:Icon|URL|)?|ad{2}(?:Timestamp|Field)|description|title|embed{2}edURL|footer(?:Icon)?|thumbnail|color(?!Role)|getEmbedData|editEmbedIn|image)",
+					"captures": {
+						"0": {
+							"name": "f.messages.embed.bds"
+						}
+					}
+				},{
+					"match": "\\$((?:start|edit)Thread|thread(?:Ad{2}|Remove)Member)",
+					"captures": {
+						"0": {
+							"name": "f.messages.threads.bds"
+						}
+					}
+				},{
+					"match": "\\$(sum|sub|multi|divide|calculate|modulo|max|min(?!ute)|numberSeparator|round|sort|enableDecimals)",
+					"captures": {
+						"0": {
+							"name": "f.math.general.bds"
+						}
+					}
+				}, {
+					"match": "\\$((?:slashCom{2}ands|al{2}Members|arg|chan{2}el|char|com{2}ands|emote|members|role|server|variables|category)Count)",
+					"captures": {
+						"0": {
+							"name": "f.math.count.bds"
+						}
+					}
+				},{
+					"match": "\\$((?:color|create|delete|find|give|take|has|highest|lowest|modify)Role(?!WithPerms|Perms)|getRoleColor|(?:highest|lowest)RoleWithPerms|mentionedRoles|modifyRolePerms|role(?:ID|Info|Grant|Name(?:s)?|Position)|userRoles)",
+					"captures": {
+						"0": {
+							"name": "f.discord.roles.bds"
+						}
+					}
+				},{
+					"match": "\\$(chan{2}el(?:ID(?:FromName)?|Name|Topic|Type)|(?:create|find|modify|use)Chan{2}el(?!Perms)|deleteChan{2}els(?:ByName)?|mentionedChan{2}els|editChan{2}elPerms|modifyChan{2}elPerms|slowmode|(?:new|close)Ticket|categoryID|chan{2}elPosition|parentID)",
+					"captures": {
+						"0": {
+							"name": "f.discord.channels.bds"
+						}
+					}
+				},{
+					"match": "\\$(await(?:Func)?|(?:end)?async|bot(?:Leave|ListDescription|ListHide|Node|Typing|ID|Com{2}ands)|alternativeParsing|disableSpecialEscaping|eval|executionTime|(?:hosting|premium)ExpireTime|shardID|uptime|ping|optOf{2}|getBotInvite|sendNotification|scriptLanguage|botOwnerID)",
+					"captures": {
+						"0": {
+							"name": "f.bot.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(time|getTimestamp|minute|second|hour|year|date|day|month)",
+					"captures": {
+						"0": {
+							"name": "f.time.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(http(?:Delete|Get(?:Header)?|Patch|Post|Put|Result|(?:Ad{2}|Remove)Header|Status))",
+					"captures": {
+						"0": {
+							"name": "f.http.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(webhook(?:AvatarURL|Color|Content|Create|Delete|Description|Fo{2}ter|Send|Title|Username))",
+					"captures": {
+						"0": {
+							"name": "f.webhooks.general.bds"
+						}
+					}
+				},{
+					"match": "\\$(random(?:Chan{2}elID|User(?:ID)?|Text|String|Mention)?)",
+					"captures": {
+						"0": {
+							"name": "f.random.general.bds"
+						}
+					}
+				},{
+					"match": "\\$((?:sup{2}res{2}|embedSup{2}res{2})Er{2}ors|(?:end)?try|catch|er{2}or)",
+					"captures": {
+						"0": {
+							"name": "f.error.general.bds"
+						}
+					}
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"begin": "\\$c\\[(?!(?:\\?|\\!|\\+|-))",
+					"contentName": "comments.general",
+					"end": "\\]",
+					"captures": {
+						"0": {
+							"name": "comments.general"
+						}
+					}
+				},{
+					"begin": "\\$c\\[\\!",
+					"contentName": "comments.!",
+					"end": "\\]",
+					"captures": {
+						"0": {
+							"name": "comments.!"
+						}
+					}
+				},{
+					"begin": "\\$c\\[\\?",
+					"contentName": "comments.?",
+					"end": "\\]",
+					"captures": {
+						"0": {
+							"name": "comments.?"
+						}
+					}
+				},{
+					"begin": "\\$c\\[-",
+					"contentName": "comments.-",
+					"end": "\\]",
+					"captures": {
+						"0": {
+							"name": "comments.-"
+						}
+					}
+				},{
+					"begin": "\\$c\\[\\+",
+					"contentName": "comments.+",
+					"end": "\\]",
+					"captures": {
+						"0": {
+							"name": "comments.+"
+						}
+					}
+				}
+			]
+		},
+		"escape": {
+			"patterns": [
+				{
+					"match": "(\\\\;|\\\\\\\\|\\\\]|\\\\\\u005B)",
+					"captures": {
+						"0": {
+							"name": "escape.bds"
+						}
+					}
+				},{
+					"match": "(%ESCAPED%|%{-SEMICOL-}%|%{DOL}%)",
+					"captures": {
+						"0": {
+							"name": "escape.bds"
+						}
+					}
+				}
+			]
+		},
+		"brackets": {
+			"patterns": [
+				{
+					"match": "[\\[\\;\\]]",
+					"captures": {
+						"0": {
+							"name": "brackets.bds"
+						}
+					}
+				}
+			]
+		},
+		"parentheses": {
+			"patterns": [
+				{
+					"match": "[\\(\\)\\{\\}]",
+					"captures": {
+						"0": {
+							"name": "parentheses.bds"
+						}
+					}
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"match": "\\$((?:get|set|reset(?!Var))(?:User|Server|Chan{2}el)?Var|var(?:Exists)?|(?:user|globalUser|server)Leaderboard|getLeaderboardValue)",
+					"captures": {
+						"0": {
+							"name": "variables.bds"
+						}
+					}
+				}
+			]
+		}
+	},
+	"scopeName": "source.bdscript"
+}

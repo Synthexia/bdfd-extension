@@ -1,0 +1,598 @@
+{
+    "$onlyIf Function": {
+        "scope": "source.bds",
+        "prefix": "$onlyIf",
+        "description": "Command can be used only if values are equal (==) or not equal (!=) or one of them is bigger (> or <) or one of them is equal or bigger (>= or <=).",
+        "body": "\\$onlyIf[${1:X}${2|==,!=,>=,>,<,<=|}${3:Y};${4:Error message}]"
+    },
+    "$sum Function": {
+        "scope": "source.bds",
+        "prefix": "$sum",
+        "description": "Returns the sum of entered numbers.",
+        "body": "\\$sum[${1:Numbers (separate with \";\")}]"
+    },
+    "$addButton Function": {
+        "scope": "source.bds",
+        "prefix": "$addButton",
+        "description": "Adds button to the response.",
+        "body": "\\$addButton[${1|no,yes|};${2:Button ID/URL};${3:Label};${4|primary,success,danger,secondary,link|};${5|no,yes|};${6:Emoji};${7:Message ID}]"
+    },
+    "$addCmdReactions Function": {
+        "scope": "source.bds",
+        "prefix": "$addCmdReactions",
+        "description": "Allows you to auto-react to your message.",
+        "body": "\\$addCmdReactions[${1:Emojis (separate with \";\")}]"
+    },
+    "$addEmoji Function": {
+        "scope": "source.bds",
+        "prefix": "$addEmoji",
+        "description": "Adds emoji to the server and if <return> is set to 'yes' the newly added emoji is returned.",
+        "body": "\\$addEmoji[${1:Name};${2:Url};${3|no,yes|}]"
+    },
+    "If Statement (without $else)": {
+        "scope": "source.bds",
+        "prefix": "$if",
+        "description": "Insert If Statement block",
+        "body": "\\$if[${1:X}${2|==,!=,>=,>,<,<=|}${3:Y}]\n    ${4:Code (TRUE)}\n\\$endif"
+    },
+    "If Statement": {
+        "scope": "source.bds",
+        "prefix": "$ife",
+        "description": "Insert If Statement block",
+        "body": "\\$if[${1:X}${2|==,!=,>=,>,<,<=|}${3:Y}]\n    ${4:Code (TRUE)}\n\\$else\n    ${5:Code (FALSE)}\n\\$endif"
+    },
+    "If Statement (with $elseif)": {
+        "scope": "source.bds",
+        "prefix": "$ifelif",
+        "description": "Insert If Statement block with $elseif",
+        "body": "\\$if[${1:X}${2|==,!=,>=,>,<,<=|}${3:Y}]\n    ${4:Code (TRUE)}\n\\$elseif[${5:X}${6|==,!=,>=,>,<,<=|}${7:Y}]\n    ${8:Code (ELSEIF)}\n\\$elseif[${9:X}${10|==,!=,>=,>,<,<=|}${11:Y}]\n    ${12:Code (ELSEIF)}\n\\$endif"
+    },
+    "Try": {
+        "scope": "source.bds",
+        "prefix": "$try",
+        "description": "Instert Try block",
+        "body": [
+            "\\$try",
+            "    ${1:CODE}",
+            "\\$endtry"
+        ]
+    },
+    "Try Catch": {
+        "scope": "source.bds",
+        "prefix": "$try",
+        "description": "Insert Try Catch block",
+        "body": [
+            "\\$try",
+            "    ${1:CODE (TRY)}",
+            "\\$catch",
+            "    ${2:CODE (CATCH)}",
+            "\\$endtry"
+        ]
+    },
+    "Async": {
+        "scope": "source.bds",
+        "prefix": "$async",
+        "description": "Insert Async block",
+        "body": [
+            "\\$async[${1:Block name}]",
+            "    ${2:CODE}",
+            "\\$endasync"
+        ]
+    },
+    "Async Await": {
+        "scope": "source.bds",
+        "prefix": "$async",
+        "description": "Insert Async block and Await it",
+        "body": [
+            "\\$async[${1:Block name}]",
+            "    ${2:CODE}",
+            "\\$endasync",
+            "\\$await[${1:Block name}]"
+        ]
+    },
+    "Escapes": {
+        "scope": "source.bds",
+        "prefix": "\\\\",
+        "description": "Insert escaped special character",
+        "body": "${1|%{DOL}%,%{-SEMICOL-}%,%ESCAPED%,\\\\\\\\,\\\\],\\\\;|}"
+    },
+    "$addField Function": {
+        "scope": "source.bds",
+        "prefix": "$addField",
+        "description": "Adds field to embed. The third arguments sets if the field may be inline.",
+        "body": "\\$addField[${1:Name};${2:Value};${3|no,yes|};${4|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$addReactions Function": {
+        "scope": "source.bds",
+        "prefix": "$addReactions",
+        "description": "Allows you to autoreact to the bot's response.",
+        "body": "\\$addReactions[${1:Emojis (separate with \";\")}]"
+
+    },
+    "$addSelectMenuOption Function": {
+        "scope": "source.bds",
+        "prefix": "$addSelectMenuOption",
+        "description": "Adds select menu option to a select menu.",
+        "body": "\\$addSelectMenuOption[${1:Menu option ID};${2:Label};${3:Value};${4:Description};${5|no,yes|};${6:Emoji};${7:Message ID}]"
+    },
+    "$color Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$color",
+        "description": "Adds color to embed.",
+        "body": "\\$color[${1:Color};${2|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$color Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$color",
+        "description": "Adds random color to embed.",
+        "body": "\\$color[\\$random[0;16777216]];${1|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$addTextInput Function": {
+        "scope": "source.bds",
+        "prefix": "$addTextInput",
+        "description": "Adds a new text input to a modal.",
+        "body": "\\$addTextInput[${1:Text Input ID};${2|short,paragraph|};${3:Label};${4:Minimum length};${5:Maximum length};${6|no,yes|};${7:Value};${8:Placeholder}]"
+    },
+    "$addTimestamp Function": {
+        "scope": "source.bds",
+        "prefix": "$addTimestamp",
+        "description": "Adds timestamp to the embed.",
+        "body": "\\$addTimestamp[${1|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$allMembersCount Function": {
+        "scope": "source.bds",
+        "prefix": "$allMembersCount",
+        "description": "Returns number of users from every server that your bot is in",
+        "body": "\\$allMembersCount"
+    },
+    "$allowMention": {
+        "scope":"source.bds",
+        "prefix": "$allowMention",
+        "description": "Disables replacing mentions in $message to text",
+        "body": "\\$allowMention"
+    },
+    "$allowRoleMentions Function": {
+        "scope": "source.bds",
+        "prefix": "$allowRoleMentions",
+        "description": "Configures what role mentions should be pinged by the bot's reply. Can be left empty to disable pings.",
+        "body": "\\$allowRoleMentions[${1:Role IDs (separate with \";\")}]"
+    },
+    "$allowUserMentions Function": {
+        "scope": "source.bds",
+        "prefix": "$allowRoleMentions",
+        "description": "Configures what user mentions should be pinged by the bot's reply. Can be left empty to disable pings.",
+        "body": "\\$allowUserMentions[${1:User IDs (separate with \";\")}]"
+    },
+    "$alternativeParsing Function": {
+        "scope": "source.bds",
+        "prefix": "$alternativeParsing",
+        "description": "Description is missing",
+        "body": "\\$alternativeParsing"
+    },
+    "$and Function": {
+        "scope": "source.bds",
+        "prefix": "$and",
+        "description": "Returns true if every provided expression is true",
+        "body": "\\$and[${1:Conditions (separate with \";\")}$0]"
+    },
+    "Condition Snippet": {
+        "scope": "source.bds",
+        "prefix": ["condition", "$con"],
+        "description": "Insert Condition",
+        "body": "${1:X}${2|==,!=,>=,>,<,<=|}${3:Y}"
+    },
+    "$or Function": {
+        "scope": "source.bds",
+        "prefix": "$or",
+        "description": "Returns true if at least one of the provided expressions is true",
+        "body": "\\$or[${1:Conditions (separate with \";\")}$0]"
+    },
+    "$appendOptionSuggestion Function": {
+        "scope": "source.bds",
+        "prefix": "$appendOptionSuggestion",
+        "description": "Can be only used inside $onAutoComplete[] callback. Adds suggestion which will be shown to the user. (Max 25).",
+        "body": "\\$appendOptionSuggestion[${1:Label};${2:Value}]"
+    },
+    "$argCount Function": {
+        "scope": "source.bds",
+        "prefix": "$argCount",
+        "description": "Counts how many arguments is in the message.",
+        "body": "\\$argCount[${1:Message}]"
+    },
+    "$argsCheck Function": {
+        "scope": "source.bds",
+        "prefix": "$argsCheck",
+        "description": "Restricts number of arguments that can be used in the command. If you want to allow users to use 3 args and above, you can use this: '>3' or if you want to allow users to use 4 args and below, you can use this `<4`, etc.",
+        "body": "\\$argsCheck[${1:Argument count};${2:Error message}]"
+    },
+    "$authorAvatar Function": {
+        "scope": "source.bds",
+        "prefix": "$authorAvatar",
+        "description": "Return Author's avatar URL",
+        "body": "\\$authorAvatar"
+    },
+    "$authorID Function": {
+        "scope": "source.bds",
+        "prefix": "$authorAvatar",
+        "description": "Returns ID of the message Author",
+        "body": "\\$authorID"
+    },
+    "$authorIcon Function": {
+        "scope": "source.bds",
+        "prefix": "$authorIcon",
+        "description": "Adds icon to embed author.",
+        "body": "\\$authorIcon[${1:Image url};${2|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$authorOfMessage Function": {
+        "scope": "source.bds",
+        "prefix": "$authorOfMessage",
+        "description": "Returns ID of the message's author.",
+        "body": "\\$authorOfMessage[${1:Channel ID};${1:Message ID}]"
+    },
+    "$authorURL Function": {
+        "scope": "source.bds",
+        "prefix": "$authorURL",
+        "description": "Adds URL to embed author.",
+        "body": "\\$authorURL[${1:Url};${2|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$author Function": {
+        "scope": "source.bds",
+        "prefix": "$author",
+        "description": "Adds text to embed author.",
+        "body": "\\$author[${1:Text};${2|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$autoCompleteOptionValue Function": {
+        "scope": "source.bds",
+        "prefix": "$autoCompleteOptionValue",
+        "description": "Can be only used inside $onAutoComplete[] callback. Returns currently being typed option value",
+        "body": "\\$autoCompleteOptionValue"
+    },
+    "$autoCompleteOptionName Function": {
+        "scope": "source.bds",
+        "prefix": "$autoCompleteOptionName",
+        "description": "Can be only used inside $onAutoComplete[] callback. Returns focused option's name",
+        "body": "\\$autoCompleteOptionName"
+    },
+    "$awaitFunc Function": {
+        "scope": "source.bds",
+        "prefix": "$awaitFunc",
+        "description": "Allows you to run awaited command.",
+        "body": "\\$awaitFunc[${1:Command name};${2:User ID};${3:Channel ID}]"
+    },
+    "$awaitReactions Function": {
+        "scope": "source.bds",
+        "prefix": "$awaitReactions",
+        "description": "Allows you to run awaited command triggered by reactions.",
+        "body": "\\$awaitReactions[${1:Command name};${2:Reactions (separate with \";\")}]"
+    },
+    "$await Function": {
+        "scope": "source.bds",
+        "prefix": "$await",
+        "description": "Awaits for an async scope.",
+        "body": "\\$await[${1:Name}]"
+    },
+    "$ban Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$ban",
+        "description": "Ban mentioned user",
+        "body": "\\$ban"
+    },
+    "$ban Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$ban",
+        "description": "Ban mentioned user with reason.",
+        "body": "\\$ban[${1:Reason}]"
+    },
+    "$banID Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$banID",
+        "description": "Uses user ID to ban.",
+        "body": "\\$banID"
+    },
+    "$banID Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$banID",
+        "description": "Uses user ID to ban.",
+        "body": "\\$banID[${1:Reason};${2:User ID}]"
+    },
+    "$blackListIDs Function": {
+        "scope": "source.bds",
+        "prefix": "$blackListIDs",
+        "description": "Users with their ID in blacklist can't execute the command.",
+        "body": "\\$blackListIDs[${1:User IDs (separate with \";\")};${2:Error message}]"
+    },
+    "$blackListRolesIDs Function": {
+        "scope": "source.bds",
+        "prefix": "$blackListRolesIDs",
+        "description": "Roles in blacklist can't execute the command.",
+        "body": "\\$blackListRolesIDs[${1:Role IDs (separate with \";\")};${2:Error message}]"
+    },
+    "$blackListRoles Function": {
+        "scope": "source.bds",
+        "prefix": "$blackListRoles",
+        "description": "Roles in blacklist can't execute the command.",
+        "body": "\\$blackListRoles[${1:Role Names (separate with \";\")};${2:Error message}]"
+    },
+    "$blackListServers Function": {
+        "scope": "source.bds",
+        "prefix": "$blackListServers",
+        "description": "Command can not be used in provided servers.",
+        "body": "\\$blackListServers[${1:Server IDs (separate with \";\")};${2:Error message}]"
+    },
+    "$blackListUsers Function": {
+        "scope": "source.bds",
+        "prefix": "$blackListUsers",
+        "description": "Users with their name in blacklist can't execute the command.",
+        "body": "\\$blackListUsers[${1:User Names (separate with \";\")};${2:Error message}]"
+    },
+    "$boostCount Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$boostCount",
+        "description": "Returns the guild's number of nitro boosts",
+        "body": "\\$boostCount"
+    },
+    "$boostCount Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$boostCount",
+        "description": "Returns the guild's number of nitro boosts",
+        "body": "\\$boostCount[${1:Guild ID}]"
+    },
+    "$botCommands Function": {
+        "scope": "source.bds",
+        "prefix": "$botCommands",
+        "description": "Returns all bot commands separated by provided separator.",
+        "body": "\\$botCommands[${1:Separator}]"
+    },
+    "$botID Function": {
+        "scope": "source.bds",
+        "prefix": "$botID",
+        "description": "Returns the bot's ID",
+        "body": "\\$botID"
+    },
+    "$botLeave Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$botLeave",
+        "description": "Bot is forced to leave the server",
+        "body": "\\$botLeave"
+    },
+    "$botLeave Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$botLeave",
+        "description": "Bot is forced to leave the server",
+        "body": "\\$botLeave[${1:Server ID}]"
+    },
+    "$botListDescription Function": {
+        "scope": "source.bds",
+        "prefix": "$botListDescription",
+        "description": "Command description for Bot Designer List",
+        "body": "\\$botListDescription[${1:Description}]"
+    },
+    "$botListHide Function": {
+        "scope": "source.bds",
+        "prefix": "$botListHide",
+        "description": "Hides this command from Bot Designer List",
+        "body": "\\$botListHide"
+    },
+    "$botNode Function": {
+        "scope": "source.bds",
+        "prefix": "$botNode",
+        "description": "Returns the bot's node ID",
+        "body": "\\$botNode"
+    },
+    "$botOwnerID Function": {
+        "scope": "source.bds",
+        "prefix": "$botOwnerID",
+        "description": "Returns the bot owner ID",
+        "body": "\\$botOwnerID"
+    },
+    "$botTyping Function": {
+        "scope": "source.bds",
+        "prefix": "$botTyping",
+        "description": "Shows information in discord that your bot is currently typing",
+        "body": "\\$botTyping"
+    },
+    "$c Function": {
+        "scope": "source.bds",
+        "prefix": "$c",
+        "description": "Can be used to comment your code.",
+        "body": "\\$c[${1:Comment}]"
+    },
+    "$calculate Function": {
+        "scope": "source.bds",
+        "prefix": "$calculate",
+        "description": "Calculates math expression, e.g. \"2+3/2**(2+1)\"",
+        "body": "\\$calculate[${1:Expression}]"
+    },
+    "$categoryCount Function (1)": {
+        "scope": "source.bds",
+        "prefix": "$categoryCount",
+        "description": "Returns the category count in the current guild",
+        "body": "\\$categoryCount"
+    },
+    "$categoryCount Function (2)": {
+        "scope": "source.bds",
+        "prefix": "$categoryCount",
+        "description": "Returns the category count in the current guild",
+        "body": "\\$categoryCount[${1:Guild ID}]"
+    },
+    "$categoryID Function": {
+        "scope": "source.bds",
+        "prefix": "$categoryID",
+        "description": "Returns category ID for a given category name",
+        "body": "\\$categoryID[${1:Category Name}]"
+    },
+    "$changeCooldownTime Function": {
+        "scope": "source.bds",
+        "prefix": "$changeCooldownTime",
+        "description": "Changes %time-d%, %time-h%, %time-m%, %time-s% for cooldown commands",
+        "body": "\\$changeCooldownTime[${1:Time-days};${2:Time-hours};${3:Time-minutes};${4:Time-seconds}]"
+    },
+    "$changeUsernameWithID Function": {
+        "scope": "source.bds",
+        "prefix": "$changeUsernameWithID",
+        "description": "Allows you to change user's username by using userID",
+        "body": "\\$changeUsernameWithID[${1:User ID};${2:Username}]"
+    },
+    "$changeUsername Function": {
+        "scope": "source.bds",
+        "prefix": "$changeUsername",
+        "description": "Lets you change mentioned user's username",
+        "body": "\\$changeUsername[${1:Username}]"
+    },
+    "$channelCount Function": {
+        "scope": "source.bds",
+        "prefix": "$channelCount",
+        "description": "Returns count of channels from current server",
+        "body": "\\$channelCount"
+    },
+    "channelExists Function": {
+        "prefix": "channelExists",
+        "description": "Checks if channel exists",
+        "body": "\\$channelExists[${1:Channel ID}]"
+    },
+    "$channelID Function (1)": {
+        "prefix": "$channelID",
+        "description": "Returns channel ID of current channel",
+        "body": "\\$channelID"
+    },
+    "$channelIDFromName Function": {
+        "prefix": "$channelIDFromName",
+        "description": "Returns the channel's ID from the name",
+        "body": "\\$channelIDFromName[${1:Channel name}]"
+    },
+    "$channelID Function (2)": {
+        "prefix": "$channelID",
+        "description": "Returns Channel ID for given name. Works on categories too",
+        "body": "\\$channelID[${1:Channel name}]"
+    },
+    "$channelName Function": {
+        "prefix": "$channelName",
+        "description": "Returns channel name",
+        "body": "\\$channelName[${1:Channel ID}]"
+    },
+    "$channelPosition  Function (1)": {
+        "prefix": "$channelPosition ",
+        "description": "Returns the current channel position",
+        "body": "\\$channelPosition"
+    },
+    "$channelPosition  Function (2)": {
+        "prefix": "$channelPosition ",
+        "description": "Returns the current channel position",
+        "body": "\\$channelPosition[${1:Channel ID}]"
+    },
+    "$channelSendMessage Function": {
+        "prefix": "$channelSendMessage",
+        "description": "Sends message to provided channel",
+        "body": "\\$channelSendMessage[${1:Channel ID};${2:Message}]"
+    },
+    "$channelTopic  Function (1)": {
+        "prefix": "$channelTopic ",
+        "description": "Returns current channel topic",
+        "body": "\\$channelTopic"
+    },
+    "$channelTopic  Function (2)": {
+        "prefix": "$channelTopic ",
+        "description": "Returns current channel topic",
+        "body": "\\$channelTopic[${1:Channel ID}]"
+    },
+    "$channelType Function": {
+        "prefix": "$channelType",
+        "description": "Returns channel type",
+        "body": "\\$channelType[${1:Channel ID}]"
+    },
+    "$charCount Function": {
+        "prefix": "$charCount",
+        "description": "Counts amount of characters",
+        "body": "\\$charCount[${1:Text}]"
+    },
+    "$checkCondition Function": {
+        "prefix": "$checkCondition",
+        "description": "Checks if condition is true or false. Possible options: equal (==), not equal (!=), greater/lesser (> or <), greater/lesser and equal (>= or <=)",
+        "body": "\\$checkCondition[${1:X}${2|==,!=,>=,>,<,<=|}${3:Y}]"
+    },
+    "$checkContains Function": {
+        "prefix": "$checkContains",
+        "description": "Checks if provided text contains one of the provided words",
+        "body": "\\$checkContains[${1:Text (separate with \";\")}]"
+    },
+    "$checkUserPerms Function": {
+        "prefix": "$checkUserPerms",
+        "description": "Command returns 'true' if a user has all of the provided permissions otherwise 'false' is returned",
+        "body": "\\$checkUserPerms[${1:User ID};${2:Permissions (separate with \";\")}]"
+    },
+    "$clear  Function (1)": {
+        "prefix": "$clear ",
+        "description": "Clears messages",
+        "body": "\\$clear"
+    },
+    "$clear  Function (2)": {
+        "prefix": "$clear ",
+        "description": "Clears <amount> last messages. If userID is set it will remove messages that were wrote only by this user",
+        "body": "\\$clear[${1:Amount};${2:User ID};${3:Remove pinned}]"
+    },
+    "$clearReactions Function": {
+        "prefix": "$clearReactions",
+        "description": "Removed reaction from provided message. If !all is provided instead of emoji every emoji is removed",
+        "body": "\\$clearReactions[${1:Channel ID};${2:Message ID};${3:Emoji (separate with \";\")}]"
+    },
+    "$closeTicket Function": {
+        "prefix": "$closeTicket",
+        "description": "Closes ticket",
+        "body": "\\$closeTicket[${1:Error message}]"
+    },
+    "$colorRole Function": {
+        "prefix": "$colorRole",
+        "description": "Changes color of mentioned role",
+        "body": "\\$colorRole[${1:Color}]"
+    },
+    "$color Function": {
+        "prefix": "$color",
+        "description": "Adds color to embed",
+        "body": "\\$color[${1:Color};${2|1,2,3,4,5,6,7,8,9,10|}]"
+    },
+    "$commandsCount  Function": {
+        "prefix": "$commandsCount ",
+        "description": "Returns amount of commands",
+        "body": "\\$commandsCount "
+    },
+    "$cooldown Function": {
+        "prefix": "$cooldown",
+        "description": "Sets a command cool down",
+        "body": "\\$cooldown[${1:Duration};${2:Error message}]"
+    },
+    "$createChannel Function": {
+        "prefix": "$createChannel",
+        "description": "Allows you to create channel. If you add 'category ID', channel will be created under this category. Types are 'text', 'voice' and 'category'",
+        "body": "\\$createChannel[${1:Name};${2|text,voice,category,stage,forum|};${3:Category ID}]"
+    },
+    "$createRole Function": {
+        "prefix": "$createRole",
+        "description": "Creates role. If 'display role' is set to 'yes', role will be visible in discord's right panel",
+        "body": "\\$createRole[${1:Role name};${2:Color};${3:Display role};${4:Mentionable}]"
+    },
+    "$creationDate Function": {
+        "prefix": "$creationDate",
+        "description": "Returns creation date of the user account / message / role / etc",
+        "body": "\\$creationDate[${1:User ID/Role ID/Message ID/Server ID};${2:Format}]"
+    },
+    "$cropText Function": {
+        "prefix": "$cropText",
+        "description": "Crops provided text. If text is cropped then <ending> is added at the end of the text",
+        "body": "\\$cropText[${1:Text};${2:Max characters limit};${3:Ending}]"
+    },
+    "$customEmoji Function": {
+        "prefix": "$customEmoji",
+        "description": "Returns custom emoji",
+        "body": "\\$customEmoji[${1:Emoji name}]"
+    },
+    "$customID Function": {
+        "prefix": "$customID",
+        "description": "Can be only used in $onInteraction callback. Returns custom ID of an interaction",
+        "body": "\\$customID"
+    },
+    "$customImage Function": {
+        "prefix": "$customImage",
+        "description": "ONLY FOR PREMIUM BOTS. Returns image previously saved in the app",
+        "body": "\\$customImage[${1:Custom image tag}]"
+    }
+}
