@@ -2,6 +2,12 @@
 
 ## Preview Stage
 
+### 0.2.0
+- Added the ability to reset all functions' foreground colors and font styles to default
+  > Command: `>BDFD: Reset Functions' Foreground Colors and Font Styles to default`
+- Gradual Rebuilding of Snippets. Updates related to this will be released as patch updates. New snippets will gradually replace the old ones.
+- README Update.
+
 ### 0.1.0
 - Public release
 

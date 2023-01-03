@@ -8,6 +8,8 @@ You can find out more at [official website of Bot Designer For Discord](https://
 ## BDFD Extension
 Bot Designer For Discord Extension is an extension related to the BDFD app. The extension adds support for BDScript language, Snippets, and some help tools like [BDFD Function List](#function-list).
 
+⚠ Important note. The extension doesn't allow you to execute the BDScript code, manage the bot, renew its hosting, and so on. The extension is just like an environment for comfortable writing code.
+
 ### Features
 As previously mentioned, the extension adds...
 

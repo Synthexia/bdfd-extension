@@ -5,14 +5,14 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"preview": true,
 	"bugs": {
 		"url": "https://discord.gg/wKADUUfcpj"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NightNutSky/test"
+		"url": "https://github.com/NightNutSky/bdfd-bds"
 	},
 	"engines": {
 		"vscode": "^1.70.0"
@@ -25,6 +25,7 @@
 	"activationEvents": [
 		"onCommand:bdfd.funclist",
 		"onCommand:bdfd.tokencolors",
+		"onCommand:bdfd.resettokencolors",
 		"onLanguage:bds"
 	],
 	"extensionKind": [
@@ -60,6 +61,39 @@
 			{
 				"language": "bds",
 				"path": "./snippets/bds-snippets.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "bdfd.funclist",
+				"category": "BDFD",
+				"title": "Function List"
+			},
+			{
+				"command": "bdfd.tokencolors",
+				"category": "BDFD",
+				"title": "Customize Functions' Foreground Colors and Font Styles"
+			},
+			{
+				"command": "bdfd.resettokencolors",
+				"category": "BDFD",
+				"title": "Reset Functions' Foreground Colors and Font Styles to default"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "bdfd.funclist",
+				"key": "ctrl+d",
+				"when": "editorLangId == bds"
+			},
+			{
+				"command": "editor.action.insertSnippet",
+				"when": "editorTextFocus && editorLangId == bds",
+				"args": {
+					"langId": "bds",
+					"name": "Escapes"
+				},
+				"key": "alt+d"
 			}
 		],
 		"configurationDefaults": {
@@ -336,35 +370,7 @@
 					}
 				]
 			}
-		},
-		"commands": [
-			{
-				"command": "bdfd.funclist",
-				"category": "BDFD",
-				"title": "Function List"
-			},
-			{
-				"command": "bdfd.tokencolors",
-				"category": "BDFD",
-				"title": "Customize Functions' Foreground Colors and Font Styles"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "bdfd.funclist",
-				"key": "ctrl+d",
-				"when": "editorLangId == bds"
-			},
-			{
-				"command": "editor.action.insertSnippet",
-				"when": "editorTextFocus && editorLangId == bds",
-				"args": {
-					"langId": "bds",
-					"name": "Escapes"
-				},
-				"key": "alt+d"
-			}
-		]
+		}
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.70.0"
