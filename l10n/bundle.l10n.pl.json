@@ -1,0 +1,19 @@
+{
+    "An unknown error has occured. The extension may not be able to function correctly. Details": "Wystąpił nieznany błąd. Rozszerzenie może działać niepoprawnie. Zobacz więcej",
+    "{0} - Successfully loaded": "{0} - Pomyślnie załadowano rozszerzenie",
+    "{0} - Failed to load. Details": "{0} - Nie udało się załadować rozszerzenia. Zobacz więcej",
+    "Intents": "Intents",
+    "Premium": "Premium",
+    "Open wiki": "Otwórz wiki",
+    "Select Function": "Wybierz funkcję",
+    "Foreground Color": "Kolor główny",
+    "Foreground": "Kolor główny",
+    "Change the function's foreground color": "Zmień kolor główny funkcji",
+    "Changing Foreground Color": "Zmienianie koloru głównego",
+    "Font Style": "Styl czcionki",
+    "Font": "Czcionka",
+    "Change the function's font style": "Zmień styl czcionki funkcji",
+    "Changing Font Style": "Zmienianie stylu czcionki",
+    "Example": "Przykład",
+    "BDFD Extension Version": "Wersja rozszerzenia BDFD"
+}

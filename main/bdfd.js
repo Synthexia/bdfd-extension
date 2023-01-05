@@ -1,22 +1,23 @@
 const vscode = require("vscode");
 const nfetch = require("node-fetch");
 
-const messages = {
-    funcList: "The list of BDFD functions has been successfully received and loaded!",
-    loadFailed: "Failed to load the BDFD Extension fully! Some features may not work. Check out the console for details."
-};
+// Localization
+const l = require('../l10n/locale');
 
+// Shortcuts
 const cmds = vscode.commands;
 const win = vscode.window;
+const info = win.showInformationMessage;
+const error = win.showErrorMessage;
 const ext = vscode.extensions;
 const work = vscode.workspace;
 
 exports.activate = activate;
 
 function activate(context) {
-    bdfdFuncList(context)
-    tokenColors(context)
-    statusBar(context)
+    bdfdFuncList(context);
+    tokenColors(context); 
+    statusBar(context); 
     snippets(context)
 }
 
@@ -28,34 +29,35 @@ async function bdfdFuncList(context) {
         // ! API Request (Function Tag List)
         const list = await nfetch('https://botdesignerdiscord.com/public/api/function_tag_list');
         array = await list.json();
-
-        // ! Information Message
-        win.showInformationMessage(messages.funcList);
+    
+        // Debug
         console.debug('BDFD Function List Debug:\n', array);
-
+    
         // ! Register
         const disposable = cmds.registerCommand('bdfd.funclist', quickPickList);
         context.subscriptions.push(disposable);
+
+        // Final Info
+        info(l.load_funcList_s);
     } catch(e) {
-        win.showErrorMessage(messages.loadFailed);
-        console.error(e);
+        error(`${l.load_funcList_f}: ${e}`);
     }
 }
 
 // Quick Pick For BDFD Function List
 async function quickPickList() {
     // ! Quick Pick
-    const bdfdFunc = await win.showQuickPick(array, { matchOnDetail: true , placeHolder: "Select function"});
+    const bdfdFunc = await win.showQuickPick(array, { matchOnDetail: true, placeHolder: "Select function" });
 
     // ! API Request (Function Info)
     if (bdfdFunc == null) { return };
     const functionInfo = await nfetch(`https://botdesignerdiscord.com/public/api/function/${bdfdFunc}`);
     const data = await functionInfo.json();
-    const message = `${data.tag} > ${data.shortDescription} | Intents: ${data.intents}, Premium: ${data.premium}`;
+    const message = `${data.tag} > ${data.shortDescription} | ${l.qp_funcList_intents}: ${data.intents}, ${l.qp_funcList_premium}: ${data.premium}`;
 
     // ! Show Function Info & Open wiki action
-    const selection = await win.showInformationMessage(message, { title: "Open wiki" });
-    if (selection !== undefined && selection.title == "Open wiki") {
+    const selection = await win.showInformationMessage(message, { title: l.qp_funcList_openWiki });
+    if (selection !== undefined && selection.title == l.qp_funcList_openWiki) {
         // ! Removal of $ and [] from function tag
         const str = bdfdFunc;
         let end = str.length;
@@ -70,8 +72,8 @@ async function quickPickList() {
 // Color Customization
 async function tokenColors(context) {
     // ! Register
-    const disposableSetColors = cmds.registerCommand('bdfd.tokencolors', quickPickColors);
     const disposableResetColors = cmds.registerCommand('bdfd.resettokencolors', resetColors);
+    const disposableSetColors = cmds.registerCommand('bdfd.tokencolors', quickPickColors);
     context.subscriptions.push(disposableSetColors, disposableResetColors);
 }
 
@@ -80,29 +82,29 @@ async function quickPickColors() {
     // ! Map
     const jsonArray = ext.getExtension('nightnutsky.bdfd-bds').packageJSON.contributes.configurationDefaults["editor.tokenColorCustomizations"].textMateRules;
     const textMateRulesMap = jsonArray.map((jsonArray) => ({
-        label: jsonArray.name,
-        description: `Foreground Color: ${jsonArray.settings.foreground} | Font Style: ${jsonArray.settings.fontStyle}`,
+        description: `${l.qp_colors_foregroundColor}: ${jsonArray.settings.foreground} | ${l.qp_colors_fontStyle}: ${jsonArray.settings.fontStyle}`,
+        colorForeground: jsonArray.settings.foreground,
+        colorFontStyle: jsonArray.settings.fontStyle,
         target: vscode.ConfigurationTarget.Global,
         scope: jsonArray.scope,
-        colorForeground: jsonArray.settings.foreground,
-        colorFontStyle: jsonArray.settings.fontStyle
+        label: jsonArray.name
     }));
 
     // ! Quick Pick
-    const color = await win.showQuickPick(textMateRulesMap, {matchOnDetail: true});
+    const color = await win.showQuickPick(textMateRulesMap, { matchOnDetail: true });
 
     // ! Modifying Color
     if (color == null) { return };
-    const modifyWhat = await win.showQuickPick([{ label: 'Foreground', description: "Modify the function's foreground color" },{ label: 'Font', description: "Modify the functions's font style" }]);
+    const modifyWhat = await win.showQuickPick([{ label: l.qp_colors_foreground, description: l.qp_colors_foregroundChange }, { label: l.qp_colors_font, description: l.qp_colors_fontChange }]);
     if (modifyWhat == null) { return };
-    
+
     const tokens = vscode.workspace.getConfiguration('editor.tokenColorCustomizations', color.target);
     var modified = undefined;
 
     switch (modifyWhat.label) {
-        case 'Foreground':
+        case l.qp_colors_foreground:
             // ! Input Box
-            const inputBoxForeground = await win.showInputBox({ title: 'Customizing Foreground Color', value: color.colorForeground, placeHolder: 'Example: #FFFFFF' });
+            const inputBoxForeground = await win.showInputBox({ title: l.qp_colors_foregroundChanging, value: color.colorForeground, placeHolder: `${l.qp_colors_example}: #FFFFFF` });
 
             // ! Replace Color
             tokens.textMateRules.forEach(x => {
@@ -111,15 +113,15 @@ async function quickPickColors() {
                 };
             });
             modified = tokens.textMateRules;
-            
+
             // ! Modify
             work.getConfiguration('editor', color.target).update('tokenColorCustomizations', {
                 textMateRules: modified
             }, color.target);
             break;
-        case 'Font':
+        case l.qp_colors_font:
             // ! Input Box
-            const inputBoxFontStyle = await win.showInputBox({ title: 'Customizing Font Style', value: color.colorFontStyle, placeHolder: 'Example: bold italic underline' });
+            const inputBoxFontStyle = await win.showInputBox({ title: l.qp_colors_fontChanging, value: color.colorFontStyle, placeHolder: `${l.qp_colors_example}: bold italic underline` });
 
             // ! Replace Color
             tokens.textMateRules.forEach(x => {
@@ -128,7 +130,7 @@ async function quickPickColors() {
                 };
             });
             modified = tokens.textMateRules;
-            
+
             // ! Modify
             work.getConfiguration('editor', color.target).update('tokenColorCustomizations', {
                 textMateRules: modified
@@ -138,7 +140,7 @@ async function quickPickColors() {
 }
 
 // Reset Colors To Default
-async function resetColors() {
+function resetColors() {
     const reset = ext.getExtension('nightnutsky.bdfd-bds').packageJSON.contributes.configurationDefaults["editor.tokenColorCustomizations"].textMateRules;
 
     // ! Reset
@@ -148,21 +150,31 @@ async function resetColors() {
 }
 
 // Snippets (Completion Items)
-async function snippets(context) {
+function snippets(context) {
     const snippets = require('../snippets/snippets')(vscode);
     context.subscriptions.push(snippets);
 }
 
 // Status Bar
 function statusBar(context) {
-    let bar = win.createStatusBarItem(vscode.StatusBarAlignment.Right);
-    bar.id = 'bdfdVersion';
-    bar.name = 'BDFD Extension Version';
-    bar.tooltip = 'BDFD Extension Version';
     const version = vscode.extensions.getExtension('nightnutsky.bdfd-bds').packageJSON.version;
+    let bar = win.createStatusBarItem(vscode.StatusBarAlignment.Right);
+    bar.name = 'BDFD Extension Version';
+    bar.tooltip = l.bar_tooltip;
+    bar.id = 'bdfdVersion';
     bar.text = version;
 
-    bar.show();
+    if (win.activeTextEditor.document.languageId == 'bds') {
+        bar.show();
+    };
 
-    context.subscriptions.push(bar);
+    const event = win.onDidChangeActiveTextEditor(() => {
+        if (win.activeTextEditor.document.languageId == 'bds') {
+            bar.show();
+        } else {
+            bar.hide();
+        };
+    });
+
+    context.subscriptions.push(bar, event);
 }

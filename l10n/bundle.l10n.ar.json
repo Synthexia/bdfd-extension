@@ -1,0 +1,19 @@
+{
+    "An unknown error has occured. The extension may not be able to function correctly. Details": "لقد حدث خطأ ما، فشل تحميل الامتداد. التفاصيل",
+    "{0} - Successfully loaded": "{0} - تم التحميل بنجاح",
+    "{0} - Failed to load. Details": "{0} - فشل التحميل. التفاصيل",
+    "Intents": "الأهداف",
+    "Premium": "النسخه المميزه",
+    "Open wiki": "افتح الويكي",
+    "Select Function": "اختر الداله",
+    "Foreground Color": "لون المقدمه",
+    "Foreground": "المقدمه",
+    "Change the function's foreground color": "تغيير لون مقدمه الداله",
+    "Changing Foreground Color": "تغير لون المقدمه",
+    "Font Style": "نوع الخط",
+    "Font": "الخط",
+    "Change the function's font style": "تغير نوع خط الداله",
+    "Changing Font Style": "تغيير نوع الخط",
+    "Example": "مثال",
+    "BDFD Extension Version": "رقم اصدار الامتداد"
+}

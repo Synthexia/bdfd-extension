@@ -2,6 +2,12 @@
 
 ## Preview Stage
 
+### 0.3.0
+- Added localization support.
+  > Currently added: Russian (by [NightNutSky](https://github.com/NightNutSky)), Arabic (by [Musical](https://github.com/MusicalxD)), Polish (by [MineBartekSA](https://github.com/MineBartekSA)), Hindi (by [Laza](https://github.com/LazaDev))
+- Now the status bar hides if the active editor's language isn't BDScript.
+- The extension's main code was a bit updated.
+
 ### 0.2.0
 - Added the ability to reset all functions' foreground colors and font styles to default
   > Command: `>BDFD: Reset Functions' Foreground Colors and Font Styles to default`

@@ -5,8 +5,24 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"preview": true,
+	"l10n": "./l10n",
+	"contributors": [
+		{
+			"name": "Musical",
+			"url": "https://github.com/MusicalxD"
+		},{
+			"name": "MineBartekSA",
+			"url": "https://github.com/MineBartekSA"
+		},{
+			"name": "NightNutSky",
+			"url": "https://github.com/NightNutSky"
+		},{
+			"name": "Laza",
+			"url": "https://github.com/LazaDev"
+		}
+	],
 	"bugs": {
 		"url": "https://discord.gg/wKADUUfcpj"
 	},
