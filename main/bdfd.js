@@ -164,12 +164,12 @@ function statusBar(context) {
     bar.id = 'bdfdVersion';
     bar.text = version;
 
-    if (win.activeTextEditor.document.languageId == 'bds') {
+    if (win.activeTextEditor != undefined && win.activeTextEditor.document.languageId == 'bds') {
         bar.show();
     };
 
     const event = win.onDidChangeActiveTextEditor(() => {
-        if (win.activeTextEditor.document.languageId == 'bds') {
+        if (win.activeTextEditor != undefined && win.activeTextEditor.document.languageId == 'bds') {
             bar.show();
         } else {
             bar.hide();

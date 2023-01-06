@@ -5,7 +5,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"preview": true,
 	"l10n": "./l10n",
 	"contributors": [
