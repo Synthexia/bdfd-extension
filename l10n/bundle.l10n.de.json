@@ -1,0 +1,23 @@
+{
+    "An unknown error has occured. The extension may not be able to function correctly. Details": "Ein unerwarteter Fehler ist aufgetreten. Die Erweiterung kann möglicherweise nicht richtig funktionieren. Details",
+    "{0} - Successfully loaded": "{0} - Erfolgreich geladen",
+    "{0} - Failed to load. Details": "{0} - Fehler beim Laden. Details",
+    "Intents": "Intents",
+    "Premium": "Premium",
+    "Open wiki": "Wiki öffnen",
+    "Select Function": "Funktion auswählen",
+    "Foreground Color": "Farbe des Vordergrunds",
+    "Foreground": "Vordergrund",
+    "Change the function's foreground color": "Ändere die Vordergrundsfarbe der Funktion",
+    "Changing Foreground Color": "Vordergrundsfarbe wird verändert",
+    "Font Style": "Schriftart",
+    "Font": "Schriftart",
+    "Change the function's font style": "Ändere die Farbe der Schriftart",
+    "Changing Font Style": "Schriftart wird verändert",
+    "Example": "Zum Beispiel",
+    "Extension Version": "Erweiterungsversion",
+    "Customize Highlighting": "Highlighting anpassen",
+    "Show Editor": "Editor anzeigen",
+    "Function List": "Funktionsliste",
+    "Show List": "Liste anzeigen"
+}
