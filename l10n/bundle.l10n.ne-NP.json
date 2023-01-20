@@ -1,0 +1,23 @@
+{
+    "An unknown error has occurred. The extension may not be able to function correctly. Details": "अज्ञात त्रुटि भयो। एक्सटेन्सन काम गर्न सकिदैन। विवरणहरू",
+    "{0} - Successfully loaded": "{0} - सफलतापूर्वक लोड भयो",
+    "{0} - Failed to load. Details": "{0} - लोड हुँदैन। विवरणहरू",
+    "Intents": "इन्तेंट्स",
+    "Premium": "प्रिमियम",
+    "Open wiki": "विकि खोल्नुहोस्",
+    "Select Function": "फङ्क्सन छान्नुहोस्",
+    "Foreground Color": "अग्रभूमिको रङ",
+    "Foreground": "अग्रभूमि",
+    "Change the function's foreground color": "फङ्क्सनको रङ परिवर्तन गर्नुहोस्",
+    "Changing Foreground Color": "रङ परिवर्तन गर्दै",
+    "Font Style": "फन्ट शैली",
+    "Font": "फन्ट",
+    "Change the function's font style": "फङ्क्सनको फन्ट शैली परिवर्तन गर्नुहोस्",
+    "Changing Font Style": "फन्ट शैली परिवर्तन गर्दै",
+    "Example": "उदाहरण",
+    "Extension Version": "एक्ष्तेन्सिओन भर्जन",
+    "Customize Highlighting": "हाइलाइटिङ अनुकूलन गर्नुहोस्",
+    "Show Editor": "एडिटर देखाउनुहोस्",
+    "Function List": "फंग्स्शन लिस्ट",
+    "Show List": "लिस्ट देखाउनुहोस्"
+}

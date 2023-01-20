@@ -5,22 +5,33 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.3.2",
+	"version": "0.4.0",
 	"preview": true,
 	"l10n": "./l10n",
 	"contributors": [
 		{
 			"name": "Musical",
 			"url": "https://github.com/MusicalxD"
-		},{
+		},
+		{
 			"name": "MineBartekSA",
 			"url": "https://github.com/MineBartekSA"
-		},{
+		},
+		{
 			"name": "NightNutSky",
 			"url": "https://github.com/NightNutSky"
-		},{
+		},
+		{
 			"name": "Laza",
 			"url": "https://github.com/LazaDev"
+		},
+		{
+			"name": "worte",
+			"url": "https://github.com/wuaht"
+		},
+		{
+			"name": "Rajat",
+			"url": "https://github.com/rajatcj"
 		}
 	],
 	"bugs": {
@@ -48,6 +59,18 @@
 		"ui"
 	],
 	"contributes": {
+		"configuration": [
+			{
+				"title": "Bot Designer For Discord",
+				"properties": {
+					"BDFD.experiments.updatedSnippets": {
+						"type": "boolean",
+						"default": false,
+						"description": "Configures the snippets. If enabled, the new variant of snippets will be provided, but they're still unstable. Reload is required."
+					}
+				}
+			}
+		],
 		"languages": [
 			{
 				"id": "bds",
@@ -101,15 +124,6 @@
 				"command": "bdfd.funclist",
 				"key": "ctrl+d",
 				"when": "editorLangId == bds"
-			},
-			{
-				"command": "editor.action.insertSnippet",
-				"when": "editorTextFocus && editorLangId == bds",
-				"args": {
-					"langId": "bds",
-					"name": "Escapes"
-				},
-				"key": "alt+d"
 			}
 		],
 		"configurationDefaults": {
@@ -382,6 +396,13 @@
 						"scope": "f.webhooks.general.bds",
 						"settings": {
 							"foreground": "#09B924"
+						}
+					},
+					{
+						"name": "[General - JSON] Functions",
+						"scope": "f.json.general.bds",
+						"settings": {
+							"foreground": "#fda761"
 						}
 					}
 				]

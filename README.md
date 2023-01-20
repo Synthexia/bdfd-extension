@@ -1,4 +1,6 @@
 # About
+    
+![](https://img.shields.io/github/package-json/v/NightNutSky/bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github)
 
 ## BDFD
 Bot Designer For Discord is a free mobile app available on the App Store and Play Store.\

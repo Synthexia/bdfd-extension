@@ -32,7 +32,7 @@
 						}
 					}
 				},{
-					"match": "\\$(changeUsername(?:WithID)?|findUser|getUserStatus|user(?:Server)?Avatar|user(?:ID|Info|Joined(?:Discord)?|Perms|name)|author(?:ID|Avatar)|(?:un)?ban(?:ID)?|discriminator|dm(?:Chan{2}elID)?|kick(?:Mention)?|mentioned(?!Channels|Roles)|nickname|(?:un)?timeout|(?:un)?mute|hypesquad|getCustomStatus)",
+					"match": "\\$(changeUsername(?:WithID)?|findUser|get(?:UserStatus|BanReason)|user(?:Server)?Avatar|user(?:Ban{2}er|ID|Info|Joined(?:Discord)?|Perms|name)|author(?:ID|Avatar)|(?:un)?ban(?:ID)?|discriminator|dm(?:Chan{2}elID)?|kick(?:Mention)?|mentioned(?!Channels|Roles)|nickname|(?:un)?timeout|(?:un)?mute|hypesquad|getCustomStatus)",
 					"captures": {
 						"0": {
 							"name": "f.discord.user.bds"
@@ -74,7 +74,7 @@
 						}
 					}
 				},{
-					"match": "\\$(is(?:Admin|Ban{2}ed|Bo{2}lean|Bot|Hoisted|Mentionable|NSFW|Number|UserDMEnabled|ValidHex|Slash|TimedOut))",
+					"match": "\\$(is(?:Admin|Ban{2}ed|Bo{2}lean|Bot|Hoisted|Mentionable|NSFW|Number|UserDMEnabled|ValidHex|Slash|TimedOut|Ticket))",
 					"captures": {
 						"0": {
 							"name": "f.limiters.is.bds"
@@ -116,7 +116,7 @@
 						}
 					}
 				},{
-					"match": "\\$(clear(?!Reactions)|mes{2}age(?:ID)?|(?:repeat|send(?:Embed)?|(?:un)?pin|get|edit|delete|chan{2}elSend|authorOf|noMention|publish):?Mes{2}age|(?:replace|crop):?Text|reply(?:In)?|editIn|remove(?:Contains|Links)|al{2}ow(?:User|Role)Mentions|al{2}owMention|delete(?:In|com{2}and)|t{2}s|url|unescape|trim(?:Space|Content)?|to(?:Up{2}ercase|TitleCase|Lowercase)|customImage|repliedMes{2}ageID|nomention)",
+					"match": "\\$(clear(?!Reactions)|mes{2}age(?:ID)?|(?:repeat|send(?:Embed)?|(?:un)?pin|get|edit|delete|chan{2}elSend|authorOf|noMention|publish):?Mes{2}age|(?:replace|crop):?Text|reply(?:In)?|editIn|remove(?:Contains|Links)|al{2}ow(?:User|Role)Mentions|al{2}owMention|delete(?:In|com{2}and)|t{2}s|url|unescape|trim(?:Space|Content)?|to(?:Up{2}ercase|TitleCase|Lowercase)|customImage|repliedMes{2}ageID|nomention|disableIn{2}erSpaceRemoval)",
 					"captures": {
 						"0": {
 							"name": "f.messages.general.bds"
@@ -172,7 +172,7 @@
 						}
 					}
 				},{
-					"match": "\\$(chan{2}el(?:ID(?:FromName)?|Name|Topic|Type)|(?:create|find|modify|use)Chan{2}el(?!Perms)|deleteChan{2}els(?:ByName)?|mentionedChan{2}els|editChan{2}elPerms|modifyChan{2}elPerms|slowmode|(?:new|close)Ticket|categoryID|chan{2}elPosition|parentID)",
+					"match": "\\$(chan{2}el(?:ID(?:FromName)?|Name(?:s)?|Topic|Type)|(?:create|find|modify|use)Chan{2}el(?!Perms)|deleteChan{2}els(?:ByName)?|mentionedChan{2}els|editChan{2}elPerms|modifyChan{2}elPerms|slowmode|(?:new|close)Ticket|category(?:ID|Chan{2}els)|chan{2}elPosition|parentID)",
 					"captures": {
 						"0": {
 							"name": "f.discord.channels.bds"
@@ -207,7 +207,7 @@
 						}
 					}
 				},{
-					"match": "\\$(random(?:Chan{2}elID|User(?:ID)?|Text|String|Mention)?)",
+					"match": "\\$(random(?:(?:Chan{2}el|Guild|Role|Category)ID|User(?:ID)?|Text|String|Mention)?)",
 					"captures": {
 						"0": {
 							"name": "f.random.general.bds"
@@ -220,6 +220,13 @@
 							"name": "f.error.general.bds"
 						}
 					}
+				},{
+				    "match": "\\$json(?:Parse|Clear|Stringify|Pret{2}y|Exists|Set|Unset|(?:Ar{2}ay(?:Ap{2}end|Count)?))?",
+				    "captures": {
+				        "0": {
+				            "name": "f.json.general.bds"
+				        }
+				    }
 				}
 			]
 		},

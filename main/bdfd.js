@@ -11,14 +11,15 @@ const info = win.showInformationMessage;
 const error = win.showErrorMessage;
 const ext = vscode.extensions;
 const work = vscode.workspace;
+const g_cfg = work.getConfiguration('', vscode.ConfigurationTarget.Global).get;
 
 exports.activate = activate;
 
 function activate(context) {
     bdfdFuncList(context);
-    tokenColors(context); 
-    statusBar(context); 
-    snippets(context)
+    tokenColors(context);
+    statusBar(context);
+    experiments(context);
 }
 
 var array = [];
@@ -29,17 +30,14 @@ async function bdfdFuncList(context) {
         // ! API Request (Function Tag List)
         const list = await nfetch('https://botdesignerdiscord.com/public/api/function_tag_list');
         array = await list.json();
-    
-        // Debug
-        console.debug('BDFD Function List Debug:\n', array);
-    
+
         // ! Register
         const disposable = cmds.registerCommand('bdfd.funclist', quickPickList);
         context.subscriptions.push(disposable);
 
         // Final Info
         info(l.load_funcList_s);
-    } catch(e) {
+    } catch (e) {
         error(`${l.load_funcList_f}: ${e}`);
     }
 }
@@ -47,7 +45,7 @@ async function bdfdFuncList(context) {
 // Quick Pick For BDFD Function List
 async function quickPickList() {
     // ! Quick Pick
-    const bdfdFunc = await win.showQuickPick(array, { matchOnDetail: true, placeHolder: "Select function" });
+    const bdfdFunc = await win.showQuickPick(array, { matchOnDetail: true, placeHolder: l.qp_funcList_select });
 
     // ! API Request (Function Info)
     if (bdfdFunc == null) { return };
@@ -149,32 +147,54 @@ function resetColors() {
     }, vscode.ConfigurationTarget.Global);
 }
 
-// Snippets (Completion Items)
+// Status Bar
+function statusBar(context) {
+    // Shortcut
+    const bar = vscode.languages.createLanguageStatusItem;
+
+    // ! Extension Version Bar
+    const version = vscode.extensions.getExtension('nightnutsky.bdfd-bds').packageJSON.version;
+    let version_bar = bar('bdfd-lsi-version', {language: 'bds'});
+    version_bar.name = 'BDFD Extension';
+    version_bar.text = l.version_bar_text;
+    version_bar.detail = version;
+
+    // ! Customize Highlighting
+    const customize_bar = bar('bdfd-lsi-customize', {language: 'bds'});
+    customize_bar.name = 'BDFD Extension';
+    customize_bar.text = l.customize_bar_text;
+    customize_bar.command = {
+        title: l.customize_bar_command_title,
+        command: 'bdfd.tokencolors'
+    };
+
+    // ! Function List
+    const functions_bar = bar('bdfd-lsi-functions', {language: 'bds'});
+    functions_bar.name = 'BDFD Extension';
+    functions_bar.text = l.functions_bar_text,
+    functions_bar.command = {
+        title: l.functions_bar_command_title,
+        command: 'bdfd.funclist'
+    };
+
+
+    // ! Register
+    context.subscriptions.push(version_bar, customize_bar, functions_bar);
+}
+
+// ! Experiments
+// Snippets
 function snippets(context) {
     const snippets = require('../snippets/snippets')(vscode);
     context.subscriptions.push(snippets);
 }
 
-// Status Bar
-function statusBar(context) {
-    const version = vscode.extensions.getExtension('nightnutsky.bdfd-bds').packageJSON.version;
-    let bar = win.createStatusBarItem(vscode.StatusBarAlignment.Right);
-    bar.name = 'BDFD Extension Version';
-    bar.tooltip = l.bar_tooltip;
-    bar.id = 'bdfdVersion';
-    bar.text = version;
-
-    if (win.activeTextEditor != undefined && win.activeTextEditor.document.languageId == 'bds') {
-        bar.show();
+// ! Experiments Loader
+function experiments(context) {
+    // Snippets
+    if (g_cfg('BDFD.experiments.updatedSnippets')) {
+        snippets(context);
+        win.showInformationMessage('BDFD Experiments - Snippets Loaded');
+        console.info('BDFD Experiments: Snippets Loaded');
     };
-
-    const event = win.onDidChangeActiveTextEditor(() => {
-        if (win.activeTextEditor != undefined && win.activeTextEditor.document.languageId == 'bds') {
-            bar.show();
-        } else {
-            bar.hide();
-        };
-    });
-
-    context.subscriptions.push(bar, event);
 }

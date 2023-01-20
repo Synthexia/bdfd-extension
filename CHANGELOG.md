@@ -2,6 +2,17 @@
 
 ## Preview Stage
 
+### 0.4.0
+- New (Language) Status Bar.
+- Added missing localizations.
+- Added new localizations.
+  > Deutsch/German (by [worte](https://github.com/wuaht)) and Nepalese (by [Rajat](https://github.com/rajatcj))
+- Gradual Updating of Snippets.
+- For now, "updated" snippets are disabled by default. You can enable them in extension's settings.
+- Added highlighting for the new functions.
+- Updated README.
+  > Added badges.
+
 ### 0.3.2
 - Fixed an unexpected minor error when switching active editor.
 
@@ -14,7 +25,7 @@
 ### 0.2.0
 - Added the ability to reset all functions' foreground colors and font styles to default
   > Command: `>BDFD: Reset Functions' Foreground Colors and Font Styles to default`
-- Gradual Rebuilding of Snippets. Updates related to this will be released as patch updates. New snippets will gradually replace the old ones.
+- Gradual Updating of Snippets. Updates related to this will be released as patch updates. New snippets will gradually replace the old ones.
 - README Update.
 
 ### 0.1.0

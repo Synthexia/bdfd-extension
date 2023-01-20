@@ -18,7 +18,11 @@ const locale = {
     qp_colors_fontChange: t("Change the function's font style"),
     qp_colors_fontChanging: t('Changing Font Style'),
     qp_colors_example: t('Example'),
-    bar_tooltip: t('BDFD Extension Version')
+    version_bar_text: t('Extension Version'),
+    customize_bar_text: t('Customize Highlighting'),
+    customize_bar_command_title: t('Show Editor'),
+    functions_bar_text: t('Function List'),
+    functions_bar_command_title: t('Show List'),
 };
 
 module.exports = locale;
