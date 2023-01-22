@@ -1,0 +1,23 @@
+{
+    "An unknown error has occured. The extension may not be able to function correctly. Details": "Сталася невідома помилка. Поширення може працювати неправильно. Деталі",
+    "{0} - Successfully loaded": "{0} - Успішно завантажений",
+    "{0} - Failed to load. Details": "{0} - Не вдалося завантажити. Деталі",
+    "Intents": "Інтенти",
+    "Premium": "Преміум",
+    "Open wiki": "Відкрити вікі",
+    "Select Function": "Оберіть функцію",
+    "Foreground Color": "Колір переднього плану",
+    "Foreground": "Передній план",
+    "Change the function's foreground color": "Змінити колір функції",
+    "Changing Foreground Color": "Зміна кольору функції",
+    "Font Style": "Стиль шрифту",
+    "Font": "Шрифт",
+    "Change the function's font style": "Змінити стиль шрифту функції",
+    "Changing Font Style": "Зміна стилю шрифту функції",
+    "Example": "Приклад",
+    "Extension Version": "Версія поширення",
+    "Customize Highlighting": "Кастомізувати  виділення",
+    "Show Editor": "Показати редактор",
+    "Function List": "Список Функцій",
+    "Show List": "Показати список"
+}
