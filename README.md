@@ -1,6 +1,6 @@
 # About
     
-![](https://img.shields.io/github/package-json/v/NightNutSky/bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github)
+![](https://img.shields.io/visual-studio-marketplace/v/NightNutSky.bdfd-bds?style=for-the-badge) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github)
 
 ## BDFD
 Bot Designer For Discord is a free mobile app available on the App Store and Play Store.\
@@ -53,3 +53,6 @@ In addition to highlighting functions, the extension adds colorized comments lik
 Their color and font style (as well as the highlighting color and font style of the functions) can be changed with the customization provided by the command from the command palette: `>BDFD: Customize Functions' Foreground Colors and Font Styles`.
 
 ![comments](https://user-images.githubusercontent.com/70456337/209450016-213ea684-bd2b-458a-94eb-1ab1335b2eb4.png)
+
+### Contributing to Localization
+If you want to bring in a new or update an existing localization, check out [Localization Guide](./Localization%20Resources/LOCALIZATION.md).

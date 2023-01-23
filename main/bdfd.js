@@ -54,7 +54,7 @@ async function quickPickList() {
     const message = `${data.tag} > ${data.shortDescription} | ${l.qp_funcList_intents}: ${data.intents}, ${l.qp_funcList_premium}: ${data.premium}`;
 
     // ! Show Function Info & Open wiki action
-    const selection = await win.showInformationMessage(message, { title: l.qp_funcList_openWiki });
+    const selection = await info(message, { title: l.qp_funcList_openWiki });
     if (selection !== undefined && selection.title == l.qp_funcList_openWiki) {
         // ! Removal of $ and [] from function tag
         const str = bdfdFunc;
@@ -68,7 +68,7 @@ async function quickPickList() {
 }
 
 // Color Customization
-async function tokenColors(context) {
+function tokenColors(context) {
     // ! Register
     const disposableResetColors = cmds.registerCommand('bdfd.resettokencolors', resetColors);
     const disposableSetColors = cmds.registerCommand('bdfd.tokencolors', quickPickColors);
@@ -96,7 +96,7 @@ async function quickPickColors() {
     const modifyWhat = await win.showQuickPick([{ label: l.qp_colors_foreground, description: l.qp_colors_foregroundChange }, { label: l.qp_colors_font, description: l.qp_colors_fontChange }]);
     if (modifyWhat == null) { return };
 
-    const tokens = vscode.workspace.getConfiguration('editor.tokenColorCustomizations', color.target);
+    const tokens = work.getConfiguration('editor.tokenColorCustomizations', color.target);
     var modified = undefined;
 
     switch (modifyWhat.label) {
@@ -194,7 +194,7 @@ function experiments(context) {
     // Snippets
     if (g_cfg('BDFD.experiments.updatedSnippets')) {
         snippets(context);
-        win.showInformationMessage('BDFD Experiments - Snippets Loaded');
+        info('BDFD Experiments - Snippets Loaded');
         console.info('BDFD Experiments: Snippets Loaded');
     };
 }

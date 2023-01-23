@@ -2,6 +2,13 @@
 
 ## Preview Stage
 
+### 0.5.0
+- Added new localization.
+  > Ukrainian (by [RainbowKey](https://github.com/Rainb0wKey) and [Muhammad8999](https://github.com/Muhammad8999))
+- Gradual Updating of Snippets.
+  > Updated main code for snippets
+- Created Localization Resources - a Localization Guide.
+
 ### 0.4.0
 - New (Language) Status Bar.
 - Added missing localizations.
@@ -10,7 +17,7 @@
 - Gradual Updating of Snippets.
 - For now, "updated" snippets are disabled by default. You can enable them in extension's settings.
 - Added highlighting for the new functions.
-- Updated README.
+- Updated README page.
   > Added badges.
 
 ### 0.3.2

@@ -5,7 +5,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"preview": true,
 	"l10n": "./l10n",
 	"contributors": [
@@ -32,6 +32,14 @@
 		{
 			"name": "Rajat",
 			"url": "https://github.com/rajatcj"
+		},
+		{
+			"name": "RainbowKey",
+			"url": "https://github.com/Rainb0wKey"
+		},
+		{
+			"name": "Muhammad8999",
+			"url": "https://github.com/Muhammad8999"
 		}
 	],
 	"bugs": {
