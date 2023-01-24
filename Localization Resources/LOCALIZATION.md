@@ -21,9 +21,20 @@ This page is a short localization guide.
 This section contains a guide if there's no localization for your language yet.
 
 1. Create a file in `l10n` directory that will contain the localization.
+![step1](https://user-images.githubusercontent.com/70468667/214233935-3ba6783f-921b-4839-a178-ed2770e5fbe6.jpg)
+
 2. Name this file as `bundle.l10n.<id>.json`. Replace `<id>` with the correct id for your language according to [Curated List of Languages](https://mozilla-l10n.github.io/firefox-languages/).
+ 
+![step2](https://user-images.githubusercontent.com/70468667/214234541-0d37ace7-de67-4678-9165-c62bbef86496.jpg)
+![step3](https://user-images.githubusercontent.com/70468667/214234550-8006da2a-577d-4462-89ef-1de21dd8c3b3.jpg)
+
 3. Copy the actual strings available for localization from [strings.json](./strings.json) file.
+![step4](https://user-images.githubusercontent.com/70468667/214234853-29c2b611-bdbd-4b44-85e0-cdb9a05e5851.jpg)
+![step5](https://user-images.githubusercontent.com/70468667/214234857-4198fa5e-f4e9-46d4-a87e-b9577cd288a3.jpg)
+
 4. Localize them.
+![step6](https://user-images.githubusercontent.com/70468667/214234993-99688677-4c84-4dae-a8d7-edc81a9a0f27.jpg)
+
 5. Create a pull request.
 6. Wait for review.
 
