@@ -1,0 +1,11 @@
+- name: Discord Notification
+  uses: MineBartekSA/discord-webhook@v2.1
+  with:
+    webhook: ${{ secrets.WEBHOOK_URL }}
+    embed: |
+      title: Title
+      description: |
+        Test Line 
+        Another test line
+        Once again.
+      color: 16711680
