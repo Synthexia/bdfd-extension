@@ -1,4 +1,4 @@
-- name: Discord Notification
+- name: Discord notification
   uses: MineBartekSA/discord-webhook@v2.1
   with:
     webhook: ${{ secrets.WEBHOOK_URL }}
