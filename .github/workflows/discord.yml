@@ -1,11 +1,23 @@
-- name: Discord notification
-  uses: MineBartekSA/discord-webhook@v2.1
-  with:
-    webhook: ${{ secrets.WEBHOOK_URL }}
-    embed: |
-      title: Title
-      description: |
-        Test Line 
-        Another test line
-        Once again.
-      color: 16711680
+name: Discord Notification
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  notification:
+    name: Send Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Discord Notification
+      uses: MineBartekSA/discord-webhook@v2.1
+      with:
+        webhook: ${{ secrets.WEBHOOK_URL }}
+        embed: |
+          title: Title
+          description: |
+            Test Line 
+            Another test line
+            Once again.
+          color: 16711680
