@@ -5,8 +5,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "0.5.0",
-	"preview": true,
+	"version": "1.0.0",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -50,19 +49,16 @@
 		"url": "https://github.com/NightNutSky/bdfd-bds"
 	},
 	"engines": {
-		"vscode": "^1.70.0"
+		"vscode": "^1.74.0"
 	},
 	"categories": [
 		"Programming Languages",
 		"Snippets"
 	],
-	"main": "./main/bdfd.js",
-	"activationEvents": [
-		"onCommand:bdfd.funclist",
-		"onCommand:bdfd.tokencolors",
-		"onCommand:bdfd.resettokencolors",
-		"onLanguage:bds"
-	],
+	"main": "./dist/bdfd.js",
+	"scripts": {
+		"prepublish": "tsc -p . && vsce package"
+	},
 	"extensionKind": [
 		"ui"
 	],
@@ -71,10 +67,15 @@
 			{
 				"title": "Bot Designer For Discord",
 				"properties": {
-					"BDFD.experiments.updatedSnippets": {
+					"BDFD.experiments.autoCompletions": {
 						"type": "boolean",
 						"default": false,
-						"description": "Configures the snippets. If enabled, the new variant of snippets will be provided, but they're still unstable. Reload is required."
+						"description": "Configures the Auto Completions feature. If enabled, the new experimental Auto Completions feature will be enabled, but they're still unstable. Reload is required."
+					},
+					"BDFD.experiments.sync": {
+						"type": "boolean",
+						"default": false,
+						"description": "Configures the BDFD Sync feature. If enabled, the new experimental BDFD Sync feature will be loaded."
 					}
 				}
 			}
@@ -104,29 +105,127 @@
 				"path": "./syntaxes/bds.tmLanguage.json"
 			}
 		],
-		"snippets": [
-			{
-				"language": "bds",
-				"path": "./snippets/bds-snippets.json"
-			}
-		],
 		"commands": [
 			{
 				"command": "bdfd.funclist",
-				"category": "BDFD",
-				"title": "Function List"
+				"category": "BDFD Helpers",
+				"title": "Function List",
+				"icon": "$(list-flat)"
 			},
 			{
 				"command": "bdfd.tokencolors",
 				"category": "BDFD",
-				"title": "Customize Functions' Foreground Colors and Font Styles"
+				"title": "Customize Functions' Foreground Colors and Font Styles",
+				"icon": "$(edit)"
 			},
 			{
 				"command": "bdfd.resettokencolors",
 				"category": "BDFD",
-				"title": "Reset Functions' Foreground Colors and Font Styles to default"
+				"title": "Reset Functions' Foreground Colors and Font Styles to default",
+				"icon": "$(gear)"
+			},
+			{
+				"command": "bdfd.sync.setup",
+				"category": "BDFD Sync Experiment",
+				"title": "Set up or Re-set up BDFD Sync feature.",
+				"icon": "$(gear)"
+			},
+			{
+				"command": "bdfd.sync.openCommandList",
+				"category": "BDFD Sync Experiment",
+				"title": "Open command list for syncing.",
+				"icon": "$(list-flat)"
+			},
+			{
+				"command": "bdfd.sync.modifyCommandData",
+				"category": "BDFD Sync Experiment",
+				"title": "Modify command data in the current session.",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "bdfd.sync.pushCommand",
+				"category": "BDFD Sync Experiment",
+				"title": "Push command to BDFD",
+				"icon": "$(check)"
+			},
+			{
+				"command": "bdfd.sync.openBotList",
+				"category": "BDFD Sync Experiment",
+				"title": "Open bot list for syncing",
+				"icon": "$(list-flat)"
+			},
+			{
+				"command": "bdfd.sync.openVariableList",
+				"category": "BDFD Sync Experiment",
+				"title": "Open variable list for modifying",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "bdfd.sync.createVariable",
+				"category": "BDFD Sync Experiment",
+				"title": "Create variable",
+				"icon": "$(add)"
+			},
+			{
+				"command": "bdfd.sync.createCommand",
+				"category": "BDFD Sync Experiment",
+				"title": "Create command",
+				"icon": "$(add)"
+			},
+			{
+				"command": "bdfd.utils.escape",
+				"category": "BDFD Utils",
+				"title": "Escape Special Characters"
+			},
+			{
+				"command": "bdfd.sync.deleteCommand",
+				"category": "BDFD Sync Experiment",
+				"title": "Delete command"
+			},
+			{
+				"command": "bdfd.sync.deleteVariable",
+				"category": "BDFD Sync Experiment",
+				"title": "Delete variable"
 			}
 		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "bdfd.sync.pushCommand",
+					"group": "BDFD Sync Experiment",
+					"when": "editorLangId == bds"
+				},
+				{
+					"command": "bdfd.utils.escape",
+					"group": "BDFD Utils",
+					"when": "editorHasSelection == true"
+				}
+			],
+			"editor/title/run": [
+				{
+					"command": "bdfd.sync.pushCommand",
+					"group": "BDFD Sync Experiment",
+					"when": "editorLangId == bds"
+				},
+				{
+					"command": "bdfd.funclist",
+					"group": "BDFD Helpers",
+					"when": "editorLangId == bds"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "bdfd.sync.pushCommand",
+					"group": "BDFD Sync Experiment",
+					"when": "editorLangId == bds"
+				},
+				{
+					"command": "bdfd.utils.escape",
+					"group": "BDFD Utils",
+					"when": "editorHasSelection == true"
+				}
+			]
+		},
 		"keybindings": [
 			{
 				"command": "bdfd.funclist",
@@ -140,7 +239,9 @@
 				"editor.bracketPairColorization.enabled": false,
 				"editor.tabCompletion": "on",
 				"editor.suggest.preview": true,
-				"editor.acceptSuggestionOnEnter": "off"
+				"editor.acceptSuggestionOnEnter": "off",
+				"workbench.editor.languageDetection": false
+				
 			},
 			"editor.tokenColorCustomizations": {
 				"textMateRules": [
@@ -418,9 +519,12 @@
 		}
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.70.0"
+		"@types/node": "^18.11.18",
+		"@types/node-fetch": "^2.6.2",
+		"@types/vscode": "^1.74.0"
 	},
 	"dependencies": {
+		"html-to-json-parser": "^1.1.0",
 		"node-fetch": "2.6.7"
 	}
 }

@@ -1,58 +1,56 @@
-# About
+# Welcome!
     
-![](https://img.shields.io/visual-studio-marketplace/v/NightNutSky.bdfd-bds?style=for-the-badge) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github)
+![](https://img.shields.io/visual-studio-marketplace/v/NightNutSky.bdfd-bds?style=for-the-badge) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) [![](https://img.shields.io/discord/1044327411115884676?label=Discord&logo=discord&style=for-the-badge)](https://discord.gg/wKADUUfcpj)
 
 ## BDFD
 Bot Designer For Discord is a free mobile app available on the App Store and Play Store.\
 The app allows you to create Discord bots without much knowledge of established programming languages thanks to its unique language - BDScript, based on GoLang (DiscordGo library for Discord).\
 You can find out more at [official website of Bot Designer For Discord](https://discordbotdesigner.com).
 
-## BDFD Extension
-Bot Designer For Discord Extension is an extension related to the BDFD app. The extension adds support for BDScript language, Snippets, and some help tools like [BDFD Function List](#function-list).
+## Our Extension
+Our extension brings in the features for comfortable coding your bot in BDScript.\
+Lets gone through them quickly!
 
-⚠ Important note. The extension doesn't allow you to execute the BDScript code, manage the bot, renew its hosting, and so on. The extension is just like an environment for comfortable writing code.
+### Language
+First of all, the extension brings in the new language support for VS Code:
 
-### Features
-As previously mentioned, the extension adds...
+![Select language](https://user-images.githubusercontent.com/70456337/222982729-379ed7f0-e95f-46d9-bf6c-29f18edaffa0.png)
 
-#### Language Support 
-Language support - you can now have BDScript functions highlighted in your VS Code!\
-For this, you just need to install the extension. Highlighting is available for any theme!\
-A unique file extension that adds an extension: `.bds` or `.bdscript`. Bot Designer For Discord extension main features (Highlighting and Snippets) works only if the file extension is BDScript language (`.bds`/`.bdscript`)!
+![Status bars](https://user-images.githubusercontent.com/70456337/222982754-d5d8ac3a-d2a2-4527-9558-d2e85e2ad12a.png)
 
-#### Snippets
-Snippets are a thing that helps you when writing code if the function name is too long, or you don't remember all the arguments the function has.\
-In that case, you can start typing the function name (for example, `$onlyIf`) and then press `TAB` to insert the function with all its arguments to fill in.
+![File extensions](https://user-images.githubusercontent.com/70456337/222982822-1cddc248-377f-4fea-b6a1-3b3f31630b39.png)
 
-![Snippets](https://user-images.githubusercontent.com/70456337/207663508-8ad526a0-ecea-4690-b073-9d8c25989c27.png)
-![Snippets](https://user-images.githubusercontent.com/70456337/207663531-97144d42-4077-41a7-9ccf-6dcd48fbec14.png)
+### Syntax
+The extension brings in the BDScript's syntax: the customizable highlighting of functions:
 
+![Highlighting showcase](https://user-images.githubusercontent.com/70456337/222983024-3a847823-a5a8-4776-ba98-f26c1998a3f8.png)
 
-Some other examples:
+![Customize highlighting](https://user-images.githubusercontent.com/70456337/222983069-2aa4e301-c3e3-4ee7-ab62-de28c8138065.png)
 
-![Snippets](https://user-images.githubusercontent.com/70456337/207662859-2dfbdb98-9413-410e-b179-410888bc8014.png)
-![Snippets](https://user-images.githubusercontent.com/70456337/207662930-25103e6a-adc8-47fd-a4ec-333223d75533.png)
-![Snippets](https://user-images.githubusercontent.com/70456337/207663011-974cd430-ec53-4832-873f-01841731dbe3.png)
-![Snippets](https://user-images.githubusercontent.com/70456337/207663024-006262e6-d625-486c-a41e-bd89eb658ca7.png)
+### Auto Completions
+The extension will help you to type function names and will bring in the tabstops for functions' arguments.
 
+![Auto completion provide](https://user-images.githubusercontent.com/70456337/222983179-4f778da1-fac5-4a9d-9762-adef203fed83.png)
 
-#### Function List
-The Function List is an inherently command that can be executed by using the command palette (`CTRL + SHIFT + P`) by typing `>BDFD Function List`.\
-This command can also be executed by pressing the `CTRL + D` hotkey.\
-When you execute the command, a list with function names will open (you can also search for functions by typing their name or part of it). By pressing `Enter` or by clicking on the function name, you will get an information message which contains:
-- The function tag
-- The function description
-- The intent requirement
-- The premium requirement
-- The button to jump its wiki page within VS Code
+![Auto completion tabstops](https://user-images.githubusercontent.com/70456337/222983258-c6ba06b5-85f7-44a1-a74d-c03784e6c475.png)
 
-![BDFD Function List](https://user-images.githubusercontent.com/70456337/207936228-5aa2caeb-783a-40d4-9538-a7d8adeeb66f.png)
+### Helpers
+The extension brings in the helpers aka the tools which can help you in some cases.\
+One of them is Function List!\
+You forgot the function's arguments? You're wondering if the function requires premium or intents, or maybe you just want to get function's description?\
+This helper will answer your questions!
 
-#### Colorized Comments
-In addition to highlighting functions, the extension adds colorized comments like the [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) extension for our beloved VS Code.\
-Their color and font style (as well as the highlighting color and font style of the functions) can be changed with the customization provided by the command from the command palette: `>BDFD: Customize Functions' Foreground Colors and Font Styles`.
+![Search helper](https://user-images.githubusercontent.com/70456337/222983299-eb518868-e457-4baa-8d3b-390f84819e24.png)
 
-![comments](https://user-images.githubusercontent.com/70456337/209450016-213ea684-bd2b-458a-94eb-1ab1335b2eb4.png)
+![Search function](https://user-images.githubusercontent.com/70456337/222983322-6cae97ef-5df9-4534-9b78-159844c257eb.png)
 
-### Contributing to Localization
-If you want to bring in a new or update an existing localization, check out [Localization Guide](./Localization%20Resources/LOCALIZATION.md).
+![Function info](https://user-images.githubusercontent.com/70456337/222983349-3158c75f-6e77-4da7-8a78-21080712a945.png)
+
+### Sync
+I'd say it's the best feature that the extension brings in.\
+It allows you to sync with BDFD which means you will be able to edit your commands, variables; create the new ones or delete the existing ones.\
+Reading the [Sync Guide](./Sync%20Resources/SYNC.md) is required.
+
+## Localization
+Our extension's localization is made by our community.\
+Would you like to contribute? Go through the [Localization Guide](./Localization%20Resources/LOCALIZATION.md)! 

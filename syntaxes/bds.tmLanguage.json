@@ -221,7 +221,7 @@
 						}
 					}
 				},{
-				    "match": "\\$json(?:Parse|Clear|Stringify|Pret{2}y|Exists|Set|Unset|(?:Ar{2}ay(?:Ap{2}end|Count)?))?",
+				    "match": "\\$json(?:Parse|Clear|Stringify|Pret{2}y|Exists|Set(?:String)?|Unset|JoinAr{2}ay|(?:Ar{2}ay(?:Ap{2}end|Count|Index|Pop|Shift|Unshift)?))?",
 				    "captures": {
 				        "0": {
 				            "name": "f.json.general.bds"

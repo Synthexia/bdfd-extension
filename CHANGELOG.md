@@ -1,9 +1,30 @@
 # Change Log
 
+## Release Stage
+
+### 1.0.0 (First Major Release)
+- New Experiments:
+  - Auto Completions
+    > Note that they're still a bit unstable.
+  - BDFD Sync
+    > For more info, read the [Sync Guide](./Sync%20Resources/SYNC.md).
+- Extension Source Code Update.
+  > Switching to TypeScript, refactoring, etc.
+- Fixed some bugs.
+- Added highlighting for the new functions.
+- Deleted snippets in favor of the future auto completions that available as an experimental feature right now.
+- Updated README page.
+  > Added the new badge.
+  > General page update.
+- Updated localization.
+  - Added the new entries.
+  - Updated Arabic localization (by [Musical](https://github.com/MusicalxD)).
+- Added the Escape action to the context menu. An action to automatically escape special BDScript characters (`$`, `;`, etc).
+
 ## Preview Stage
 
 ### 0.5.0
-- Added new localization.
+- Added the new localization.
   > Ukrainian (by [RainbowKey](https://github.com/Rainb0wKey) and [Muhammad8999](https://github.com/Muhammad8999))
 - Gradual Updating of Snippets.
   > Updated main code for snippets
