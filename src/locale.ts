@@ -104,7 +104,7 @@ const locale = {
                 select: t('Select a command with which you would like to sync at the moment')
             },
             afterSync: {
-                message: t('Synced! Would you like to create an untitled file with content of this command? P.S. After syncing or modifying a command, it is recommended to reload the window before pushing in order to avoid some unexpected issues!'),
+                message: t('Synced! Would you like to create an untitled file with content of this command?'),
                 action: t('Create!')
             }
         },

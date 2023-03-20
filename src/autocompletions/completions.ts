@@ -18,6 +18,7 @@ export function load() {
             const data: any[] = [];
             list.forEach((f, i) => {
                 let snippet: string = f.tag,
+                tabstop = '',
                 arg = '',
                 args = '',
                 length = 0;
@@ -25,7 +26,48 @@ export function load() {
                 if (snippet.includes('[')) {
                     snippet.split('[')[1].split(']')[0].split(';').forEach((argument: string, index: number, array: string[]) => {
                         index += 1;
-                        const tabstop = `\${${index}:${argument}}`;
+                        tabstop = `\${${index}:${argument}}`;
+
+                        switch (argument) {
+                            case 'New row':
+                                tabstop = `\${${index}|no,yes|}`;
+                                break;
+                            case 'Style':
+                                if (tags[i] == '$addButton[]' || tags[i] == '$editButton[]') {
+                                    tabstop = `\${${index}|primary,secondary,danger,success,link|}`;
+                                } else {
+                                    tabstop = `\${${index}|short,paragraph|}`;
+                                };
+                                break;
+                            case '(Disabled':
+                                tabstop = `\${${index}|no,yes|}`;
+                                break;
+                            case 'Required':
+                                tabstop = `\${${index}|no,yes|}`;
+                                break;
+                            case '(Index)' || 'Embed index':
+                                tabstop = `\${${index}|1,2,3,4,5,6,7,8,9,10|}`;
+                                break;
+                            case 'Type' || '(Type)':
+                                if (tags[i] == '$createChannel[]') {
+                                    tabstop = `\${${index}|category,stage,forum,text,voice|}`;
+                                } else if (tags[i] == '$error[]') {
+                                    tabstop = `\${${index}|command,source,message,row,column|}`;
+                                } else if (tags[i] == '$getEmbedData[]') {
+                                    tabstop = `\${${index}|timestamp,title,description,footer,color,image|}`;
+                                } else if (tags[i] == '$getMessage[]') {
+                                    tabstop = `\${${index}|content,authorID,username,avatar|}`;
+                                } else if (tags[i] == '$variablesCount[]') {
+                                    tabstop = `\${${index}|user,server,globaluser,channel|}`;
+                                };
+                                break;
+                            case 'Condition':
+                                tabstop = `\${${index}:X}\${${index+=1}|>,<,==,!=,>=,<=|}\${${index+=1}:Y}`;
+                                break;
+                        };
+
+                        tabstop = tabstop.replace(/[\(\)]/, '');
+
                         if (index == 1) {
                             snippet = snippet.replace(`[${argument}`, `[${tabstop}`);
                         } else if (index == array.length) {

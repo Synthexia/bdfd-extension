@@ -1,26 +1,34 @@
-export default function languageStatusBars(bar: any, extensions: any, languages: any, completions: any, l: any) {
+import {
+    languages,
+    extensions
+} from "vscode";
+import * as l from './locale';
+
+const bar = languages.createLanguageStatusItem;
+
+export default function languageStatusBars() {
     // Extension Version Bar
     const version = extensions.getExtension('nightnutsky.bdfd-bds')?.packageJSON.version;
-    const version_bar = bar('bdfd-lsi-version', { language: 'bds' });
-    version_bar.name = 'BDFD Extension';
-    version_bar.text = l.bars.version.text;
-    version_bar.detail = version;
+    const extensionVersionBar = bar('bdfd-lsi-version', { language: 'bds' });
+    extensionVersionBar.name = 'BDFD Extension';
+    extensionVersionBar.text = version;
+    extensionVersionBar.detail = l.bars.version.text;
 
     // Customize Highlighting Bar
-    const customize_bar = bar('bdfd-lsi-customize', { language: 'bds' });
-    customize_bar.name = 'BDFD Extension';
-    customize_bar.text = l.bars.customize.text;
-    customize_bar.command = {
+    const customizeHighlightingBar = bar('bdfd-lsi-customize', { language: 'bds' });
+    customizeHighlightingBar.name = 'BDFD Extension';
+    customizeHighlightingBar.text = l.bars.customize.text;
+    customizeHighlightingBar.command = {
         title: l.bars.customize.commandTitle,
         command: 'bdfd.tokencolors'
     };
 
 
     // Sync Bar
-    const sync_bar = languages.createLanguageStatusItem('bdfd-lsi-sync', { language: 'bds' });
-    sync_bar.name = 'BDFD Extension';
-    sync_bar.text = '(E) Sync feature enabled';
-    sync_bar.command = {
+    const syncBar = bar('bdfd-lsi-sync', { language: 'bds' });
+    syncBar.name = 'BDFD Extension';
+    syncBar.text = '(E) Sync feature enabled';
+    syncBar.command = {
         title: 'Modify Command Data',
         command: 'bdfd.sync.modifyCommandData'
     };

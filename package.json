@@ -4,8 +4,8 @@
 	"publisher": "NightNutSky",
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
-	"description": "Syntax Highlighting and Snippets for BDScript.",
-	"version": "1.0.0",
+	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
+	"version": "1.1.0",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -512,6 +512,109 @@
 						"scope": "f.json.general.bds",
 						"settings": {
 							"foreground": "#fda761"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndStrikethroughAndItalicAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "underline strikethrough italic bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndItalicAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "underline italic bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndStrikethroughAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "underline strikethrough bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndStrikethroughAndItalic.formatting.bds",
+						"settings": {
+							"fontStyle": "underline strikethrough italic"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndStrikethrough.formatting.bds",
+						"settings": {
+							"fontStyle": "underline strikethrough"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "underline bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscoredAndItalic.formatting.bds",
+						"settings": {
+							"fontStyle": "underline italic"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "underscored.formatting.bds",
+						"settings": {
+							"fontStyle": "underline"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "strikethroughAndItalicAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "strikethrough italic bold"
+						}
+					},{
+						"name": "Formatting",
+						"scope": "strikethroughAndItalic.formatting.bds",
+						"settings": {
+							"fontStyle": "strikethrough italic"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "strikethroughAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "strikethrough bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "strikethrough.formatting.bds",
+						"settings": {
+							"fontStyle": "strikethrough"
+						}
+					},{
+						"name": "Formatting",
+						"scope": "italicAndBold.formatting.bds",
+						"settings": {
+							"fontStyle": "italic bold"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "italic.formatting.bds",
+						"settings": {
+							"fontStyle": "italic"
+						}
+					},
+					{
+						"name": "Formatting",
+						"scope": "bold.formatting.bds",
+						"settings": {
+							"fontStyle": "bold"
 						}
 					}
 				]

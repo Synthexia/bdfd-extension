@@ -2,6 +2,17 @@
 
 ## Release Stage
 
+### 1.1.0
+- Auto Completions Update.
+  - Added detailed list of arguments.
+  - Added tabstops for arguments (you will be able to disable/partially disable them in the future updates).
+- Markdown support (Discord-like).
+  - Only works with the proper syntax (by priority), i.e `**~~hello world~~**` won't work but `~~**hello world**~~` will.
+  > Not yet added: Code-blocks due to current implementation issues.
+- Code Refactoring ([Main](src/bdfd.ts) and [Language Bars](src/bars.ts)).
+- Updated localization.
+  - The `sync > commandList > afterSync > message` entry was updated.
+
 ### 1.0.0 (First Major Release)
 - New Experiments:
   - Auto Completions

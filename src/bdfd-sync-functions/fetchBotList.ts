@@ -28,23 +28,12 @@ export default async function fetchBotList(authToken: string) {
                 botID = array.attributes.href.trim().split('/')[1];
 
                 if (array.content[3].content[1].attributes != undefined) {
-                    // TODO botHosting = array.content[3].content[1].attributes["uk-countdown"];
-                    // TODO botHosting = botHosting.split('date:')[1].trim();
-
-                    // TODO const hostingDate = new Date(botHosting).toLocaleDateString();
-                    // TODO const hostingTime = new Date(botHosting).toLocaleTimeString()
-
-                    // TODO botHosting = `Until ${hostingDate} (${hostingTime})`;
-
                     botCommands = array.content[3].content[4];
                     botCommands = botCommands.split('commands')[0].trim();
 
                     botVariables = array.content[3].content[6];
                     botVariables = botVariables.split('variables')[0].trim();
                 } else {
-                    // TODO botHosting = array.content[3].content[0];
-                    // TODO botHosting = botHosting.trim();
-                    
                     botCommands = array.content[3].content[2];
                     botCommands = botCommands.split('commands')[0].trim();
                     
