@@ -15,11 +15,16 @@ After authorization, it's only being stored locally aka only on your own machine
     ![Open Developer Tools](https://user-images.githubusercontent.com/70456337/223182470-ca3883f6-7aa5-42dc-b09c-1da34f6bb081.png)
 4. Execute the following code in the console tab.
     ```js
-    const token = document.cookie.toString().replace('default-sessionStore=', '');
+    const token = document.cookie.toString().replace("default-sessionStore=", "");
 
     console.log(token);
     ```
     ![Code Execution](https://user-images.githubusercontent.com/70456337/223182621-4eb12b08-e5f5-4614-889a-33ee09248357.png)
+    - If this code for some reason returns an error, use this:
+        ```js
+        console.log(document.cookie);
+        ```
+        > The returned value will be a bit different but don't worry!
 5. Copy the returned value (it's your BDFD token, we can call it so).
 6. Follow the steps in the next article.
 

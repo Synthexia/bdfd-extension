@@ -28,14 +28,18 @@ const locale = {
             detail: t('Available'),
         }
     },
-    funcList: {
+    functionList: {
         load: {
             s: t('{0} - Successfully loaded', 'BDFD Function List'),
             f: t('{0} - Failed to load. Details', 'BDFD Function List')
         },
         quickPick: {
             intents: t('Intents'),
-            premium: t('Premium'),
+            premium: {
+                text: t('Premium'),
+                true: t('Yes'),
+                false: t('No')
+            },
             openWiki: t('Open wiki'),
             select: t('Select Function'),
             fetchError: function (status: number) {
@@ -64,15 +68,52 @@ const locale = {
     },
     sync: {
         general: {
+            // ! Delete
             tokenError: t('Invalid Or Expired Auth Token Was Provided!'),
+            // ! ^
+            error: {
+                selectToCopy: t('Select to copy this error message'),
+                selectToCopyAction: t('Copy Error'),
+                messageCopied: t('The error message was copied!'),
+                openBotList: t('Failed to get bots'),
+                openCommandList: t('Failed to get commands'),
+                openVariableList: t('Failed to get variables'),
+                openCommand: (errorMessage: string) => {
+                    return t('Failed to sync with this command: {errorMessage}', { errorMessage: errorMessage })
+                },
+                pushCommand: (errorMessage: string) => {
+                    return t('Failed to update this command: {errorMessage}', { errorMessage: errorMessage })
+                },
+                pushVariable: (errorMessage: string) => {
+                    return t('Failed to update this variable: {errorMessage}', { errorMessage: errorMessage })
+                },
+                createCommand: (errorMessage: string) => {
+                    return t('Failed to create a new command: {errorMessage}', { errorMessage: errorMessage })
+                },
+                createVariable: (errorMessage: string) => {
+                    return t('Failed to create a new variable: {errorMessage}', { errorMessage: errorMessage })
+                },
+                updateCommand: (errorMessage: string) => {
+                    return t('Failed to update this command: {errorMessage}', { errorMessage: errorMessage })
+                },
+                updateVariable: (errorMessage: string) => {
+                    return t('Failed to update this variable: {errorMessage}', { errorMessage: errorMessage })
+                },
+                deleteCommand: (errorMessage: string) => {
+                    return t('Failed to delete selected commands: {errorMessage}', { errorMessage: errorMessage })
+                },
+                deleteVariable: (errorMessage: string) => {
+                    return t('Failed to delete selected variables: {errorMessage}', { errorMessage: errorMessage })
+                }
+            },
             push: {
                 s: t('Pushed successfully!'),
                 f: t('Pushed unseccessfully... It seems that something went wrong! Maybe invalid or expired auth token was provided?'),
             }
         },
-        setUp: {
+        configure: {
             titles: {
-                title: t('BDFD Sync Set Up'),
+                title: t('BDFD Sync Configuration'),
                 token: t('Changing an auth token')
             },
             placeholders: {
@@ -88,12 +129,12 @@ const locale = {
                 bot: t('Bot')
             },
             afterChange: {
-                message: t('Successfully set! Try opening a bot list to see if you typed an auth token correctly. If it is empty, then you typed it wrongly and you will have to re-set up it.'),
+                message: t('Successfully set! Try opening a bot list!'),
                 action: t('Bot List')
             },
             greeting: {
-                message: t("{0}: BDFD Sync Loaded. If you haven't done the first set up, you must do it!", 'BDFD Experiments'),
-                action: t('Set Up')
+                message: t("{0}: BDFD Sync Loaded. If you haven't configure it yet, you must do it!", 'BDFD Experiments'),
+                action: t('Configure')
             }
         },
         commandList: {
@@ -148,17 +189,49 @@ const locale = {
             },
             placeholders: {
                 placeholder: t('Select a bot with which you would like to sync at the moment, then select a command')
+            },
+            afterSync: (botName: string, commands: string, variables: string) => {
+                return t('Now you are synced with the "{botName}" bot which currently has {commands} and {variables}!', {
+                    botName: botName,
+                    commands: commands,
+                    variables: variables
+                });
+            }
+        },
+        pushCommand: {
+            afterCreate: {
+                message: t('Command updated!')
             }
         },
         createCommand: {
+            titles: {
+                title: t('Creating a new command')
+            },
+            placeholders: {
+                placeholder: t('Please type initial command data')
+            },
+            promts: {
+                name: t('Please type a command name'),
+                trigger: t('Please type a command trigger')
+            },
             afterCreate: {
-                message: t('Command created! Its name contains "{tag}" tag.', { tag: 'NEW!' }),
+                message: t('Command created!'),
                 action: t('Open Command List')
             }
         },
         createVariable: {
+            titles: {
+                title: t('Creating a new variable')
+            },
+            placeholders: {
+                placeholder: t('Please type initial variable data')
+            },
+            promts: {
+                name: t('Please type a variable name'),
+                value: t('Please type a variable value')
+            },
             afterCreate: {
-                message: t('Variable created! Its name contains "{tag}" tag.', { tag: 'NEW!' }),
+                message: t('Variable created!'),
                 action: t('Open Variable List')
             }
         },
@@ -186,6 +259,14 @@ const locale = {
             promts: {
                 name: t('Type the new variable name'),
                 value: t('Type the new variable value')
+            },
+            afterChange: {
+                name: (name: string) => {
+                    return t('The variable name was successfully changed to "{name}"!', { name: name });
+                },
+                value: (value: string) => {
+                    return t('The variable value was successfully changed to "{value}"!', { value: value });
+                }
             }
         },
         deleteCommand: {
@@ -225,4 +306,4 @@ const locale = {
     }
 };
 
-export = locale;
+export default locale;

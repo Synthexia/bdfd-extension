@@ -5,7 +5,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "1.1.0",
+	"version": "2.0.0",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -55,9 +55,9 @@
 		"Programming Languages",
 		"Snippets"
 	],
-	"main": "./dist/bdfd.js",
+	"main": "./dist/extension.js",
 	"scripts": {
-		"prepublish": "tsc -p . && vsce package"
+		"pack": "tsc -p . && vsce package"
 	},
 	"extensionKind": [
 		"ui"
@@ -75,7 +75,7 @@
 					"BDFD.experiments.sync": {
 						"type": "boolean",
 						"default": false,
-						"description": "Configures the BDFD Sync feature. If enabled, the new experimental BDFD Sync feature will be loaded."
+						"description": "Configures the BDFD Sync feature. If enabled, the new experimental BDFD Sync feature will be loaded. Reload is required."
 					}
 				}
 			}
@@ -107,27 +107,27 @@
 		],
 		"commands": [
 			{
-				"command": "bdfd.funclist",
+				"command": "bdfd.functionList",
 				"category": "BDFD Helpers",
 				"title": "Function List",
 				"icon": "$(list-flat)"
 			},
 			{
-				"command": "bdfd.tokencolors",
+				"command": "bdfd.tokenCustomization",
 				"category": "BDFD",
 				"title": "Customize Functions' Foreground Colors and Font Styles",
 				"icon": "$(edit)"
 			},
 			{
-				"command": "bdfd.resettokencolors",
+				"command": "bdfd.resetTokenCustomization",
 				"category": "BDFD",
 				"title": "Reset Functions' Foreground Colors and Font Styles to default",
 				"icon": "$(gear)"
 			},
 			{
-				"command": "bdfd.sync.setup",
+				"command": "bdfd.sync.configure",
 				"category": "BDFD Sync Experiment",
-				"title": "Set up or Re-set up BDFD Sync feature.",
+				"title": "Configure BDFD Sync feature.",
 				"icon": "$(gear)"
 			},
 			{
@@ -208,7 +208,7 @@
 					"when": "editorLangId == bds"
 				},
 				{
-					"command": "bdfd.funclist",
+					"command": "bdfd.functionList",
 					"group": "BDFD Helpers",
 					"when": "editorLangId == bds"
 				}
@@ -228,7 +228,7 @@
 		},
 		"keybindings": [
 			{
-				"command": "bdfd.funclist",
+				"command": "bdfd.functionList",
 				"key": "ctrl+d",
 				"when": "editorLangId == bds"
 			}
@@ -241,7 +241,6 @@
 				"editor.suggest.preview": true,
 				"editor.acceptSuggestionOnEnter": "off",
 				"workbench.editor.languageDetection": false
-				
 			},
 			"editor.tokenColorCustomizations": {
 				"textMateRules": [
@@ -513,121 +512,19 @@
 						"settings": {
 							"foreground": "#fda761"
 						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndStrikethroughAndItalicAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "underline strikethrough italic bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndItalicAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "underline italic bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndStrikethroughAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "underline strikethrough bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndStrikethroughAndItalic.formatting.bds",
-						"settings": {
-							"fontStyle": "underline strikethrough italic"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndStrikethrough.formatting.bds",
-						"settings": {
-							"fontStyle": "underline strikethrough"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "underline bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscoredAndItalic.formatting.bds",
-						"settings": {
-							"fontStyle": "underline italic"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "underscored.formatting.bds",
-						"settings": {
-							"fontStyle": "underline"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "strikethroughAndItalicAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "strikethrough italic bold"
-						}
-					},{
-						"name": "Formatting",
-						"scope": "strikethroughAndItalic.formatting.bds",
-						"settings": {
-							"fontStyle": "strikethrough italic"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "strikethroughAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "strikethrough bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "strikethrough.formatting.bds",
-						"settings": {
-							"fontStyle": "strikethrough"
-						}
-					},{
-						"name": "Formatting",
-						"scope": "italicAndBold.formatting.bds",
-						"settings": {
-							"fontStyle": "italic bold"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "italic.formatting.bds",
-						"settings": {
-							"fontStyle": "italic"
-						}
-					},
-					{
-						"name": "Formatting",
-						"scope": "bold.formatting.bds",
-						"settings": {
-							"fontStyle": "bold"
-						}
 					}
 				]
 			}
 		}
 	},
 	"devDependencies": {
-		"@types/node": "^18.11.18",
-		"@types/node-fetch": "^2.6.2",
+		"@types/hidefile": "3.0.0",
+		"@types/node": "18.11.18",
 		"@types/vscode": "^1.74.0"
 	},
 	"dependencies": {
-		"html-to-json-parser": "^1.1.0",
-		"node-fetch": "2.6.7"
+		"@nightnutsky/bdfd-external": "^1.0.0",
+		"@nightnutsky/bpapi": "^2.0.0",
+		"hidefile": "3.0.0"
 	}
 }

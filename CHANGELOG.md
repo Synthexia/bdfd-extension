@@ -2,6 +2,31 @@
 
 ## Release Stage
 
+### 2.0.0
+- The whole extension's code was refactored
+- Now the extension utilizes `bdfd-external` and `bpapi` packages.
+  > BDFD Sync is powered by `bdfd-external` package.
+  > Retrieving the data from BDFD Public API is powered by `bpapi` package.
+- Updated README
+  > Better badges.
+- Updated Sync Resources.
+  > Added a note to the code.
+- Markdown support was removed because it breaks syntax highlighting.
+- Other minor changes like renaming command names, their IDs, updating descriptions, etc.
+  > Some of them are:
+  >  - Updated Function List command.
+  >    - Updated "Intents" and "Premium" info.
+  >    - Temporary removed "Open wiki" action due to unhandled new paths to wiki pages.
+  >  - Updated Customize Tokens command.
+  >    - Added lacking "Action cancelled" notification messages to some actions.
+  >  - Updated BDFD Sync feature.
+  >    - Bug fixes, new error handling.
+  >      - Now error messages can be copied to your clipboard.
+  >    - When creating the new command or variable, you can type the initial data (name & trigger/value).
+  >    - Other minor changes.
+- Breaking localication changes (will be handled in the future update(s)).
+- If you're using the BDFD Sync feature, you have to authorize again because paths for local data files were changed.
+
 ### 1.1.0
 - Auto Completions Update.
   - Added detailed list of arguments.

@@ -1,8 +1,12 @@
 # Welcome!
-    
-![](https://img.shields.io/visual-studio-marketplace/v/NightNutSky.bdfd-bds?style=for-the-badge) ![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode) ![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) ![](https://img.shields.io/github/license/NightNutSky/bdfd-bds?style=for-the-badge&logo=github) [![](https://img.shields.io/discord/1044327411115884676?label=Discord&logo=discord&style=for-the-badge)](https://discord.gg/wKADUUfcpj)
 
-## BDFD
+<div align="center">
+
+[![](https://img.shields.io/visual-studio-marketplace/v/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=NightNutSky.bdfd-bds) [![](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=NightNutSky.bdfd-bds) [![](https://img.shields.io/visual-studio-marketplace/r/NightNutSky.bdfd-bds?style=for-the-badge&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=NightNutSky.bdfd-bds) [![](https://img.shields.io/github/stars/NightNutSky/bdfd-bds?style=for-the-badge&logo=github)](https://github.com/NightNutSky/bdfd-bds) [![](https://img.shields.io/discord/1044327411115884676?label=Discord&logo=discord&style=for-the-badge)](https://discord.gg/wKADUUfcpj)
+
+</div>
+
+## Bot Designer For Discord
 Bot Designer For Discord is a free mobile app available on the App Store and Play Store.\
 The app allows you to create Discord bots without much knowledge of established programming languages thanks to its unique language - BDScript, based on GoLang (DiscordGo library for Discord).\
 You can find out more at [official website of Bot Designer For Discord](https://discordbotdesigner.com).

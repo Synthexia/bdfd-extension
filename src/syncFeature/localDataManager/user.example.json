@@ -1,0 +1,25 @@
+{
+    "authToken": "An auth token here",
+    "botList": [
+        {
+            "botID": "1234567",
+            "botName": "CoolBot",
+            "commands": "7 commands",
+            "variables": "4 variables"
+        },
+        {},
+        {}
+    ],
+    "workspaceList": [
+        {
+            "dataFile": "PathLike",
+            "name": "Name",
+            "path": {
+                "fs": "PathLike",
+                "uri": "Uri"
+            }
+        },
+        {},
+        {}
+    ]
+}

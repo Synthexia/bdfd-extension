@@ -19,9 +19,6 @@
 		},
 		{
 			"include": "#parentheses"
-		},
-		{
-			"include": "#formatting"
 		}
 	],
 	"repository": {
@@ -333,128 +330,6 @@
 					"captures": {
 						"0": {
 							"name": "variables.bds"
-						}
-					}
-				}
-			]
-		},
-		"formatting": {
-			"patterns": [
-				{
-					"match": "__~~\\*\\*\\*(.*)\\*\\*\\*~~__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndStrikethroughAndItalicAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__~~\\*\\*(.*)\\*\\*~~__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndStrikethroughAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__~~\\*(.*)\\*~~__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndStrikethroughAndItalic.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__~~(.*)~~__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndStrikethrough.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__\\*\\*\\*(.*)\\*\\*\\*__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndItalicAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__\\*\\*(.*)\\*\\*__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__\\*(.*)\\*__",
-					"captures": {
-						"1": {
-							"name": "underscoredAndItalic.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "__(.*)__",
-					"captures": {
-						"1": {
-							"name": "underscored.formatting.bds"
-						}
-					}
-				},{
-					"match": "~~\\*\\*\\*(.*)\\*\\*\\*~~",
-					"captures": {
-						"1": {
-							"name": "strikethroughAndItalicAndBold.formatting.bds"
-						}
-					}
-				},{
-					"match": "~~\\*\\*(.*)\\*\\*~~",
-					"captures": {
-						"1": {
-							"name": "strikethroughAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "~~\\*(.*)\\*~~",
-					"captures": {
-						"1": {
-							"name": "strikethroughAndItalic.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "~~(.*)~~",
-					"captures": {
-						"1": {
-							"name": "strikethrough.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "\\*\\*\\*(.*)\\*\\*\\*",
-					"captures": {
-						"1": {
-							"name": "italicAndBold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "\\*\\*(.*)\\*\\*",
-					"captures": {
-						"1": {
-							"name": "bold.formatting.bds"
-						}
-					}
-				},
-				{
-					"match": "\\*(.*)\\*",
-					"captures": {
-						"1": {
-							"name": "italic.formatting.bds"
 						}
 					}
 				}

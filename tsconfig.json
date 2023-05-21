@@ -2,9 +2,8 @@
     "compilerOptions": {
         "module": "CommonJS",
         "moduleResolution": "node",
-        "target": "ES2022",
-        "lib": ["ES2022", "DOM"],
-        "sourceMap": true,
+        "target": "ESNext",
+        "lib": ["ESNext", "DOM"],
         "strict": true,
         "rootDir": "src",
         "outDir": "dist"
@@ -13,6 +12,8 @@
         "node_modules",
         "**/node_modules/*",
         "testing.ts",
-        "BDFD Ext Test"
+        "BDFD Ext Test/",
+        "src/syncFeature/workspace/",
+        "src/types/"
     ]
 }
