@@ -5,25 +5,27 @@ import type {
     CommandListQuickPick,
     VariableListQuickPick
 } from "../types/syncFeature/index";
+import type {
+    BotsResponse,
+    BaseData,
+    CommandData,
+    CommandsResponse,
+    CreateCommand,
+    CreateVariable,
+    DeleteCommand,
+    DeleteVariable,
+    GetCommand,
+    GetVariable,
+    RequestError,
+    UpdateCommand,
+    UpdateVariable,
+    VariableData,
+    VariablesResponse
+} from "@nightnutsky/bdfd-external";
 import {
-    type BaseData,
     Bot,
-    type BotsResponse,
     Command,
-    type CommandData,
-    type CommandsResponse,
-    type CreateCommand,
-    type CreateVariable,
-    type DeleteCommand,
-    type DeleteVariable,
-    type GetCommand,
-    type GetVariable,
-    type RequestError,
-    type UpdateCommand,
-    type UpdateVariable,
-    Variable,
-    type VariableData,
-    type VariablesResponse
+    Variable
 } from "@nightnutsky/bdfd-external";
 import {
     HOSTING

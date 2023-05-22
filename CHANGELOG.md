@@ -2,8 +2,12 @@
 
 ## Release Stage
 
+### 2.0.1
+- Removed unused types from the source code.
+- Now you can sponsor the author through DonationAlerts.
+
 ### 2.0.0
-- The whole extension's code was refactored
+- The whole extension's code was refactored.
 - Now the extension utilizes `bdfd-external` and `bpapi` packages.
   > BDFD Sync is powered by `bdfd-external` package.
   > Retrieving the data from BDFD Public API is powered by `bpapi` package.

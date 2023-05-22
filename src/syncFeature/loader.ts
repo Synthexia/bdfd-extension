@@ -14,9 +14,15 @@ import {
 } from "./consts";
 import l from "../locale";
 import Sync from ".";
-import type { CommandResponse, RequestError } from "@nightnutsky/bdfd-external";
+import type {
+    CommandResponse,
+    RequestError
+} from "@nightnutsky/bdfd-external";
 import { LocalData } from "./localDataManager";
-import type { CommandData, LanguageData } from "../types/syncFeature/localDataManager";
+import type {
+    CommandData,
+    LanguageData
+} from "../types/syncFeature/localDataManager";
 import {
     LANG,
     EMPTY,

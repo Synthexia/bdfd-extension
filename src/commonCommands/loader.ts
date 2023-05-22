@@ -27,7 +27,6 @@ import type {
     UpdateType
 } from "../types/commonCommands/loader";
 import l from "../locale";
-import { StatusItems } from "../statusItems";
 import { statusItems } from "../extension";
 
 const
@@ -46,7 +45,6 @@ export default function loadCommonCommands() {
 }
 
 function functionList() {
-    
     functionTagList().then(items => {
         quickPick(
             items,
