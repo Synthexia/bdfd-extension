@@ -522,8 +522,7 @@
 	},
 	"devDependencies": {
 		"@types/hidefile": "3.0.0",
-		"@types/node": "18.11.18",
-		"@types/vscode": "^1.74.0"
+		"@types/vscode": "^1.79.0"
 	},
 	"dependencies": {
 		"@nightnutsky/bdfd-external": "^1.0.0",
