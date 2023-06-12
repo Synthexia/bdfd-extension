@@ -9,10 +9,7 @@
         "outDir": "dist"
     },
     "exclude": [
-        "node_modules",
-        "**/node_modules/*",
-        "testing.ts",
-        "BDFD Ext Test/",
+        "node_modules/",
         "src/syncFeature/workspace/"
     ]
 }

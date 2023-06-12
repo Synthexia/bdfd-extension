@@ -21,8 +21,3 @@ export const COMMAND = Object.freeze({
     TOKEN_CUSTOMIZATION: 'bdfd.tokenCustomization',
     RESET_TOKEN_CUSTOMIZATION: 'bdfd.resetTokenCustomization'
 });
-
-export const UPDATE_TYPE = Object.freeze({
-    FOREGROUND: 'foreground',
-    STYLE: 'style'
-});

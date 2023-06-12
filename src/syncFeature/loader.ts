@@ -8,26 +8,22 @@ import {
 import {
     AUTH_TOKEN_SESSION_PART,
     COMMAND,
-    ENTRY,
     LANGUAGES,
     NEW_EMPTY_COMMAND
 } from "./consts";
 import l from "../locale";
-import Sync from ".";
+import SyncFeature from ".";
 import type {
     CommandResponse,
     RequestError
 } from "@nightnutsky/bdfd-external";
 import { LocalData } from "./localDataManager";
-import type {
-    CommandData,
-    LanguageData
-} from "../types/syncFeature/localDataManager";
 import {
     LANG,
     EMPTY,
     SEMI_EMPTY
 } from "../generalConsts";
+import { Language, Sync } from "../types";
 
 const
     info = window.showInformationMessage,
@@ -42,9 +38,9 @@ const
 const local = new LocalData();
 
 
-const sync = async () => new Sync({
-    authToken: <string> await local.getUserData(ENTRY.USER.AUTH_TOKEN),
-    botID: <string> await local.getSyncData(ENTRY.SYNC.BOT)
+const sync = async () => new SyncFeature({
+    authToken: <string> await local.getUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN),
+    botID: <string> await local.getSyncData(Sync.LocalDataManager.Entries.Sync.BOT)
 });
 
 function handleAuthToken(authToken: string) {
@@ -96,7 +92,7 @@ function greetingNotification() {
                 if (input) {
                     const authToken = handleAuthToken(input);
 
-                    local.writeUserData(ENTRY.USER.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
+                    local.writeUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
                         if (item == l.sync.configure.afterChange.action) {
                             openBotList();
                         }
@@ -140,7 +136,7 @@ function configure() {
                         if (input) {
                             const authToken = handleAuthToken(input);
 
-                            local.writeUserData(ENTRY.USER.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
+                            local.writeUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
                                 if (item == l.sync.configure.afterChange.action) {
                                     openBotList();
                                 }
@@ -182,7 +178,7 @@ function openBotList() {
                             variables = item._variables
                         ;
         
-                        local.writeSyncData(ENTRY.SYNC.BOT, <string> botID).then(() => info(l.sync.botList.afterSync(botName, commands, variables)));
+                        local.writeSyncData(Sync.LocalDataManager.Entries.Sync.BOT, <string> botID).then(() => info(l.sync.botList.afterSync(botName, commands, variables)));
                         openCommandList();
                     }
                 } else {
@@ -218,7 +214,7 @@ function openCommandList() {
                             commandCode
                         } = <CommandResponse>get;
     
-                        local.writeSyncData(ENTRY.SYNC.COMMAND_DATA, <CommandData> {
+                        local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                             commandID: item._id,
                             commandName: commandName,
                             commandTrigger: commandTrigger,
@@ -265,7 +261,7 @@ function modifyCommand() {
                         }
                     ).then(async (input) => {
                         if (input) {
-                            local.writeSyncData(ENTRY.SYNC.COMMAND_DATA, <CommandData> {
+                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandName: input
                             }).then(() => info(l.sync.modifyCommand.afterChange.name(input)));
                         } else {
@@ -281,7 +277,7 @@ function modifyCommand() {
                         }
                     ).then(async (input) => {
                         if (input) {
-                            local.writeSyncData(ENTRY.SYNC.COMMAND_DATA, <CommandData> {
+                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandTrigger: input
                             }).then(() => info(l.sync.modifyCommand.afterChange.trigger(input)));
                         } else {
@@ -298,36 +294,36 @@ function modifyCommand() {
                         }
                     ).then(async (item) => {
                         if (item) {
-                            let languageData!: LanguageData;
+                            let languageData!: Sync.LocalDataManager.Command.LanguageData;
 
                             switch (item) {
-                                case LANGUAGES.NAME[0]:
+                                case Language.Name.BDS:
                                     languageData = {
-                                        name: LANGUAGES.NAME[0],
-                                        id: LANGUAGES.ID[0]
+                                        name: Language.Name.BDS,
+                                        id: Language.Id.BDS
                                     };
                                     break;
-                                case LANGUAGES.NAME[1]:
+                                case Language.Name.BDS2:
                                     languageData = {
-                                        name: LANGUAGES.NAME[1],
-                                        id: LANGUAGES.ID[1]
+                                        name: Language.Name.BDS2,
+                                        id: Language.Id.BDS2
                                     };
                                     break;
-                                case LANGUAGES.NAME[2]:
+                                case Language.Name.BDSU:
                                     languageData = {
-                                        name: LANGUAGES.NAME[2],
-                                        id: LANGUAGES.ID[2]
+                                        name: Language.Name.BDSU,
+                                        id: Language.Id.BDSU
                                     };
                                     break;
-                                case LANGUAGES.NAME[3]:
+                                case Language.Name.JS:
                                     languageData = {
-                                        name: LANGUAGES.NAME[3],
-                                        id: LANGUAGES.ID[3]
+                                        name: Language.Name.JS,
+                                        id: Language.Id.JS
                                     };
                                     break;
                             }
 
-                            local.writeSyncData(ENTRY.SYNC.COMMAND_DATA, <CommandData> {
+                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandLanguage: languageData
                             }).then(() => info(l.sync.modifyCommand.afterChange.language(item)));
                         } else {
@@ -343,9 +339,9 @@ function modifyCommand() {
 }
 
 function pushCommand() {
-    local.getSyncData(ENTRY.SYNC.COMMAND_DATA).then(async (get) => {
+    local.getSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA).then(async (get) => {
         const
-            commandData = <CommandData> get,
+            commandData = <Sync.LocalDataManager.Command.Data> get,
             commandCode = window.activeTextEditor!.document.getText()
         ;
 

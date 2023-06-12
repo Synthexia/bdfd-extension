@@ -1,10 +1,10 @@
 import { StatusItems } from ".";
 
-export default function loadStatusItems() {
-    return [
-        StatusItems.initFunctionListItem(),
-        StatusItems.initExtensionVersionItem(),
-        StatusItems.initCustomizeTokensItem(),
-        StatusItems.initSyncFeatureItem()
-    ];
-}
+const loadStatusItems = () => [
+    StatusItems.initFunctionListItem(),
+    StatusItems.initCustomizeTokensItem(),
+    StatusItems.initSyncFeatureItem(),
+    StatusItems.initExtensionVersionItem()
+];
+
+export default loadStatusItems;

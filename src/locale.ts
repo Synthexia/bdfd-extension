@@ -1,5 +1,7 @@
 import { l10n } from 'vscode';
 
+// we all know that this file is awkward, someday I'll refactor it
+
 const t = l10n.t;
 
 const locale = {
@@ -68,9 +70,6 @@ const locale = {
     },
     sync: {
         general: {
-            // ! Delete
-            tokenError: t('Invalid Or Expired Auth Token Was Provided!'),
-            // ! ^
             error: {
                 selectToCopy: t('Select to copy this error message'),
                 selectToCopyAction: t('Copy Error'),

@@ -1,11 +1,4 @@
 import type {
-    BLQuickPick,
-    BotListQuickPick,
-    CVLQuickPick,
-    CommandListQuickPick,
-    VariableListQuickPick
-} from "../types/syncFeature/index";
-import type {
     BotsResponse,
     BaseData,
     CommandData,
@@ -31,29 +24,30 @@ import {
     HOSTING
 } from "./consts";
 import l from "../locale";
+import { Sync } from "../types";
 
-export default class Sync {
+export default class SyncFeature {
     private baseData: BaseData;
 
     constructor(baseData: BaseData) {
         this.baseData = baseData;
     }
 
-    public async botListQuickPick(): BotListQuickPick {
+    public async botListQuickPick(): Sync.Function.BotList {
         const get = await Bot.list(this.baseData);
 
         const { status, message } = <RequestError> get;
         const list = <BotsResponse[]> get;
 
         if (status) {
-            return [ <BLQuickPick> {
+            return [ <Sync.QuickPick.BotList> {
                 label: l.sync.general.error.openBotList,
                 detail: `${message} - ${l.sync.general.error.selectToCopy}`,
                 _error: message
             }];
         }
 
-        return list.map(bot => <BLQuickPick> {
+        return list.map(bot => <Sync.QuickPick.BotList> {
             label: bot.botName,
             detail: bot.hostingTime == HOSTING.ENDED ? bot.hostingTime : `${HOSTING.ENDS} ${new Date(bot.hostingTime).toLocaleString()}`,
             _commands: bot.commandCount,
@@ -62,42 +56,42 @@ export default class Sync {
         });
     }
 
-    public async commandListQuickPick(): CommandListQuickPick {
+    public async commandListQuickPick(): Sync.Function.CommandList {
         const get = await Command.list(this.baseData);
 
         const { status, message } = <RequestError> get;
         const list = <CommandsResponse[]> get;
         
         if (status) {
-            return [ <CVLQuickPick> {
+            return [ <Sync.QuickPick.CVL> {
                 label: l.sync.general.error.openCommandList,
                 detail:  `${message} - ${l.sync.general.error.selectToCopy}`,
                 _error: message
             }];
         }
 
-        return list.map(command => <CVLQuickPick> {
+        return list.map(command => <Sync.QuickPick.CVL> {
             label: command.commandName,
             detail: command.commandTrigger,
             _id: command.commandID
         });
     }
 
-    public async variableListQuickPick(): VariableListQuickPick {
+    public async variableListQuickPick(): Sync.Function.VariableList {
         const get = await Variable.list(this.baseData);
 
         const { status, message } = <RequestError> get;
         const list = <VariablesResponse[]> get;
         
         if (status) {
-            return [ <CVLQuickPick> {
+            return [ <Sync.QuickPick.CVL> {
                 label: l.sync.general.error.openVariableList,
                 detail: `${message} - ${l.sync.general.error.selectToCopy}`,
                 _error: message
             }];
         }
 
-        return list.map(variable => <CVLQuickPick> {
+        return list.map(variable => <Sync.QuickPick.CVL> {
             label: variable.variableName,
             detail: variable.variableValue,
             _id: variable.variableID

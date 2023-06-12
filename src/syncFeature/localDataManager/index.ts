@@ -4,29 +4,12 @@ import {
     readFile,
     writeFile
 } from "fs/promises";
-import type {
-    BotList,
-    CommandData,
-    GetSyncData,
-    GetUserData,
-    SyncData,
-    SyncDataObject,
-    SyncEntry,
-    UserData,
-    UserDataObject,
-    UserEntry,
-    WorkspaceList,
-    WriteSyncData,
-    WriteUserData
-} from "../../types/syncFeature/localDataManager";
-import {
-    ENTRY,
-    LOCAL_DATA
-} from "../consts";
 import {
     EMPTY,
     EMPTY_ARRAY
 } from "../../generalConsts";
+import { LOCAL_DATA } from "../consts";
+import { Sync } from "../../types";
 
 export class LocalData {
     private initUserData = JSON.stringify({
@@ -62,53 +45,53 @@ export class LocalData {
     }
 
 
-    public async writeUserData(entry: UserEntry, data: UserData): WriteUserData {
-        const userDataObject = <UserDataObject> await this.getUserData();
+    public async writeUserData(entry: Sync.LocalDataManager.Entries.User, data: Sync.LocalDataManager.Data.User.User): Sync.LocalDataManager.Function.Write.User {
+        const userDataObject = <Sync.LocalDataManager.Data.User.Object> await this.getUserData();
 
         switch (entry) {
-            case ENTRY.USER.AUTH_TOKEN:
+            case Sync.LocalDataManager.Entries.User.AUTH_TOKEN:
                 userDataObject.authToken = <string> data;
                 break;
-            case ENTRY.USER.BOT_LIST:
-                userDataObject.botList = <BotList[]> data;
+            case Sync.LocalDataManager.Entries.User.BOT_LIST:
+                userDataObject.botList = <Sync.LocalDataManager.BotList[]> data;
                 break;
-            case ENTRY.USER.WORKSPACE_LIST:
-                userDataObject.workspaceList = <WorkspaceList[]> data;
+            case Sync.LocalDataManager.Entries.User.WORKSPACE_LIST:
+                userDataObject.workspaceList = <Sync.LocalDataManager.WorkspaceList[]> data;
                 break;
         }
 
         await writeFile(LOCAL_DATA.DATA.USER, JSON.stringify(userDataObject));
     }
 
-    public async getUserData(entry?: UserEntry): GetUserData {
+    public async getUserData(entry?: Sync.LocalDataManager.Entries.User): Sync.LocalDataManager.Function.Get.User {
         const
             buffer = await readFile(LOCAL_DATA.DATA.USER),
-            userDataObject: UserDataObject = JSON.parse(buffer.toString())
+            userDataObject: Sync.LocalDataManager.Data.User.Object = JSON.parse(buffer.toString())
         ;
 
         if (!entry) return userDataObject;
 
         switch (entry) {
-            case ENTRY.USER.AUTH_TOKEN:
+            case Sync.LocalDataManager.Entries.User.AUTH_TOKEN:
                 return userDataObject.authToken;
-            case ENTRY.USER.BOT_LIST:
+            case Sync.LocalDataManager.Entries.User.BOT_LIST:
                 return userDataObject.botList;
-            case ENTRY.USER.WORKSPACE_LIST:
+            case Sync.LocalDataManager.Entries.User.WORKSPACE_LIST:
                 return userDataObject.workspaceList;
         }
     }
 
-    public async writeSyncData(entry: SyncEntry, data: SyncData): WriteSyncData {
-        const syncDataObject = <SyncDataObject> await this.getSyncData();
+    public async writeSyncData(entry: Sync.LocalDataManager.Entries.Sync, data: Sync.LocalDataManager.Data.Sync.Sync): Sync.LocalDataManager.Function.Write.Sync {
+        const syncDataObject = <Sync.LocalDataManager.Data.Sync.Object> await this.getSyncData();
 
         switch (entry) {
-            case ENTRY.SYNC.BOT:
+            case Sync.LocalDataManager.Entries.Sync.BOT:
                 syncDataObject.botID = <string> data;
                 break;
-            case ENTRY.SYNC.COMMAND_DATA:
+            case Sync.LocalDataManager.Entries.Sync.COMMAND_DATA:
                 syncDataObject.commandData = {
                     ...syncDataObject.commandData,
-                    ... <CommandData> data
+                    ... <Sync.LocalDataManager.Command.Data> data
                 };
                 break;
         }
@@ -116,18 +99,18 @@ export class LocalData {
         await writeFile(LOCAL_DATA.DATA.SYNC, JSON.stringify(syncDataObject));
     }
 
-    public async getSyncData(entry?: SyncEntry): GetSyncData {
+    public async getSyncData(entry?: Sync.LocalDataManager.Entries.Sync): Sync.LocalDataManager.Function.Get.Sync {
         const
             buffer = await readFile(LOCAL_DATA.DATA.SYNC),
-            syncDataObject: SyncDataObject = JSON.parse(buffer.toString())
+            syncDataObject: Sync.LocalDataManager.Data.Sync.Object = JSON.parse(buffer.toString())
         ;
 
         if (!entry) return syncDataObject;
 
         switch (entry) {
-            case ENTRY.SYNC.BOT:
+            case Sync.LocalDataManager.Entries.Sync.BOT:
                 return syncDataObject.botID;
-            case ENTRY.SYNC.COMMAND_DATA:
+            case Sync.LocalDataManager.Entries.Sync.COMMAND_DATA:
                 return syncDataObject.commandData;
         }
     }

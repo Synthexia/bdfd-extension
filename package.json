@@ -5,7 +5,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -52,7 +52,7 @@
 		"url": "https://www.donationalerts.com/r/nightnutsky"
 	},
 	"engines": {
-		"vscode": "^1.74.0"
+		"vscode": "^1.79.0"
 	},
 	"categories": [
 		"Programming Languages",

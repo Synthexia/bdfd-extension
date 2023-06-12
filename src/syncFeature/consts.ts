@@ -1,5 +1,3 @@
-import type { Entry } from "../types/consts";
-
 export const AUTH_TOKEN_SESSION_PART = 'default-sessionStore';
 
 export const NEW_EMPTY_COMMAND = '$c[Created using BDFD Extension]';
@@ -31,18 +29,6 @@ export const LOCAL_DATA = Object.freeze({
     },
     PRE_PATH: 'C:/BDFD Extension',
     PATH: 'C:/BDFD Extension/data'
-});
-
-export const ENTRY = Object.freeze( <Entry> {
-    USER: {
-        AUTH_TOKEN: 'authToken',
-        BOT_LIST: 'botList',
-        WORKSPACE_LIST: "workspaceList"
-    },
-    SYNC: {
-        BOT: 'bot',
-        COMMAND_DATA: "commandData"
-    }
 });
 
 export const COMMAND = Object.freeze({

@@ -13,16 +13,15 @@ import {
 } from "../generalConsts";
 
 const statusItem = languages.createLanguageStatusItem;
+const selector: DocumentSelector = {
+    language: LANG
+};
 
 export class StatusItems {
-    private static selector: DocumentSelector = {
-        language: LANG
-    };
-
     public static initExtensionVersionItem() {
         const extensionVersion = extensions.getExtension(EXTENSION_ID)!.packageJSON.version;
 
-        const item = statusItem(ITEM.EXTENSION_VERSION.ID, this.selector);
+        const item = statusItem(ITEM.EXTENSION_VERSION.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = extensionVersion;
@@ -32,7 +31,7 @@ export class StatusItems {
     }
 
     public static initCustomizeTokensItem() {
-        const item = statusItem(ITEM.CUSTOMIZE_TOKENS.ID, this.selector);
+        const item = statusItem(ITEM.CUSTOMIZE_TOKENS.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = l.bars.customize.text;
@@ -45,7 +44,7 @@ export class StatusItems {
     }
 
     public static initSyncFeatureItem() {
-        const item = statusItem(ITEM.SYNC_FEATURE.ID, this.selector);
+        const item = statusItem(ITEM.SYNC_FEATURE.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = ITEM.SYNC_FEATURE.TEXT;
@@ -58,7 +57,7 @@ export class StatusItems {
     }
 
     public static initFunctionListItem() {
-        const item = statusItem(ITEM.FUNCTION_LIST.ID, this.selector);
+        const item = statusItem(ITEM.FUNCTION_LIST.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = l.bars.funcList.text;

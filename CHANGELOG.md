@@ -2,6 +2,9 @@
 
 ## Release Stage
 
+### 2.0.2
+- Better types in the source code + enums
+
 ### 2.0.1
 - Removed unused types from the source code.
 - Now you can sponsor the author through DonationAlerts.
