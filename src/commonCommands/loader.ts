@@ -1,13 +1,15 @@
 import {
-    functionInfo,
-    functionTagList
-} from "@nightnutsky/bpapi";
-import {
     commands,
     extensions,
     window,
     workspace
 } from "vscode";
+
+import {
+    functionInfo,
+    functionTagList
+} from "@nightnutsky/bpapi";
+
 import {
     COLOR_EXAMPLE,
     COMMAND,
@@ -17,11 +19,15 @@ import {
     NO_COLOR,
     NO_STYLE,
     OPTION_KEY,
-    STYLE_EXAMPLE
+    STYLE_EXAMPLE,
+    TEXT_MATE_UPDATE_TYPE
 } from "./consts";
-import l from "../locale";
+
+import { STATUS_ITEM } from "../statusItems/enums";
+import type { CommonCommands } from "../types";
+
 import { statusItems } from "../extension";
-import { CommonCommands, StatusItem } from "../types";
+import l from "../locale";
 
 const
     info = window.showInformationMessage,
@@ -48,14 +54,14 @@ function functionList() {
             }
         ).then(item => {
             if (item) {
-                statusItems[StatusItem.FUNCTION_LIST].busy = true;
+                statusItems[STATUS_ITEM.FUNCTION_LIST].busy = true;
                 functionInfo(item).then(functionInfo => {
                     const message = `${functionInfo!.tag} > ${functionInfo!.description} | ${l.functionList.quickPick.intents}: ${functionInfo!.intents}, ${l.functionList.quickPick.premium.text}: ${functionInfo!.premium ? l.functionList.quickPick.premium.true : l.functionList.quickPick.premium.false}`;
                     
                     info(message);
                     // TODO ^^^ New Open wiki action
 
-                    statusItems[StatusItem.FUNCTION_LIST].busy = false;
+                    statusItems[STATUS_ITEM.FUNCTION_LIST].busy = false;
                 });
             } else {
                 warn(l.general.actionCancelled);
@@ -65,14 +71,14 @@ function functionList() {
 }
 
 function tokenCustomization() {
-    function updateCustomization(customizedTokens: CommonCommands.TextMate.Rules[], options: CommonCommands.TextMate.Options, input: string, type: CommonCommands.TextMate.UpdateType) {
+    function updateCustomization(customizedTokens: CommonCommands.TextMate.Rules[], options: CommonCommands.TextMate.Options, input: string, type: TEXT_MATE_UPDATE_TYPE) {
         customizedTokens.forEach(textMateRule => {
             if (textMateRule.scope == options.scope) {
                 switch (type) {
-                    case CommonCommands.TextMate.UpdateType.FOREGROUND:
+                    case TEXT_MATE_UPDATE_TYPE.FOREGROUND:
                         textMateRule.settings.foreground = input;
                         break;
-                    case CommonCommands.TextMate.UpdateType.STYLE:
+                    case TEXT_MATE_UPDATE_TYPE.STYLE:
                         textMateRule.settings.fontStyle = input;
                         break;
                 }
@@ -145,7 +151,7 @@ function tokenCustomization() {
                             return;
                         }
 
-                        updateCustomization(customizedTokens, options, input, CommonCommands.TextMate.UpdateType.FOREGROUND);
+                        updateCustomization(customizedTokens, options, input, TEXT_MATE_UPDATE_TYPE.FOREGROUND);
                     });
                     break;
                 case l.customize.quickPick.font.font:
@@ -161,7 +167,7 @@ function tokenCustomization() {
                             return;
                         }
 
-                        updateCustomization(customizedTokens, options, input, CommonCommands.TextMate.UpdateType.STYLE);
+                        updateCustomization(customizedTokens, options, input, TEXT_MATE_UPDATE_TYPE.STYLE);
                     });
                     break;
             }

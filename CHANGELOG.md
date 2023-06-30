@@ -2,8 +2,14 @@
 
 ## Release Stage
 
+### 2.1.0
+- Now the Sync feature shows a welcome message with your username.
+- Now the Sync feature is compatible with MacOS.
+- Now Bundled.
+- Source code refactoring.
+
 ### 2.0.2
-- Better types in the source code + enums
+- Better types in the source code + enums.
 
 ### 2.0.1
 - Removed unused types from the source code.

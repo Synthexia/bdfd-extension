@@ -5,42 +5,43 @@ import {
     window,
     workspace
 } from "vscode";
+
+import {
+    LANG,
+    SEMI_EMPTY
+} from "../generalConsts";
 import {
     AUTH_TOKEN_SESSION_PART,
     COMMAND,
     LANGUAGES,
     NEW_EMPTY_COMMAND
 } from "./consts";
-import l from "../locale";
-import SyncFeature from ".";
-import type {
-    CommandResponse,
-    RequestError
-} from "@nightnutsky/bdfd-external";
-import { LocalData } from "./localDataManager";
-import {
-    LANG,
-    EMPTY,
-    SEMI_EMPTY
-} from "../generalConsts";
-import { Language, Sync } from "../types";
 
-const
-    info = window.showInformationMessage,
-    error = window.showErrorMessage,
-    warn = window.showWarningMessage
-;
-const
-    inputBox = window.showInputBox,
-    quickPick = window.showQuickPick
-;
+import {
+    USER_ENTRIES,
+    SYNC_ENTRIES,
+    LANGUAGE_NAME,
+    LANGUAGE_ID
+} from "./localDataManager/enums";
+import type { Sync } from "../types";
+
+import l from "../locale"; // deprecated
+import SyncFeature from ".";
+import LocalData from "./localDataManager";
+import localization from "../localization";
+
+const info = window.showInformationMessage;
+const error = window.showErrorMessage;
+const warn = window.showWarningMessage;
+
+const inputBox = window.showInputBox;
+const quickPick = window.showQuickPick;
 
 const local = new LocalData();
 
-
 const sync = async () => new SyncFeature({
-    authToken: <string> await local.getUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN),
-    botID: <string> await local.getSyncData(Sync.LocalDataManager.Entries.Sync.BOT)
+    authToken: <string> await local.getUserData(USER_ENTRIES.AUTH_TOKEN),
+    botID: <string> await local.getSyncData(SYNC_ENTRIES.BOT)
 });
 
 function handleAuthToken(authToken: string) {
@@ -80,28 +81,33 @@ function registerCommands() {
 }
 
 function greetingNotification() {
-    info(l.sync.configure.greeting.message, l.sync.configure.greeting.action).then(item => {
-        if (item == l.sync.configure.greeting.action) {
-            inputBox(
-                {
-                    title: l.sync.configure.titles.title,
-                    placeHolder: l.sync.configure.placeholders.token,
-                    password: true
-                }
-            ).then(input => {
-                if (input) {
-                    const authToken = handleAuthToken(input);
-
-                    local.writeUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
-                        if (item == l.sync.configure.afterChange.action) {
-                            openBotList();
+    sync().then((feature) => {
+        feature.user()
+        .then((username) => {
+            info(localization.syncFeature.greeting.featureAuthorized(username));
+        })
+        .catch(() => {
+            info(localization.syncFeature.greeting.featureUnauthorized, localization.syncFeature.greeting.authorizeAction).then((item) => {
+                if (item == localization.syncFeature.greeting.authorizeAction) {
+                    inputBox({
+                        title: localization.syncFeature.command.configureSyncFeature.titles.title,
+                        placeHolder: localization.syncFeature.command.configureSyncFeature.placeholders.token,
+                        password: true
+                    }).then((input) => {
+                        if (!input) {
+                            warn(localization.general.actionCancelled);
+                            return;
                         }
-                    }));
-                } else {
-                    warn(l.general.actionCancelled);
+
+                        const authToken = handleAuthToken(input);
+
+                        local.writeUserData(USER_ENTRIES.AUTH_TOKEN, authToken).then(() => {
+                            greetingNotification();
+                        });
+                    });
                 }
             });
-        }
+        });
     });
 }
 
@@ -136,7 +142,7 @@ function configure() {
                         if (input) {
                             const authToken = handleAuthToken(input);
 
-                            local.writeUserData(Sync.LocalDataManager.Entries.User.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
+                            local.writeUserData(USER_ENTRIES.AUTH_TOKEN, <string> authToken).then(() => info(l.sync.configure.afterChange.message, l.sync.configure.afterChange.action).then(item => {
                                 if (item == l.sync.configure.afterChange.action) {
                                     openBotList();
                                 }
@@ -157,83 +163,85 @@ function configure() {
 }
 
 function openBotList() {
-    sync().then(sync => {
-        sync.botListQuickPick().then(list => {
-            quickPick(
-                list,
-                {
-                    title: l.sync.botList.titles.title,
-                    placeHolder: l.sync.botList.placeholders.placeholder,
-                    matchOnDetail: true
-                }
-            ).then(async (item) => {
-                if (item) {
-                    if (item._error) {
-                        info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(item._error));
-                    } else {
-                        const
-                            botID = item._id,
-                            botName = item.label,
-                            commands = item._commands,
-                            variables = item._variables
-                        ;
-        
-                        local.writeSyncData(Sync.LocalDataManager.Entries.Sync.BOT, <string> botID).then(() => info(l.sync.botList.afterSync(botName, commands, variables)));
-                        openCommandList();
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
+    sync().then(async (feature) => {
+        const list = await feature.botListQuickPick().catch((errorQuickPick) => <Sync.QuickPick.BotList[]> errorQuickPick);
+
+        quickPick(list, {
+            title: l.sync.botList.titles.title,
+            placeHolder: l.sync.botList.placeholders.placeholder,
+            matchOnDetail: true
+        }).then((item) => {
+            if (!item) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            if (item._error) {
+                info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(item._error));
+                return;
+            }
+
+            const botID = item._id;
+            const botName = item.label;
+            const commands = item._commands;
+            const variables = item._variables;
+
+            local.writeSyncData(SYNC_ENTRIES.BOT, botID).then(() => {
+                info(l.sync.botList.afterSync(botName, commands, variables));
+                openCommandList();
             });
         });
     });
 }
 
 function openCommandList() {
-    sync().then(sync => {
-        sync.commandListQuickPick().then(list => {
-            quickPick(
-                list,
-                {
-                    title: l.sync.commandList.titles.title,
-                    placeHolder: l.sync.commandList.placeholders.select,
-                    matchOnDetail: true
-                }
-            ).then(async (item) => {
-                if (item) {
-                    if (item._error) {
-                        info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(item._error));
-                    } else {
-                        const get = await sync.getCommand(item._id);
-    
-                        const {
-                            commandName,
-                            commandTrigger,
-                            commandLanguage,
-                            commandLanguageID,
-                            commandCode
-                        } = <CommandResponse>get;
-    
-                        local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
-                            commandID: item._id,
-                            commandName: commandName,
-                            commandTrigger: commandTrigger,
-                            commandLanguage: {
-                                name: commandLanguage,
-                                id: commandLanguageID
-                            }
-                        }).then(() => info(l.sync.commandList.afterSync.message, l.sync.commandList.afterSync.action).then(item => {
-                            if (item == l.sync.commandList.afterSync.action) {
-                                workspace.openTextDocument({
-                                    language: LANG,
-                                    content: commandCode == EMPTY ? SEMI_EMPTY : commandCode
-                                });
-                            }
-                        }));
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
+    sync().then(async (feature) => {
+        const list = await feature.commandListQuickPick().catch((errorQuickPick) => <Sync.QuickPick.CVL[]> errorQuickPick);
+
+        quickPick(list, {
+            title: l.sync.commandList.titles.title,
+            placeHolder: l.sync.commandList.placeholders.select,
+            matchOnDetail: true
+        }).then(async (item) => {
+            if (!item) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            if (item._error) {
+                info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(item._error));
+                return;
+            }
+
+            feature.getCommand(item._id)
+            .then((command) => {
+                const {
+                    commandName,
+                    commandTrigger,
+                    commandLanguage,
+                    commandCode
+                } = command;
+
+                local.writeSyncData(SYNC_ENTRIES.COMMAND_DATA, {
+                    commandID: item._id,
+                    commandName,
+                    commandTrigger,
+                    // @ts-ignore
+                    commandLanguage
+                }).then(() => {
+                    info(l.sync.commandList.afterSync.message, l.sync.commandList.afterSync.action).then((item) => {
+                        if (item == l.sync.commandList.afterSync.action) {
+                            workspace.openTextDocument({
+                                language: LANG,
+                                content: commandCode || SEMI_EMPTY
+                            });
+                        }
+                    });
+                });
+            })
+            .catch((e) => {
+                error('An error occured while getting command data.');
+                console.error('An error occured while getting command data:', e);
             });
         });
     });
@@ -250,7 +258,7 @@ function modifyCommand() {
             title: l.sync.modifyCommand.titles.title,
             placeHolder: l.sync.modifyCommand.placeholders.select.modify
         }
-    ).then(item => {
+    ).then((item) => {
         if (item) {
             switch (item) {
                 case l.sync.modifyCommand.labels.name:
@@ -261,7 +269,7 @@ function modifyCommand() {
                         }
                     ).then(async (input) => {
                         if (input) {
-                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
+                            local.writeSyncData(SYNC_ENTRIES.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandName: input
                             }).then(() => info(l.sync.modifyCommand.afterChange.name(input)));
                         } else {
@@ -277,7 +285,7 @@ function modifyCommand() {
                         }
                     ).then(async (input) => {
                         if (input) {
-                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
+                            local.writeSyncData(SYNC_ENTRIES.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandTrigger: input
                             }).then(() => info(l.sync.modifyCommand.afterChange.trigger(input)));
                         } else {
@@ -297,33 +305,33 @@ function modifyCommand() {
                             let languageData!: Sync.LocalDataManager.Command.LanguageData;
 
                             switch (item) {
-                                case Language.Name.BDS:
+                                case LANGUAGE_NAME.BDS:
                                     languageData = {
-                                        name: Language.Name.BDS,
-                                        id: Language.Id.BDS
+                                        name: LANGUAGE_NAME.BDS,
+                                        id: LANGUAGE_ID.BDS
                                     };
                                     break;
-                                case Language.Name.BDS2:
+                                case LANGUAGE_NAME.BDS2:
                                     languageData = {
-                                        name: Language.Name.BDS2,
-                                        id: Language.Id.BDS2
+                                        name: LANGUAGE_NAME.BDS2,
+                                        id: LANGUAGE_ID.BDS2
                                     };
                                     break;
-                                case Language.Name.BDSU:
+                                case LANGUAGE_NAME.BDSU:
                                     languageData = {
-                                        name: Language.Name.BDSU,
-                                        id: Language.Id.BDSU
+                                        name: LANGUAGE_NAME.BDSU,
+                                        id: LANGUAGE_ID.BDSU
                                     };
                                     break;
-                                case Language.Name.JS:
+                                case LANGUAGE_NAME.JS:
                                     languageData = {
-                                        name: Language.Name.JS,
-                                        id: Language.Id.JS
+                                        name: LANGUAGE_NAME.JS,
+                                        id: LANGUAGE_ID.JS
                                     };
                                     break;
                             }
 
-                            local.writeSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
+                            local.writeSyncData(SYNC_ENTRIES.COMMAND_DATA, <Sync.LocalDataManager.Command.Data> {
                                 commandLanguage: languageData
                             }).then(() => info(l.sync.modifyCommand.afterChange.language(item)));
                         } else {
@@ -339,223 +347,192 @@ function modifyCommand() {
 }
 
 function pushCommand() {
-    local.getSyncData(Sync.LocalDataManager.Entries.Sync.COMMAND_DATA).then(async (get) => {
-        const
-            commandData = <Sync.LocalDataManager.Command.Data> get,
-            commandCode = window.activeTextEditor!.document.getText()
-        ;
+    local.getSyncData(SYNC_ENTRIES.COMMAND_DATA).then(async (get) => {
+        const commandData = <Sync.LocalDataManager.Command.Data> <Sync.LocalDataManager.Data.Sync.Sync> get;
+        const commandCode = window.activeTextEditor!.document.getText();
 
-        const update = await sync().then(sync => sync.updateCommand({
-            ...commandData,
-            commandCode: commandCode
-        }))
+        const { commandID, commandName, commandTrigger, commandLanguage } = commandData;
 
-        const {
-            status,
-            message
-        } = <RequestError> update;
-        // TODO: add "Revert" action -> const previous = <CommandResponse> update;
-
-        if (status) {
-            showErrorMessage(l.sync.general.error.pushCommand(message), message);
-        } else {
-            info(l.sync.pushCommand.afterCreate.message);
-        }
-    })
+        sync().then((feature) => {
+            feature.updateCommand({ commandName, commandTrigger, commandLanguage, commandCode }, commandID)
+            .then(() => {
+                // TODO: add Revert action
+                info(l.sync.pushCommand.afterCreate.message);
+            })
+            .catch((e) => {
+                showErrorMessage(l.sync.general.error.pushCommand(e.message), e.message);
+            });
+        });
+    });
 }
 
 function createCommand() {
-    const inputBoxConstantOptions = <InputBoxOptions> {
+    const inputBoxOptions: InputBoxOptions = {
         title: l.sync.createCommand.titles.title,
         placeHolder: l.sync.createCommand.placeholders.placeholder
     };
 
-    inputBox(
-        {
-            ...inputBoxConstantOptions,
-            prompt: l.sync.createCommand.promts.name 
-        }
-    ).then(input => {
-        if (input) {
-            const commandName = input;
-
-            inputBox(
-                {
-                    ...inputBoxConstantOptions,
-                    prompt: l.sync.createCommand.promts.trigger
-                }
-            ).then(async (input) => {
-                if (input) {
-                    const commandTrigger = input;
-
-                    const create = await sync().then(sync => sync.createCommand({
-                        commandName: commandName,
-                        commandTrigger: commandTrigger,
-                        commandCode: NEW_EMPTY_COMMAND
-                    }));
-
-                    const { status, message } = <RequestError> create;
-
-                    if (status) {
-                        showErrorMessage(l.sync.general.error.createCommand(message), message);
-                    } else {
-                        info(l.sync.createCommand.afterCreate.message, l.sync.createCommand.afterCreate.action).then(item => {
-                            if (item == l.sync.createCommand.afterCreate.action) {
-                                openCommandList();
-                            }
-                        });
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
-            });
-        } else {
+    inputBox({
+        ...inputBoxOptions,
+        prompt: l.sync.createCommand.promts.name
+    }).then((commandName) => {
+        if (!commandName) {
             warn(l.general.actionCancelled);
+            return;
         }
+
+        inputBox({
+            ...inputBoxOptions,
+            prompt: l.sync.createCommand.promts.trigger
+        }).then((commandTrigger) => {
+            if (!commandTrigger) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            sync().then((feature) => {
+                feature.createCommand({
+                    commandName,
+                    commandTrigger,
+                    commandLanguage: {
+                        id: LANGUAGE_ID.BDS2
+                    },
+                    commandCode: NEW_EMPTY_COMMAND,
+                })
+                .then(() => {
+                    info(l.sync.createCommand.afterCreate.message, l.sync.createCommand.afterCreate.action).then((item) => {
+                        if (item == l.sync.createCommand.afterCreate.action) {
+                            openCommandList();
+                        }
+                    });
+                })
+                .catch((e) => {
+                    showErrorMessage(l.sync.general.error.createCommand(e.message), e.message);
+                });
+            });
+        });
     });
 }
 
 function createVariable() {
-    const inputBoxConstantOptions = <InputBoxOptions> {
+    const inputBoxOptions: InputBoxOptions = {
         title: l.sync.createVariable.titles.title,
         placeHolder: l.sync.createVariable.placeholders.placeholder
     };
 
-    inputBox(
-        {
-            ...inputBoxConstantOptions,
-            prompt: l.sync.createVariable.promts.name
-        }
-    ).then(input => {
-        if (input) {
-            const variableName = input;
-
-            inputBox(
-                {
-                    ...inputBoxConstantOptions,
-                    prompt: l.sync.createVariable.promts.value
-                }
-            ).then(async (input) => {
-                if (input) {
-                    const variableValue = input;
-
-                    const create = await sync().then(sync => sync.createVariable({
-                        variableName: variableName,
-                        variableValue: variableValue
-                    }));
-
-                    const { status, message } = <RequestError> create;
-
-                    if (status) {
-                        showErrorMessage(l.sync.general.error.createVariable(message), message);
-                    } else {
-                        info(l.sync.createVariable.afterCreate.message, l.sync.createVariable.afterCreate.action).then(item => {
-                            if (item == l.sync.createVariable.afterCreate.action) {
-                                // openVariableList();
-                            }
-                        });
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
-            })
-        } else {
+    inputBox({
+        ...inputBoxOptions,
+        prompt: l.sync.createVariable.promts.name
+    }).then((variableName) => {
+        if (!variableName) {
             warn(l.general.actionCancelled);
+            return;
         }
-    })
+
+        inputBox({
+            ...inputBoxOptions,
+            prompt: l.sync.createVariable.promts.value
+        }).then((variableValue) => {
+            if (!variableValue) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            sync().then((feature) => {
+                feature.createVariable({ variableName, variableValue })
+                .then(() => {
+                    info(l.sync.createVariable.afterCreate.message, l.sync.createVariable.afterCreate.action).then((item) => {
+                        if (item == l.sync.createVariable.afterCreate.action) {
+                            openVariableList();
+                        }
+                    });
+                })
+                .catch((e) => {
+                    showErrorMessage(l.sync.general.error.createVariable(e.message), e.message);
+                });
+            });
+        });
+    });
 }
 
 function openVariableList() {
-    sync().then(sync => {
-        sync.variableListQuickPick().then(list => {
-            quickPick(
-                list,
-                {
-                    title: l.sync.variableList.titles.title,
-                    placeHolder: l.sync.variableList.placeholders.placeholder,
-                    matchOnDetail: true
-                }
-            ).then(item => {
-                if (item) {
-                    if (item._error) {
-                        info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(item._error));
-                    } else {
-                        const selectedVariable = item;
-    
-                        quickPick(
-                            [
-                                l.sync.modifyVariable.labels.name,
-                                l.sync.modifyVariable.labels.value
-                            ],
-                            {
-                                title: l.sync.modifyVariable.titles.title,
-                                placeHolder: l.sync.modifyVariable.placeholders.placeholder
-                            }
-                        ).then(item => {
-                            if (item) {
-                                switch (item) {
-                                    case l.sync.modifyVariable.labels.name:
-                                        inputBox(
-                                            {
-                                                title: l.sync.modifyVariable.titles.name,
-                                                prompt: l.sync.modifyVariable.promts.name,
-                                                value: selectedVariable.label
-                                            }
-                                        ).then(async (input) => {
-                                            if (input) {
-                                                const update = await sync.updateVariable({
-                                                    variableID: selectedVariable._id,
-                                                    variableName: input
-                                                });
-        
-                                                const { status, message } = <RequestError> update;
-                                                // TODO Revert action as well
-        
-                                                if (status) {
-                                                    showErrorMessage(l.sync.general.error.updateVariable(message), message);
-                                                } else {
-                                                    info(l.sync.modifyVariable.afterChange.name(input));
-                                                }
-                                            } else {
-                                                warn(l.general.actionCancelled);
-                                            }
-                                        });
-                                        break;
-                                    case l.sync.modifyVariable.labels.value:
-                                        inputBox(
-                                            {
-                                                title: l.sync.modifyVariable.titles.value,
-                                                prompt: l.sync.modifyVariable.promts.value,
-                                                value: selectedVariable.detail
-                                            }
-                                        ).then(async (input) => {
-                                            if (input) {
-                                                const update = await sync.updateVariable({
-                                                    variableID: selectedVariable._id,
-                                                    variableValue: input
-                                                });
-        
-                                                const { status, message } = <RequestError> update;
-                                                // TODO Revert action as well
-        
-                                                if (status) {
-                                                    showErrorMessage(l.sync.general.error.updateVariable(message), message);
-                                                } else {
-                                                    info(l.sync.modifyVariable.afterChange.value(input));
-                                                }
-                                            } else {
-                                                warn(l.general.actionCancelled);
-                                            }
-                                        });
-                                        break;
-                                }
-                            } else {
-                                warn(l.general.actionCancelled);
-                            }
-                        });
-                    }
-                } else {
+    sync().then(async (feature) => {
+        const list = await feature.variableListQuickPick().catch((errorQuickPick) => <Sync.QuickPick.CVL[]> errorQuickPick);
+
+        quickPick(list, {
+            title: l.sync.variableList.titles.title,
+            placeHolder: l.sync.variableList.placeholders.placeholder,
+            matchOnDetail: true
+        }).then((selectedVariable) => {
+            if (!selectedVariable) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            if (selectedVariable._error) {
+                info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(selectedVariable._error));
+                return;
+            }
+
+            quickPick([
+                l.sync.modifyVariable.labels.name,
+                l.sync.modifyVariable.labels.value
+            ], {
+                title: l.sync.modifyVariable.titles.title,
+                placeHolder: l.sync.modifyVariable.placeholders.placeholder
+            }).then((prop) => {
+                if (!prop) {
                     warn(l.general.actionCancelled);
+                    return;
+                }
+
+                switch (prop) {
+                    case l.sync.modifyVariable.labels.name:
+                        inputBox({
+                            title: l.sync.modifyVariable.titles.name,
+                            prompt: l.sync.modifyVariable.promts.name,
+                            value: selectedVariable.label
+                        }).then((variableName) => {
+                            if (!variableName) {
+                                warn(l.general.actionCancelled);
+                                return;
+                            }
+
+                            sync().then((feature) => {
+                                feature.updateVariable({ variableName }, selectedVariable._id)
+                                .then(() => {
+                                    // TODO: add Revert action
+                                    info(l.sync.modifyVariable.afterChange.name(variableName));
+                                })
+                                .catch((e) => {
+                                    showErrorMessage(l.sync.general.error.updateVariable(e.message), e.message);
+                                });
+                            });
+                        });
+                        break;
+                    case l.sync.modifyVariable.labels.value:
+                        inputBox({
+                            title: l.sync.modifyVariable.titles.value,
+                            prompt: l.sync.modifyVariable.promts.value,
+                            value: selectedVariable.detail
+                        }).then((variableValue) => {
+                            if (!variableValue) {
+                                warn(l.general.actionCancelled);
+                                return;
+                            }
+
+                            sync().then((feature) => {
+                                feature.updateVariable({ variableValue }, selectedVariable._id)
+                                .then(() => {
+                                    // TODO: add Revert action
+                                    info(l.sync.modifyVariable.afterChange.value(variableValue));
+                                })
+                                .catch((e) => {
+                                    showErrorMessage(l.sync.general.error.updateVariable(e.message), e.message);
+                                });
+                            });
+                        });
+                        break;
                 }
             });
         });
@@ -563,76 +540,69 @@ function openVariableList() {
 }
 
 function deleteCommand() {
-    sync().then(sync => {
-        sync.commandListQuickPick().then(list => {
-            quickPick(
-                list,
-                {
-                    title: l.sync.deleteCommand.titles.title,
-                    placeHolder: l.sync.deleteCommand.placeholders.placeholder,
-                    matchOnDetail: true,
-                    canPickMany: true
-                }
-            ).then(async (items) => {
-                if (items) {
-                    if (items[0]._error) {
-                        info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(items[0]._error));
-                    } else {
-                        for (const item of items) {
-                            const deleteCommand = await sync.deleteCommand(item._id);
-    
-                            const { status, message } = <RequestError> deleteCommand;
-                            // TODO Revert action as well
-    
-                            if (status) {
-                                showErrorMessage(l.sync.general.error.deleteCommand(message), message);
-                                return;
-                            }
-                        }
-    
-                        info(l.sync.deleteCommand.afterDeletion.message);
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
-            });
+    sync().then(async (feature) => {
+        const list = await feature.commandListQuickPick().catch((errorQuickPick) => <Sync.QuickPick.CVL[]> errorQuickPick);
+
+        quickPick(list, {
+            title: l.sync.deleteCommand.titles.title,
+            placeHolder: l.sync.deleteCommand.placeholders.placeholder,
+            matchOnDetail: true,
+            canPickMany: true
+        }).then((commands) => {
+            if (!commands?.length) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            if (commands[0]._error) {
+                info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(commands[0]._error));
+                return;
+            }
+
+            for (const command of commands) {
+                feature.deleteCommand(command._id)
+                .then(() => {
+                    // TODO add Revert action
+                    info(l.sync.deleteCommand.afterDeletion.message);
+                })
+                .catch((e) => {
+                    showErrorMessage(l.sync.general.error.deleteCommand(e.message), e.message);
+                });
+            }
         });
     });
 }
 
 function deleteVariable() {
-    sync().then(sync => {
-        sync.variableListQuickPick().then(list => {
-            quickPick(
-                list,
-                {
-                    title: l.sync.deleteVariable.titles.title,
-                    placeHolder: l.sync.deleteVariable.placeholders.placeholder,
-                    matchOnDetail: true,
-                    canPickMany: true
-                }
-            ).then(async (items) => {
-                if (items) {
-                    if (items[0]._error) {
-                        info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(items[0]._error));
-                    } else {
-                        for (const item of items) {
-                            const deleteVariable = await sync.deleteVariable(item._id);
-    
-                            const { status, message } = <RequestError> deleteVariable;
-    
-                            if (status) {
-                                showErrorMessage(l.sync.general.error.deleteVariable(message), message);
-                                return;
-                            }
-                        }
-    
-                        info(l.sync.deleteVariable.afterDeletion.message);
-                    }
-                } else {
-                    warn(l.general.actionCancelled);
-                }
-            });
+    sync().then(async (feature) => {
+        const list = await feature.variableListQuickPick().catch((errorQuickPick) => <Sync.QuickPick.CVL[]> errorQuickPick);
+
+        quickPick(list, {
+            title: l.sync.deleteVariable.titles.title,
+            placeHolder: l.sync.deleteVariable.placeholders.placeholder,
+            matchOnDetail: true,
+            canPickMany: true
+        }).then((variables) => {
+            if (!variables?.length) {
+                warn(l.general.actionCancelled);
+                return;
+            }
+
+            if (variables[0]._error) {
+                info(l.sync.general.error.messageCopied).then(() => env.clipboard.writeText(variables[0]._error));
+                return;
+            }
+
+            for (const variable of variables) {
+                feature.deleteCommand(variable._id)
+                .then(() => {
+                    // TODO add Revert action
+                    info(l.sync.deleteVariable.afterDeletion.message);
+                })
+                .catch((e) => {
+                    showErrorMessage(l.sync.general.error.deleteVariable(e.message), e.message);
+                });
+            }
         });
     });
 }

@@ -21,3 +21,8 @@ export const COMMAND = Object.freeze({
     TOKEN_CUSTOMIZATION: 'bdfd.tokenCustomization',
     RESET_TOKEN_CUSTOMIZATION: 'bdfd.resetTokenCustomization'
 });
+
+export const enum TEXT_MATE_UPDATE_TYPE {
+    FOREGROUND = 'foreground',
+    STYLE = 'style'
+};

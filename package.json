@@ -1,11 +1,12 @@
 {
+	"private": true,
 	"name": "bdfd-bds",
 	"author": "NightNutSky",
 	"publisher": "NightNutSky",
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "2.0.2",
+	"version": "2.1.0",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -60,7 +61,9 @@
 	],
 	"main": "./dist/extension.js",
 	"scripts": {
-		"pack": "tsc -p . && vsce package"
+		"build": "esbuild src/extension.ts --bundle --platform=node --external:vscode --external:canvas --outdir=dist",
+		"prod": "npm run build -- --minify && vsce package",
+		"dev": "npm run build && vsce package"
 	},
 	"extensionKind": [
 		"ui"
@@ -521,12 +524,11 @@
 		}
 	},
 	"devDependencies": {
-		"@types/hidefile": "3.0.0",
+		"@types/node": "^20.3.2",
 		"@types/vscode": "^1.79.0"
 	},
 	"dependencies": {
-		"@nightnutsky/bdfd-external": "^1.0.0",
-		"@nightnutsky/bpapi": "^2.0.0",
-		"hidefile": "3.0.0"
+		"@nightnutsky/bdfd-external": "^1.2.0",
+		"@nightnutsky/bpapi": "^2.0.0"
 	}
 }

@@ -1,23 +1,26 @@
+import { platform } from "os";
 import {
     access,
     mkdir,
     readFile,
     writeFile
 } from "fs/promises";
+
 import {
-    EMPTY,
-    EMPTY_ARRAY
-} from "../../generalConsts";
+    USER_ENTRIES,
+    SYNC_ENTRIES
+} from "./enums";
+import type { Sync } from "../../types";
+
+import { EMPTY } from "../../generalConsts";
 import { LOCAL_DATA } from "../consts";
-import { Sync } from "../../types";
 
-export class LocalData {
+const isWindows = () => platform() === 'win32';
+
+export default class LocalData {
     private initUserData = JSON.stringify({
-        authToken: EMPTY,
-        botList: EMPTY_ARRAY,
-        workspaceList: EMPTY_ARRAY
+        authToken: EMPTY
     });
-
     private initSyncData = JSON.stringify({
         botID: EMPTY,
         commandData: {
@@ -30,13 +33,25 @@ export class LocalData {
             }
         }
     });
+
+    private userDataPath = '';
+    private syncDataPath = '';
     
     private async init() {
-        await access(LOCAL_DATA.PRE_PATH).catch(() => mkdir(LOCAL_DATA.PRE_PATH));
-        await access(LOCAL_DATA.PATH).catch(() => mkdir(LOCAL_DATA.PATH));
+        const path = process.env[isWindows() ? 'USERPROFILE' : 'HOME'] || process.cwd();
+        const dataDir = path + LOCAL_DATA.ROOT + LOCAL_DATA.DIR;
+
+        this.userDataPath = dataDir + LOCAL_DATA.FILE.USER;
+        this.syncDataPath = dataDir + LOCAL_DATA.FILE.SYNC;
+
+        await mkdir(dataDir, { recursive: true });
         await Promise.all([
-            access(LOCAL_DATA.DATA.USER).catch(() => writeFile(LOCAL_DATA.DATA.USER, this.initUserData)),
-            access(LOCAL_DATA.DATA.SYNC).catch(() => writeFile(LOCAL_DATA.DATA.SYNC, this.initSyncData))
+            access(this.userDataPath).catch(async () => {
+                await writeFile(this.userDataPath, this.initUserData);
+            }),
+            access(this.syncDataPath).catch(async () => {
+                await writeFile(this.syncDataPath, this.initSyncData);
+            })
         ]);
     }
 
@@ -45,50 +60,51 @@ export class LocalData {
     }
 
 
-    public async writeUserData(entry: Sync.LocalDataManager.Entries.User, data: Sync.LocalDataManager.Data.User.User): Sync.LocalDataManager.Function.Write.User {
+    public async writeUserData(entry: USER_ENTRIES, data: Sync.LocalDataManager.Data.User.User): Sync.LocalDataManager.Function.Write.User {
         const userDataObject = <Sync.LocalDataManager.Data.User.Object> await this.getUserData();
 
         switch (entry) {
-            case Sync.LocalDataManager.Entries.User.AUTH_TOKEN:
+            case USER_ENTRIES.AUTH_TOKEN:
                 userDataObject.authToken = <string> data;
                 break;
-            case Sync.LocalDataManager.Entries.User.BOT_LIST:
+            case USER_ENTRIES.BOT_LIST:
                 userDataObject.botList = <Sync.LocalDataManager.BotList[]> data;
                 break;
-            case Sync.LocalDataManager.Entries.User.WORKSPACE_LIST:
+            case USER_ENTRIES.WORKSPACE_LIST:
                 userDataObject.workspaceList = <Sync.LocalDataManager.WorkspaceList[]> data;
                 break;
         }
 
-        await writeFile(LOCAL_DATA.DATA.USER, JSON.stringify(userDataObject));
+        await writeFile(this.userDataPath, JSON.stringify(userDataObject));
     }
 
-    public async getUserData(entry?: Sync.LocalDataManager.Entries.User): Sync.LocalDataManager.Function.Get.User {
-        const
-            buffer = await readFile(LOCAL_DATA.DATA.USER),
-            userDataObject: Sync.LocalDataManager.Data.User.Object = JSON.parse(buffer.toString())
-        ;
-
-        if (!entry) return userDataObject;
+    public async getUserData(entry?: USER_ENTRIES): Sync.LocalDataManager.Function.Get.User {
+        const buffer = await readFile(this.userDataPath).catch(async () => {
+            await this.init();
+            return await readFile(this.userDataPath);
+        });
+        const userDataObject: Sync.LocalDataManager.Data.User.Object = JSON.parse(buffer.toString());
 
         switch (entry) {
-            case Sync.LocalDataManager.Entries.User.AUTH_TOKEN:
+            case USER_ENTRIES.AUTH_TOKEN:
                 return userDataObject.authToken;
-            case Sync.LocalDataManager.Entries.User.BOT_LIST:
+            case USER_ENTRIES.BOT_LIST:
                 return userDataObject.botList;
-            case Sync.LocalDataManager.Entries.User.WORKSPACE_LIST:
+            case USER_ENTRIES.WORKSPACE_LIST:
                 return userDataObject.workspaceList;
+            default:
+                return userDataObject;
         }
     }
 
-    public async writeSyncData(entry: Sync.LocalDataManager.Entries.Sync, data: Sync.LocalDataManager.Data.Sync.Sync): Sync.LocalDataManager.Function.Write.Sync {
+    public async writeSyncData(entry: SYNC_ENTRIES, data: Sync.LocalDataManager.Data.Sync.Sync): Sync.LocalDataManager.Function.Write.Sync {
         const syncDataObject = <Sync.LocalDataManager.Data.Sync.Object> await this.getSyncData();
 
         switch (entry) {
-            case Sync.LocalDataManager.Entries.Sync.BOT:
+            case SYNC_ENTRIES.BOT:
                 syncDataObject.botID = <string> data;
                 break;
-            case Sync.LocalDataManager.Entries.Sync.COMMAND_DATA:
+            case SYNC_ENTRIES.COMMAND_DATA:
                 syncDataObject.commandData = {
                     ...syncDataObject.commandData,
                     ... <Sync.LocalDataManager.Command.Data> data
@@ -96,22 +112,40 @@ export class LocalData {
                 break;
         }
 
-        await writeFile(LOCAL_DATA.DATA.SYNC, JSON.stringify(syncDataObject));
+        await writeFile(this.syncDataPath, JSON.stringify(syncDataObject));
     }
 
-    public async getSyncData(entry?: Sync.LocalDataManager.Entries.Sync): Sync.LocalDataManager.Function.Get.Sync {
-        const
-            buffer = await readFile(LOCAL_DATA.DATA.SYNC),
-            syncDataObject: Sync.LocalDataManager.Data.Sync.Object = JSON.parse(buffer.toString())
-        ;
+    public async getSyncData(entry?: SYNC_ENTRIES): Sync.LocalDataManager.Function.Get.Sync {
+        const buffer = await readFile(this.syncDataPath).catch(async () => {
+            await this.init();
+            return await readFile(this.syncDataPath);
+        });
+        let syncDataObject: Sync.LocalDataManager.Data.Sync.Object;
 
-        if (!entry) return syncDataObject;
+        try {
+            syncDataObject = JSON.parse(buffer.toString());
+        } catch {
+            syncDataObject = {
+                botID: EMPTY,
+                commandData: {
+                    commandID: EMPTY,
+                    commandLanguage: {
+                        id: EMPTY,
+                        name: EMPTY 
+                    },
+                    commandName: EMPTY,
+                    commandTrigger: EMPTY
+                }
+            };
+        }
 
         switch (entry) {
-            case Sync.LocalDataManager.Entries.Sync.BOT:
+            case SYNC_ENTRIES.BOT:
                 return syncDataObject.botID;
-            case Sync.LocalDataManager.Entries.Sync.COMMAND_DATA:
+            case SYNC_ENTRIES.COMMAND_DATA:
                 return syncDataObject.commandData;
+            default:
+                return syncDataObject;
         }
     }
 }

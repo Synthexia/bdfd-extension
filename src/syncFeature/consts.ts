@@ -23,12 +23,12 @@ export const HOSTING = Object.freeze({
 });
 
 export const LOCAL_DATA = Object.freeze({
-    DATA: {
-        USER: 'C:/BDFD Extension/data/user.json',
-        SYNC: 'C:/BDFD Extension/data/sync.json'
-    },
-    PRE_PATH: 'C:/BDFD Extension',
-    PATH: 'C:/BDFD Extension/data'
+    ROOT: '/.bdfd-extension/',
+    DIR: 'data/',
+    FILE: {
+        USER: 'user.json',
+        SYNC: 'sync.json'
+    }
 });
 
 export const COMMAND = Object.freeze({

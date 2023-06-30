@@ -5,10 +5,8 @@ import loadStatusItems from './statusItems/loader';
 
 export const statusItems = loadStatusItems();
 
-function features() {           
+export function activate() {           
     loadCommonCommands();
     loadContextMenuUtils();
     loadExperiments();
 }
-
-exports.activate = features;
