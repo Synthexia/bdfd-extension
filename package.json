@@ -4,7 +4,7 @@
 	"author": "Kitomanari",
 	"publisher": "Synthexia",
 	"icon": "assets/icons/ext-logo.png",
-	"displayName": "Bot Designer For Discord",
+	"displayName": "Bot Designer For Discord: New",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
 	"version": "3.0.0",
 	"l10n": "./l10n",
