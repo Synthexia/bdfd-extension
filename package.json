@@ -1,12 +1,12 @@
 {
 	"private": true,
-	"name": "bdfd-bds",
-	"author": "NightNutSky",
-	"publisher": "NightNutSky",
+	"name": "bdfd-extension",
+	"author": "Kitomanari",
+	"publisher": "Synthexia",
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -18,8 +18,8 @@
 			"url": "https://github.com/MineBartekSA"
 		},
 		{
-			"name": "NightNutSky",
-			"url": "https://github.com/NightNutSky"
+			"name": "Kito",
+			"url": "https://github.com/Kitomanari"
 		},
 		{
 			"name": "Laza",
@@ -47,7 +47,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NightNutSky/bdfd-bds"
+		"url": "https://github.com/Synthexia/bdfd-extension"
 	},
 	"sponsor": {
 		"url": "https://www.donationalerts.com/r/nightnutsky"
@@ -55,11 +55,9 @@
 	"engines": {
 		"vscode": "^1.79.0"
 	},
-	"categories": [
-		"Programming Languages",
-		"Snippets"
-	],
+	"categories": [ "Programming Languages" ],
 	"main": "./dist/extension.js",
+	"types": "./types/index.d.ts",
 	"scripts": {
 		"build": "esbuild src/extension.ts --bundle --platform=node --external:vscode --external:canvas --outdir=dist",
 		"prod": "npm run build -- --minify && vsce package",
@@ -529,6 +527,6 @@
 	},
 	"dependencies": {
 		"@nightnutsky/bdfd-external": "^1.2.0",
-		"@nightnutsky/bpapi": "^2.0.0"
+		"@synthexia/bpapi-wrapper": "^3.0.0"
 	}
 }

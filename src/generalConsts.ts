@@ -4,7 +4,7 @@ export const
     EMPTY_ARRAY = []
 ;
 
-export const EXTENSION_ID = 'nightnutsky.bdfd-bds';
+export const EXTENSION_ID = 'synthexia.bdfd-extension';
 
 export const LANG = 'bds';
 

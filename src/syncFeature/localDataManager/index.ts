@@ -10,7 +10,7 @@ import {
     USER_ENTRIES,
     SYNC_ENTRIES
 } from "./enums";
-import type { Sync } from "../../types";
+import type { Sync } from "../../../types";
 
 import { EMPTY } from "../../generalConsts";
 import { LOCAL_DATA } from "../consts";

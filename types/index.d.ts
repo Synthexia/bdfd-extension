@@ -2,78 +2,79 @@ import type { PathLike } from "fs";
 import { Uri } from "vscode";
 
 export namespace Sync {
-     namespace QuickPick {
+    namespace QuickPick {
         /**
          * Command & Variable List
          */
-         interface CVL {
+        interface CVL {
             label: string;
             detail: string;
             _id: string;
             _error: string;
         }
 
-         interface BotList extends CVL {
+        interface BotList extends CVL {
             _commands: string;
             _variables: string;
         }
     }
 
-     namespace LocalDataManager {
-         namespace Function {
-             namespace Write {
-                 type User = Promise<void>;
-                 type Sync = Promise<void>;
+    namespace LocalDataManager {
+        namespace Function {
+            namespace Write {
+                type User = Promise<void>;
+                type Sync = Promise<void>;
             }
 
-             namespace Get {
-                 type User = Promise<Data.User.User | Data.User.Object>;
-                 type Sync = Promise<Data.Sync.Sync | Data.Sync.Object>;
+            namespace Get {
+                type User = Promise<Data.User.User | Data.User.Object>;
+                type Sync = Promise<Data.Sync.Sync | Data.Sync.Object>;
             }
         }
-        
-         namespace Data {
-             namespace User {
-                 type User = string | BotList[] | WorkspaceList[];
 
-                 interface Object {
+        namespace Data {
+            namespace User {
+                type User = string | BotList[] | WorkspaceList[];
+
+                interface Object {
                     authToken: string;
                     botList: BotList[];
                     workspaceList: WorkspaceList[];
                 }
             }
 
-             namespace Sync {
-                 type Sync = string | Command.Data;
+            namespace Sync {
+                type Sync = string | Command.Data;
 
-                 interface Object {
+                interface Object {
                     botID: string;
                     commandData: Command.Data;
                 }
             }
         }
-         namespace Command {
-             interface Data {
+        
+        namespace Command {
+            interface Data {
                 commandID: string;
                 commandName: string;
                 commandTrigger: string;
                 commandLanguage: LanguageData;
             }
-            
-             interface LanguageData {
+
+            interface LanguageData {
                 name: string;
                 id: string;
             }
         }
 
-         interface BotList {
+        interface BotList {
             botID: string,
             botName: string,
             commands: string,
             variables: string;
         }
 
-         interface WorkspaceList {
+        interface WorkspaceList {
             dataFile: PathLike,
             name: string,
             path: {
@@ -85,26 +86,26 @@ export namespace Sync {
 }
 
 export namespace CommonCommands {
-     namespace TextMate {
-         interface Rules {
+    namespace TextMate {
+        interface Rules {
             name: string;
             scope: string;
             settings: Settings;
         }
 
-         interface Settings {
+        interface Settings {
             foreground: string;
             fontStyle: string;
         }
 
-         interface Options {
+        interface Options {
             foreground: string;
             fontStyle: string;
             scope: string;
             label?: string;
         }
 
-         interface QuickPickItem {
+        interface QuickPickItem {
             description: string;
             foreground: string;
             fontStyle: string;

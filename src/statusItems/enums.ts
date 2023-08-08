@@ -1,6 +1,6 @@
-export enum STATUS_ITEM {
-    FUNCTION_LIST = 0,
-    CUSTOMIZE_TOKENS = 1,
-    SYNC_FEATURE = 2,
-    EXTENSION_VERSION = 3
+export enum StatusItem {
+    FunctionList = 0,
+    CustomizeTokens = 1,
+    SyncFeature = 2,
+    ExtensionVersion = 3
 }

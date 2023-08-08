@@ -2,6 +2,10 @@
 
 ## Release Stage
 
+### 3.0.0
+- Package Renamed / Extension ID Changed.
+- Source code refactoring.
+
 ### 2.1.0
 - Now the Sync feature shows a welcome message with your username.
 - Now the Sync feature is compatible with MacOS.

@@ -9,7 +9,7 @@ import {
     HOSTING
 } from "./consts";
 import l from "../locale";
-import { Sync } from "../types";
+import { Sync } from "../../types";
 
 export default class SyncFeature {
     private baseData: Request.Data.Base;

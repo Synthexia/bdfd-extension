@@ -23,7 +23,7 @@ import {
     LANGUAGE_NAME,
     LANGUAGE_ID
 } from "./localDataManager/enums";
-import type { Sync } from "../types";
+import type { Sync } from "../../types";
 
 import l from "../locale"; // deprecated
 import SyncFeature from ".";

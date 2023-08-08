@@ -1,14 +1,6 @@
-import {
-    commands,
-    extensions,
-    window,
-    workspace
-} from "vscode";
+import { commands, extensions, window, workspace } from "vscode";
 
-import {
-    functionInfo,
-    functionTagList
-} from "@nightnutsky/bpapi";
+import { Functions } from "@synthexia/bpapi-wrapper";
 
 import {
     COLOR_EXAMPLE,
@@ -23,11 +15,13 @@ import {
     TEXT_MATE_UPDATE_TYPE
 } from "./consts";
 
-import { STATUS_ITEM } from "../statusItems/enums";
-import type { CommonCommands } from "../types";
 
 import { statusItems } from "../extension";
 import l from "../locale";
+import localization from "../localization";
+import { StatusItem } from "../statusItems/enums";
+
+import type { CommonCommands } from "../../types";
 
 const
     info = window.showInformationMessage,
@@ -44,30 +38,28 @@ export default function loadCommonCommands() {
     commands.registerCommand(COMMAND.RESET_TOKEN_CUSTOMIZATION, resetTokenCustomization);
 }
 
-function functionList() {
-    functionTagList().then(items => {
-        quickPick(
-            items,
-            {
-                placeHolder: l.functionList.quickPick.select,
-                matchOnDetail: true
-            }
-        ).then(item => {
-            if (item) {
-                statusItems[STATUS_ITEM.FUNCTION_LIST].busy = true;
-                functionInfo(item).then(functionInfo => {
-                    const message = `${functionInfo!.tag} > ${functionInfo!.description} | ${l.functionList.quickPick.intents}: ${functionInfo!.intents}, ${l.functionList.quickPick.premium.text}: ${functionInfo!.premium ? l.functionList.quickPick.premium.true : l.functionList.quickPick.premium.false}`;
-                    
-                    info(message);
-                    // TODO ^^^ New Open wiki action
-
-                    statusItems[STATUS_ITEM.FUNCTION_LIST].busy = false;
-                });
-            } else {
-                warn(l.general.actionCancelled);
-            }
-        });
+async function functionList() {
+    const items = await Functions.tagList();
+    const item = await quickPick(items, {
+        placeHolder: localization.commonCommands.functionList.select,
+        matchOnDetail: true
     });
+
+    if (!item) {
+        warn(localization.general.actionCancelled);
+        return;
+    }
+
+    statusItems[StatusItem.FunctionList].busy = true;
+
+    const functionInfo = ( await Functions.info(item) )!;
+
+    const message = `${functionInfo.tag} > ${functionInfo.description} | ${localization.commonCommands.functionList.intents}: ${functionInfo.intents}, ${localization.commonCommands.functionList.premium.text}: ${functionInfo.premium ? localization.commonCommands.functionList.premium.true : localization.commonCommands.functionList.premium.false}`;
+
+    info(message);
+    // TODO ^^^ New Open wiki action
+
+    statusItems[StatusItem.FunctionList].busy = false;
 }
 
 function tokenCustomization() {
