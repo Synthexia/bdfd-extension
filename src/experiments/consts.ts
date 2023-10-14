@@ -1,4 +1,4 @@
-export const EXPERIMENT = Object.freeze({
-    AUTO_COMPLETIONS: 'BDFD.experiments.autoCompletions',
-    SYNC: 'BDFD.experiments.sync'
-});
+export const EXPERIMENT = {
+    AUTO_COMPLETIONS: 'BDFD.experiments.autoCompletions.enabled',
+    SYNC: 'BDFD.experiments.sync.enabled'
+} as const;

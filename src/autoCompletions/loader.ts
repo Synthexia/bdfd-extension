@@ -1,14 +1,23 @@
 import { Functions } from "@synthexia/bpapi-wrapper";
 
-import { CompletionItem, CompletionItemKind, MarkdownString, Range, SnippetString, languages, window } from "vscode";
+import {
+    type ExtensionContext,
+    CompletionItem,
+    CompletionItemKind,
+    MarkdownString,
+    Range,
+    SnippetString,
+    languages,
+    window
+} from "vscode";
 
 import { EMPTY, EMPTY_ARRAY, LANG, SPECIAL_CHARACTER } from "../generalConsts";
 import { ARGUMENT, EXCEPTION_TAG, PARENTHESIS_REGEX, TABSTOP_PART } from "./consts";
-import localization from "../localization";
+import * as localization from "../localization";
 
 const buildTabstop = (index: number, tabstopPart: string) => SPECIAL_CHARACTER.DOLLAR.ESCAPED2 + SPECIAL_CHARACTER.LEFT_BRACE.NORMAL + index + tabstopPart + SPECIAL_CHARACTER.RIGHT_BRACE.NORMAL;
 
-export default async function loadAutoCompletionsFeature() {
+export default async function loadAutoCompletionsFeature(context: ExtensionContext) {
     const functionList = await Functions.list();
     const functionTagList = await Functions.tagList();
 
@@ -132,18 +141,21 @@ export default async function loadAutoCompletionsFeature() {
         functionIndex++;
     }
 
-    languages.registerCompletionItemProvider(LANG, {
-        provideCompletionItems() {
-            const selection = window.activeTextEditor!.selection;
-            try {
-                autoCompletionItems.forEach((x) => x.range = new Range(
-                    selection.active.line,
-                    selection.active.character - 2,
-                    selection.end.line,
-                    selection.end.character - 2
-                ));
-                return autoCompletionItems;
-            } catch {}
-        }
-    });
+    context.subscriptions.push(
+        languages.registerCompletionItemProvider(LANG, {
+            provideCompletionItems() {
+                const selection = window.activeTextEditor!.selection;
+
+                try {
+                    autoCompletionItems.forEach((x) => x.range = new Range(
+                        selection.active.line,
+                        selection.active.character - 1,
+                        selection.end.line,
+                        selection.end.character - 1
+                    ));
+                    return autoCompletionItems;
+                } catch {}
+            }
+        }, '$')
+    );
 }

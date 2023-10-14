@@ -2,6 +2,16 @@
 
 ## Release Stage
 
+### 3.1.0
+- Fixed highlighting customization.
+- Source code refactoring.
+- Disposables for commands and providers.
+- New README.
+- Updated the Sync guide.
+- Updated Change Log style.
+
+<details><summary>Previous Updates</summary>
+
 ### 3.0.0
 - Package Renamed / Extension ID Changed.
 - Source code refactoring.
@@ -74,6 +84,8 @@
   - Updated Arabic localization (by [Musical](https://github.com/MusicalxD)).
 - Added the Escape action to the context menu. An action to automatically escape special BDScript characters (`$`, `;`, etc).
 
+</details>
+
 ## Preview Stage
 
 ### 0.5.0
@@ -82,6 +94,8 @@
 - Gradual Updating of Snippets.
   > Updated main code for snippets
 - Created Localization Resources - a Localization Guide.
+
+<details><summary>Previous Updates</summary>
 
 ### 0.4.0
 - New (Language) Status Bar.
@@ -112,11 +126,15 @@
 ### 0.1.0
 - Public release
 
+</details>
+
 ## Private Alpha Stage
 
 ### 0.12.0-alpha
 - If Statements Snippets prefixes were renamed
 - Added new snippets
+
+<details><summary>Previous Updates</summary>
 
 ### 0.11.0-alpha
 - Now you can set your own colors and font styles for function categories!
@@ -137,7 +155,7 @@
 
 ### 0.8.0-alpha
 - Added colorful comments
-  > $c[ ... ]`, `$c[! ... ]`, `$c[? ... ]`, `$c[+ ... ]`, `$c[- ... ]`
+  > `$c[ ... ]`, `$c[! ... ]`, `$c[? ... ]`, `$c[+ ... ]`, `$c[- ... ]`
 - Added new snippets
 
 ### 0.7.0-alpha
@@ -178,3 +196,5 @@
 
 ### 0.2.0-alpha ... 0.0.1-alpha
 - The changes are hidden.
+
+</details>

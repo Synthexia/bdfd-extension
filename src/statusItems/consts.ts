@@ -1,4 +1,4 @@
-export const ITEM = Object.freeze({
+export const ITEM = {
     NAME: 'BDFD Extension',
     EXTENSION_VERSION: {
         ID: 'bdfd-lsi-extensionVersion'
@@ -14,4 +14,4 @@ export const ITEM = Object.freeze({
     FUNCTION_LIST: {
         ID: 'bdfd-lsi-functionList'
     }
-});
+} as const;

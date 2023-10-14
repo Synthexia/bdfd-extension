@@ -6,7 +6,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord: New",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "3.0.0",
+	"version": "3.1.0-dev.47",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -53,33 +53,71 @@
 		"url": "https://www.donationalerts.com/r/nightnutsky"
 	},
 	"engines": {
-		"vscode": "^1.79.0"
+		"vscode": "^1.82.0"
 	},
 	"categories": [ "Programming Languages" ],
 	"main": "./dist/extension.js",
-	"types": "./types/index.d.ts",
 	"scripts": {
-		"build": "esbuild src/extension.ts --bundle --platform=node --external:vscode --external:canvas --outdir=dist",
+		"build": "esbuild ./src/extension.ts --bundle --platform=node --external:vscode --external:canvas --outdir=dist",
 		"prod": "npm run build -- --minify && vsce package",
 		"dev": "npm run build && vsce package"
 	},
-	"extensionKind": [
-		"ui"
-	],
+	"extensionKind": [ "ui" ],
 	"contributes": {
+		"views": {
+			"bdfd-container": [
+				{
+					"id": "bdfd-bot-list",
+					"name": "Bot List"
+				},
+				{
+					"id": "bdfd-command-list",
+					"name": "Command List",
+					"visibility": "collapsed"
+				},
+				{
+					"id": "bdfd-variable-list",
+					"name": "Variable List",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "bdfd-container",
+					"title": "Bot Designer For Discord",
+					"icon": "./assets/icons/code.svg"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "bdfd-bot-list",
+				"contents": "The bot list will be available once you authorize in the Sync feature."
+			},
+			{
+				"view": "bdfd-command-list",
+				"contents": "The command list will be available once you select a bot."
+			},
+			{
+				"view": "bdfd-variable-list",
+				"contents": "The variable list will be available once you select a bot."
+			}
+		],
 		"configuration": [
 			{
 				"title": "Bot Designer For Discord",
 				"properties": {
-					"BDFD.experiments.autoCompletions": {
+					"BDFD.experiments.autoCompletions.enabled": {
 						"type": "boolean",
-						"default": false,
-						"description": "Configures the Auto Completions feature. If enabled, the new experimental Auto Completions feature will be enabled, but they're still unstable. Reload is required."
+						"default": true,
+						"description": "If enabled, the new experimental Auto Completions feature will be enabled, but they're still unstable. Reload is required."
 					},
-					"BDFD.experiments.sync": {
+					"BDFD.experiments.sync.enabled": {
 						"type": "boolean",
 						"default": false,
-						"description": "Configures the BDFD Sync feature. If enabled, the new experimental BDFD Sync feature will be loaded. Reload is required."
+						"description": "If enabled, the new experimental BDFD Sync feature will be loaded. Reload is required."
 					}
 				}
 			}
@@ -129,76 +167,19 @@
 				"icon": "$(gear)"
 			},
 			{
-				"command": "bdfd.sync.configure",
-				"category": "BDFD Sync Experiment",
-				"title": "Configure BDFD Sync feature.",
-				"icon": "$(gear)"
-			},
-			{
-				"command": "bdfd.sync.openCommandList",
-				"category": "BDFD Sync Experiment",
-				"title": "Open command list for syncing.",
-				"icon": "$(list-flat)"
-			},
-			{
-				"command": "bdfd.sync.modifyCommandData",
-				"category": "BDFD Sync Experiment",
-				"title": "Modify command data in the current session.",
-				"icon": "$(edit)"
-			},
-			{
-				"command": "bdfd.sync.pushCommand",
-				"category": "BDFD Sync Experiment",
-				"title": "Push command to BDFD",
-				"icon": "$(check)"
-			},
-			{
-				"command": "bdfd.sync.openBotList",
-				"category": "BDFD Sync Experiment",
-				"title": "Open bot list for syncing",
-				"icon": "$(list-flat)"
-			},
-			{
-				"command": "bdfd.sync.openVariableList",
-				"category": "BDFD Sync Experiment",
-				"title": "Open variable list for modifying",
-				"icon": "$(edit)"
-			},
-			{
-				"command": "bdfd.sync.createVariable",
-				"category": "BDFD Sync Experiment",
-				"title": "Create variable",
-				"icon": "$(add)"
-			},
-			{
-				"command": "bdfd.sync.createCommand",
-				"category": "BDFD Sync Experiment",
-				"title": "Create command",
-				"icon": "$(add)"
-			},
-			{
 				"command": "bdfd.utils.escape",
 				"category": "BDFD Utils",
 				"title": "Escape Special Characters"
 			},
 			{
-				"command": "bdfd.sync.deleteCommand",
-				"category": "BDFD Sync Experiment",
-				"title": "Delete command"
-			},
-			{
-				"command": "bdfd.sync.deleteVariable",
-				"category": "BDFD Sync Experiment",
-				"title": "Delete variable"
+				"command": "bdfd-sync-feature.edit-command",
+				"category": "BDFD Sync Feature",
+				"title": "Edit Command Data",
+				"icon": "$(edit)"
 			}
 		],
 		"menus": {
 			"editor/context": [
-				{
-					"command": "bdfd.sync.pushCommand",
-					"group": "BDFD Sync Experiment",
-					"when": "editorLangId == bds"
-				},
 				{
 					"command": "bdfd.utils.escape",
 					"group": "BDFD Utils",
@@ -207,22 +188,12 @@
 			],
 			"editor/title/run": [
 				{
-					"command": "bdfd.sync.pushCommand",
-					"group": "BDFD Sync Experiment",
-					"when": "editorLangId == bds"
-				},
-				{
 					"command": "bdfd.functionList",
 					"group": "BDFD Helpers",
 					"when": "editorLangId == bds"
 				}
 			],
 			"commandPalette": [
-				{
-					"command": "bdfd.sync.pushCommand",
-					"group": "BDFD Sync Experiment",
-					"when": "editorLangId == bds"
-				},
 				{
 					"command": "bdfd.utils.escape",
 					"group": "BDFD Utils",
@@ -522,11 +493,13 @@
 		}
 	},
 	"devDependencies": {
+		"@types/discord-rpc": "^4.0.5",
 		"@types/node": "^20.3.2",
-		"@types/vscode": "^1.79.0"
+		"@types/vscode": "^1.82.0"
 	},
 	"dependencies": {
-		"@nightnutsky/bdfd-external": "^1.2.0",
-		"@synthexia/bpapi-wrapper": "^3.0.0"
+		"@synthexia/bdfd-external": "^3.1.1",
+		"@synthexia/bpapi-wrapper": "^3.0.0",
+		"discord-rpc": "^4.0.1"
 	}
 }

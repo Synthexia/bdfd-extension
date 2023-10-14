@@ -1,6 +1,6 @@
 import { l10n } from "vscode";
 
-const { t, bundle } = l10n;
+const { t } = l10n;
 
 export const general = {
     actionCancelled: t('Action cancelled.')
@@ -30,6 +30,9 @@ export const statusItems = {
     },
     extensionVersion: {
         text: t('Extension Version')
+    },
+    currentSyncedCommand: {
+        text: t('Current Synced Command')
     }
 };
 
@@ -46,20 +49,28 @@ export const commonCommands = {
     },
     customizeHighlighting: {
         quickPick: {
+            foreground: {
+                label: t('Foreground'),
+                color: t('Foreground Color'),
+                noColor: t('No Foreground Color'),
+                change: t("Change the functions' foreground color"),
+            },
+            font: {
+                label: t('Font'),
+                style: t('Font Style'),
+                noStyle: t('No Font Style'),
+                change: t("Change the functions' font style"),
+            }
+        },
+        inputBox: {
             general: {
                 example: t('Example')
             },
             foreground: {
-                foreground: t('Foreground'),
-                color: t('Foreground Color'),
-                change: t("Change the function's foreground color"),
-                changing: t('Changing Foreground Color'),
+                changing: t('Changing Foreground Color')
             },
             font: {
-                font: t('Font'),
-                style: t('Font Style'),
-                change: t("Change the function's font style"),
-                changing: t('Changing Font Style'),
+                changing: t('Changing Font Style')
             }
         }
     }
@@ -67,7 +78,8 @@ export const commonCommands = {
 
 export const syncFeature = {
     greeting: {
-        featureAuthorized: (username: string) => t('Welcome back, {username}!', { username }),
+        featureAuthorized: (username: string) =>
+            t('Welcome back, {username}!', { username }),
         featureUnauthorized: t("Dear User, you haven't authorized to use the Sync feature yet."),
         authorizeAction: t('Authorize now!')
     },
@@ -81,15 +93,24 @@ export const syncFeature = {
             openBotList: t('Failed to get bots'),
             openCommandList: t('Failed to get commands'),
             openVariableList: t('Failed to get variables'),
-            openCommand: (errorMessage: string) => t('Failed to sync with this command: {errorMessage}', { errorMessage }),
-            pushCommand: (errorMessage: string) => t('Failed to update this command: {errorMessage}', { errorMessage }),
-            pushVariable: (errorMessage: string) => t('Failed to update this variable: {errorMessage}', { errorMessage }),
-            createCommand: (errorMessage: string) => t('Failed to create a new command: {errorMessage}', { errorMessage }),
-            createVariable: (errorMessage: string) => t('Failed to create a new variable: {errorMessage}', {  errorMessage }),
-            updateCommand: (errorMessage: string) => t('Failed to update this command: {errorMessage}', { errorMessage }),
-            updateVariable: (errorMessage: string) => t('Failed to update this variable: {errorMessage}', { errorMessage }),
-            deleteCommand: (errorMessage: string) => t('Failed to delete selected commands: {errorMessage}', { errorMessage }),
-            deleteVariable: (errorMessage: string) => t('Failed to delete selected variables: {errorMessage}', { errorMessage })
+            openCommand: (errorMessage: string) =>
+                t('Failed to sync with this command: {errorMessage}', { errorMessage }),
+            pushCommand: (errorMessage: string) =>
+                t('Failed to update this command: {errorMessage}', { errorMessage }),
+            pushVariable: (errorMessage: string) =>
+                t('Failed to update this variable: {errorMessage}', { errorMessage }),
+            createCommand: (errorMessage: string) =>
+                t('Failed to create a new command: {errorMessage}', { errorMessage }),
+            createVariable: (errorMessage: string) =>
+                t('Failed to create a new variable: {errorMessage}', {  errorMessage }),
+            updateCommand: (errorMessage: string) =>
+                t('Failed to update this command: {errorMessage}', { errorMessage }),
+            updateVariable: (errorMessage: string) =>
+                t('Failed to update this variable: {errorMessage}', { errorMessage }),
+            deleteCommand: (errorMessage: string) =>
+                t('Failed to delete selected commands: {errorMessage}', { errorMessage }),
+            deleteVariable: (errorMessage: string) =>
+                t('Failed to delete selected variables: {errorMessage}', { errorMessage })
         }
     },
     command: {
@@ -150,9 +171,12 @@ export const syncFeature = {
                 language: t('Language')
             },
             modified: {
-                name: (name: string) => t('The command name was successfully changed to "{name}"!', { name }),
-                trigger: (trigger: string) => t('The command trigger was successfully changed to "{trigger}"!', { trigger }),
-                language: (language: string) => t('The command language was successfully changed to "{language}"!', { language })
+                name: (name: string) =>
+                    t('The command name was successfully changed to "{name}"!', { name }),
+                trigger: (trigger: string) =>
+                    t('The command trigger was successfully changed to "{trigger}"!', { trigger }),
+                language: (language: string) =>
+                    t('The command language was successfully changed to "{language}"!', { language })
             }
         },
         openBotList: {
@@ -162,7 +186,12 @@ export const syncFeature = {
             placeholders: {
                 placeholder: t('Select a bot with which you would like to sync at the moment, then select a command')
             },
-            synced: (botName: string, commands: string, variables: string) => t('Now you are synced with the "{botName}" bot which currently has {commands} and {variables}!', { botName, commands, variables })
+            details: {
+                hostingAlreadyEnded: t('Hosting already ended!'),
+                hostingEnds: t('Hostring ends:')
+            },
+            synced: (botName: string, commands: string, variables: string) =>
+                t('Now you are synced with the "{botName}" bot which currently has {commands} and {variables}!', { botName, commands, variables })
         },
         pushCommand: {
             pushed: {
@@ -226,8 +255,10 @@ export const syncFeature = {
                     value: t('Type the new variable value')
                 },
                 modified: {
-                    name: (name: string) => t('The variable name was successfully changed to "{name}"!', { name }),
-                    value: (value: string) => t('The variable value was successfully changed to "{value}"!', { value })
+                    name: (name: string) =>
+                        t('The variable name was successfully changed to "{name}"!', { name }),
+                    value: (value: string) =>
+                        t('The variable value was successfully changed to "{value}"!', { value })
                 }
             },
             deleteCommand: {
@@ -253,13 +284,51 @@ export const syncFeature = {
                 }
             }
         }
+    },
+    treeViews: {
+        openDialog: {
+            label: t('Save bot commands here'),
+            title: t('Please select a folder where the extension will store your bots with their commands as files')
+        },
+        showQuickPick: {
+            title: {
+                general: t('Choose An Action'),
+                changingScriptingLanguage: t('Changing Scripting Language')
+            },
+            commands: {
+                placeholder: (scriptingLanguageName: string) =>
+                    t('Current Scripting Language: ${scriptingLanguageName}', { scriptingLanguageName }),
+                actions: [
+                    t('Edit Command Name'),
+                    t('Edit Command Trigger'),
+                    t('Change Scripting Language')
+                ]
+            },
+            variables: {
+                actions: [
+                    t('Edit Variable Name'),
+                    t('Edit Variable Value')
+                ]
+            }
+        },
+        showInputBox: {
+            commands: {
+                title: {
+                    editingCommandName: t('Editing Command Name'),
+                    editingCommandTrigger: t('Editing Command Trigger'),
+                }
+            },
+            variables: {
+                title: {
+                    editingVariableName: t('Editing Variable Name'),
+                    editingVariableValue: t('Editing Variable Value')
+                }
+            }
+        }
     }
 };
 
-export default {
-    general,
-    autoCompletions,
-    statusItems,
-    commonCommands,
-    syncFeature
+export const richPresence = {
+    label: t('{vscode} Extension', { vscode: 'VS Code' }),
+    details: (botName: string) => t('Working on {botName}!', { botName })
 };

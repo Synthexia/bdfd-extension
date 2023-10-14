@@ -2,36 +2,19 @@ export const AUTH_TOKEN_SESSION_PART = 'default-sessionStore';
 
 export const NEW_EMPTY_COMMAND = '$c[Created using BDFD Extension]';
 
-export const LANGUAGES = Object.freeze({
-    NAME: [
-        'BDScript',
-        'BDScript 2',
-        'BDScript Unstable',
-        'Javascript (ES5+BD.js)'
-    ],
-    ID: [
-        '0',
-        '3',
-        '2',
-        '1'
-    ]
-});
+export const HOSTING_ALREADY_ENDED = 'Hosting already ended';
 
-export const HOSTING = Object.freeze({
-    ENDED: 'Hosting already ended',
-    ENDS: 'Hosting ends:'
-});
-
-export const LOCAL_DATA = Object.freeze({
+export const LOCAL_DATA = {
     ROOT: '/.bdfd-extension/',
     DIR: 'data/',
     FILE: {
         USER: 'user.json',
-        SYNC: 'sync.json'
+        SYNC: 'sync.json',
+        WORKSPACE: 'workspace.json'
     }
-});
+} as const;
 
-export const COMMAND = Object.freeze({
+export const OLD_COMMAND = {
     CREATE: {
         COMMAND: 'bdfd.sync.createCommand',
         VARIABLE: 'bdfd.sync.createVariable'
@@ -52,4 +35,8 @@ export const COMMAND = Object.freeze({
         COMMAND: 'bdfd.sync.pushCommand'
     },
     CONFIGURE: 'bdfd.sync.configure'
-});
+} as const;
+
+export const COMMAND = {
+    EDIT_COMMAND_DATA: 'bdfd-sync-feature.edit-command'
+} as const;

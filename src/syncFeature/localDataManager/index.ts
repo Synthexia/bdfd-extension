@@ -1,27 +1,67 @@
 import { platform } from "os";
-import {
-    access,
-    mkdir,
-    readFile,
-    writeFile
-} from "fs/promises";
-
-import {
-    USER_ENTRIES,
-    SYNC_ENTRIES
-} from "./enums";
-import type { Sync } from "../../../types";
+import { access, mkdir, readFile, writeFile } from "fs/promises";
 
 import { EMPTY } from "../../generalConsts";
 import { LOCAL_DATA } from "../consts";
+import { Uri } from "vscode";
+import { UserEntry, SyncEntry, WorkspaceEntry } from "./enums";
+
+declare namespace LocalDataManager {
+    namespace Data {
+        namespace User {
+            interface Object {
+                authToken: string;
+                botList: Bot.Data[];
+            }
+        }
+
+        namespace Sync {
+            interface Object {
+                botID: string;
+                commandData: Command.Data;
+            }
+        }
+
+        namespace Workspace {
+            interface Data {
+                root: string,
+                bots: Bots
+            }
+
+            type Bots = Record<string, BotCommands>;
+            type BotCommands = Record<string, string> | undefined;
+        }
+    }
+    
+    namespace Command {
+        interface Data {
+            commandID: string;
+            commandName: string;
+            commandTrigger: string;
+            commandLanguage: LanguageData;
+        }
+
+        interface LanguageData {
+            name: string;
+            id: string;
+        }
+    }
+
+    namespace Bot {
+        interface Data {
+            botID: string,
+            botName: string,
+            commands: string,
+            variables: string;
+        }
+    }
+}
 
 const isWindows = () => platform() === 'win32';
 
 export default class LocalData {
-    private initUserData = JSON.stringify({
-        authToken: EMPTY
-    });
-    private initSyncData = JSON.stringify({
+    private readonly initUserData = JSON.stringify({ authToken: EMPTY });
+    private readonly initSyncData = JSON.stringify({
         botID: EMPTY,
         commandData: {
             commandID: EMPTY,
@@ -33,16 +73,22 @@ export default class LocalData {
             }
         }
     });
+    private readonly initWorkspaceData = JSON.stringify({
+        root: EMPTY,
+        bots: {}
+    });
 
-    private userDataPath = '';
-    private syncDataPath = '';
+    private userDataPath = EMPTY;
+    private syncDataPath = EMPTY;
+    private workspaceDataPath = EMPTY;
     
-    private async init() {
+    public async init() {
         const path = process.env[isWindows() ? 'USERPROFILE' : 'HOME'] || process.cwd();
         const dataDir = path + LOCAL_DATA.ROOT + LOCAL_DATA.DIR;
 
         this.userDataPath = dataDir + LOCAL_DATA.FILE.USER;
         this.syncDataPath = dataDir + LOCAL_DATA.FILE.SYNC;
+        this.workspaceDataPath = dataDir + LOCAL_DATA.FILE.WORKSPACE;
 
         await mkdir(dataDir, { recursive: true });
         await Promise.all([
@@ -51,63 +97,68 @@ export default class LocalData {
             }),
             access(this.syncDataPath).catch(async () => {
                 await writeFile(this.syncDataPath, this.initSyncData);
+            }),
+            access(this.workspaceDataPath).catch(async () => {
+                await writeFile(this.workspaceDataPath, this.initWorkspaceData);
             })
         ]);
+
+        return this;
     }
 
-    constructor() {
-        this.init();
-    }
 
+    public async writeUserData(
+        options:
+            | { entry: UserEntry.AuthToken, data: string }
+            | { entry: UserEntry.BotList, data: LocalDataManager.Bot.Data[] }
+    ): Promise<void> {
+        const userDataObject = await this.getUserData();
 
-    public async writeUserData(entry: USER_ENTRIES, data: Sync.LocalDataManager.Data.User.User): Sync.LocalDataManager.Function.Write.User {
-        const userDataObject = <Sync.LocalDataManager.Data.User.Object> await this.getUserData();
-
-        switch (entry) {
-            case USER_ENTRIES.AUTH_TOKEN:
-                userDataObject.authToken = <string> data;
+        switch (options.entry) {
+            case UserEntry.AuthToken:
+                userDataObject.authToken = options.data;
                 break;
-            case USER_ENTRIES.BOT_LIST:
-                userDataObject.botList = <Sync.LocalDataManager.BotList[]> data;
-                break;
-            case USER_ENTRIES.WORKSPACE_LIST:
-                userDataObject.workspaceList = <Sync.LocalDataManager.WorkspaceList[]> data;
+            case UserEntry.BotList:
+                userDataObject.botList = options.data;
                 break;
         }
 
         await writeFile(this.userDataPath, JSON.stringify(userDataObject));
     }
 
-    public async getUserData(entry?: USER_ENTRIES): Sync.LocalDataManager.Function.Get.User {
-        const buffer = await readFile(this.userDataPath).catch(async () => {
-            await this.init();
-            return await readFile(this.userDataPath);
-        });
-        const userDataObject: Sync.LocalDataManager.Data.User.Object = JSON.parse(buffer.toString());
+    public async getUserData(entry: UserEntry.AuthToken): Promise<string>;
+    public async getUserData(entry: UserEntry.BotList): Promise<LocalDataManager.Bot.Data[]>;
+    public async getUserData(): Promise<LocalDataManager.Data.User.Object>;
+
+    public async getUserData(entry?: UserEntry) {
+        const buffer = await readFile(this.userDataPath);
+        const userDataObject: LocalDataManager.Data.User.Object = JSON.parse(buffer.toString());
 
         switch (entry) {
-            case USER_ENTRIES.AUTH_TOKEN:
+            case UserEntry.AuthToken:
                 return userDataObject.authToken;
-            case USER_ENTRIES.BOT_LIST:
+            case UserEntry.BotList:
                 return userDataObject.botList;
-            case USER_ENTRIES.WORKSPACE_LIST:
-                return userDataObject.workspaceList;
             default:
                 return userDataObject;
         }
     }
 
-    public async writeSyncData(entry: SYNC_ENTRIES, data: Sync.LocalDataManager.Data.Sync.Sync): Sync.LocalDataManager.Function.Write.Sync {
-        const syncDataObject = <Sync.LocalDataManager.Data.Sync.Object> await this.getSyncData();
+    public async writeSyncData(
+        options:
+            | { entry: SyncEntry.Bot, data: string }
+            | { entry: SyncEntry.CommandData, data: Partial<LocalDataManager.Command.Data> }
+    ): Promise<void> {
+        const syncDataObject = await this.getSyncData();
 
-        switch (entry) {
-            case SYNC_ENTRIES.BOT:
-                syncDataObject.botID = <string> data;
+        switch (options.entry) {
+            case SyncEntry.Bot:
+                syncDataObject.botID = options.data;
                 break;
-            case SYNC_ENTRIES.COMMAND_DATA:
+            case SyncEntry.CommandData:
                 syncDataObject.commandData = {
                     ...syncDataObject.commandData,
-                    ... <Sync.LocalDataManager.Command.Data> data
+                    ... options.data
                 };
                 break;
         }
@@ -115,37 +166,99 @@ export default class LocalData {
         await writeFile(this.syncDataPath, JSON.stringify(syncDataObject));
     }
 
-    public async getSyncData(entry?: SYNC_ENTRIES): Sync.LocalDataManager.Function.Get.Sync {
-        const buffer = await readFile(this.syncDataPath).catch(async () => {
-            await this.init();
-            return await readFile(this.syncDataPath);
-        });
-        let syncDataObject: Sync.LocalDataManager.Data.Sync.Object;
+    public async getSyncData(entry: SyncEntry.Bot): Promise<string>;
+    public async getSyncData(entry: SyncEntry.CommandData): Promise<LocalDataManager.Command.Data>;
+    public async getSyncData(): Promise<LocalDataManager.Data.Sync.Object>;
 
-        try {
-            syncDataObject = JSON.parse(buffer.toString());
-        } catch {
-            syncDataObject = {
-                botID: EMPTY,
-                commandData: {
-                    commandID: EMPTY,
-                    commandLanguage: {
-                        id: EMPTY,
-                        name: EMPTY 
-                    },
-                    commandName: EMPTY,
-                    commandTrigger: EMPTY
-                }
-            };
-        }
+    public async getSyncData(entry?: SyncEntry) {
+        const buffer = await readFile(this.syncDataPath);
+        const syncDataObject: LocalDataManager.Data.Sync.Object = JSON.parse(buffer.toString());
 
         switch (entry) {
-            case SYNC_ENTRIES.BOT:
+            case SyncEntry.Bot:
                 return syncDataObject.botID;
-            case SYNC_ENTRIES.COMMAND_DATA:
+            case SyncEntry.CommandData:
                 return syncDataObject.commandData;
             default:
                 return syncDataObject;
+        }
+    }
+
+    public async writeWorkspaceData(options: {
+        entry: WorkspaceEntry.Root,
+        path: string
+    }): Promise<undefined>;
+    public async writeWorkspaceData(options: {
+        entry: WorkspaceEntry.BotCommands,
+        botID: string,
+        commandID: string,
+        commandCode: string
+    }): Promise<Uri>;
+
+    public async writeWorkspaceData(
+        options:
+            | { entry: WorkspaceEntry.Root, path: string }
+            | { entry: WorkspaceEntry.BotCommands, botID: string, commandID: string, commandCode: string }
+    ) {
+        const workspaceDataObject = await this.getWorkspaceData();
+
+        switch (options.entry) {
+            case WorkspaceEntry.Root:
+                workspaceDataObject.root = options.path;
+                return;
+            case WorkspaceEntry.BotCommands:
+                const commandPath = workspaceDataObject.root + `/${options.botID}/${options.commandID}.bds`;
+
+                workspaceDataObject.bots[options.botID] = {
+                    ...workspaceDataObject.bots[options.botID],
+                    [options.commandID]: commandPath
+                };
+
+                await writeFile(commandPath, options.commandCode);
+                await writeFile(this.workspaceDataPath, JSON.stringify(workspaceDataObject));
+
+                return Uri.file(commandPath);
+        }
+    }
+
+    public async getWorkspaceData(options: {
+        entry: WorkspaceEntry.Root
+    }): Promise<string>;
+    public async getWorkspaceData(options: {
+        entry: WorkspaceEntry.BotList
+    }): Promise<LocalDataManager.Data.Workspace.Bots>;
+    public async getWorkspaceData(options: {
+        entry: WorkspaceEntry.BotCommands,
+        botID: string
+    }): Promise<LocalDataManager.Data.Workspace.BotCommands>;
+    public async getWorkspaceData(options: {
+        entry: WorkspaceEntry.CommandPath,
+        botID: string,
+        commandID: string
+    }): Promise<string>;
+    public async getWorkspaceData(): Promise<LocalDataManager.Data.Workspace.Data>;
+
+
+    public async getWorkspaceData(
+        options?:
+            | { entry: WorkspaceEntry.Root  | WorkspaceEntry.BotList }
+            | { entry: WorkspaceEntry.BotCommands, botID: string }
+            | { entry: WorkspaceEntry.CommandPath, botID: string, commandID: string }
+    ) {
+        const buffer = await readFile(this.workspaceDataPath);
+        const workspaceDataObject: LocalDataManager.Data.Workspace.Data = JSON.parse(buffer.toString());
+
+        switch (options?.entry) {
+            case WorkspaceEntry.Root:
+                return workspaceDataObject.root;
+            case WorkspaceEntry.BotList:
+                return workspaceDataObject.bots;
+            case WorkspaceEntry.BotCommands:
+                return workspaceDataObject.bots[options.botID];
+            case WorkspaceEntry.CommandPath:
+                return workspaceDataObject.bots[options.botID]?.[options.commandID];
+            default:
+                return workspaceDataObject;
         }
     }
 }

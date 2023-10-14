@@ -1,4 +1,4 @@
-export const ARGUMENT = Object.freeze({
+export const ARGUMENT = {
     NEW_ROW: 'New row',
     STYLE: 'Style',
     DISABLED: '(Disabled',
@@ -12,9 +12,9 @@ export const ARGUMENT = Object.freeze({
         B: '(Type)'
     },
     CONDITION: 'Condition'
-});
+} as const;
 
-export const TABSTOP_PART = Object.freeze({
+export const TABSTOP_PART = {
     NO_YES: '|no,yes|',
     BUTTON_STYLE: '|primary,secondary,danger,success,link|',
     PARAGRAPH_STYLE: '|short,paragraph|',
@@ -25,9 +25,9 @@ export const TABSTOP_PART = Object.freeze({
     MESSAGE_TYPE: '|content,authorID,username,avatar|',
     VARIABLE_TYPE: '|user,server,globaluser,channel|',
     CONDITION: '|>,<,==,!=,>=,<=|'
-});
+} as const;
 
-export const EXCEPTION_TAG = Object.freeze({
+export const EXCEPTION_TAG = {
     ADD_BUTTON: '$addButton[]',
     EDIT_BUTTON: '$editButton[]',
     CREATE_CHANNEL: '$createChannel[]',
@@ -35,6 +35,6 @@ export const EXCEPTION_TAG = Object.freeze({
     GET_EMBED_DATA: '$getEmbedData[]',
     GET_MESSAGE: '$getMessage[]',
     VARIABLES_COUNT: '$variablesCount[]'
-});
+} as const;
 
 export const PARENTHESIS_REGEX = /[\(\)]/gm;

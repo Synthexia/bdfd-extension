@@ -1,18 +1,22 @@
 import {
     languages,
     extensions,
-    DocumentSelector
+    DocumentSelector,
+    window,
+    StatusBarAlignment
 } from "vscode";
-import l from '../locale';
+
+import { EXTENSION_ID, LANG } from "../generalConsts";
 import { ITEM } from "./consts";
 import { COMMAND as COMMON_COMMAND } from "../commonCommands/consts";
-import { COMMAND as SYNC_COMMAND } from "../syncFeature/consts";
-import {
-    EXTENSION_ID,
-    LANG
-} from "../generalConsts";
+import { COMMAND as SYNC_FEATURE_COMMAND } from "../syncFeature/consts";
 
-const statusItem = languages.createLanguageStatusItem;
+import * as localization from "../localization";
+
+const { statusItems: statusItemsLoc } = localization;
+
+const { createStatusBarItem } = window;
+const { createLanguageStatusItem } = languages;
 const selector: DocumentSelector = {
     language: LANG
 };
@@ -21,22 +25,22 @@ export class StatusItems {
     public static initExtensionVersionItem() {
         const extensionVersion = extensions.getExtension(EXTENSION_ID)!.packageJSON.version;
 
-        const item = statusItem(ITEM.EXTENSION_VERSION.ID, selector);
+        const item = createLanguageStatusItem(ITEM.EXTENSION_VERSION.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = extensionVersion;
-        item.detail = l.bars.version.text;
+        item.detail = statusItemsLoc.extensionVersion.text;
 
         return item;
     }
 
     public static initCustomizeTokensItem() {
-        const item = statusItem(ITEM.CUSTOMIZE_TOKENS.ID, selector);
+        const item = createLanguageStatusItem(ITEM.CUSTOMIZE_TOKENS.ID, selector);
 
         item.name = ITEM.NAME;
-        item.text = l.bars.customize.text;
+        item.text = statusItemsLoc.customizeHighlighting.text;
         item.command = {
-            title: l.bars.customize.commandTitle,
+            title: statusItemsLoc.customizeHighlighting.commandTitle,
             command: COMMON_COMMAND.TOKEN_CUSTOMIZATION
         };
 
@@ -44,28 +48,34 @@ export class StatusItems {
     }
 
     public static initSyncFeatureItem() {
-        const item = statusItem(ITEM.SYNC_FEATURE.ID, selector);
+        const item = createLanguageStatusItem(ITEM.SYNC_FEATURE.ID, selector);
 
         item.name = ITEM.NAME;
         item.text = ITEM.SYNC_FEATURE.TEXT;
-        item.command = {
-            title: ITEM.SYNC_FEATURE.TITLE,
-            command: SYNC_COMMAND.MODIFY.COMMAND_DATA
-        };
 
         return item;
     }
 
     public static initFunctionListItem() {
-        const item = statusItem(ITEM.FUNCTION_LIST.ID, selector);
+        const item = createLanguageStatusItem(ITEM.FUNCTION_LIST.ID, selector);
 
         item.name = ITEM.NAME;
-        item.text = l.bars.funcList.text;
+        item.text = statusItemsLoc.functionList.text;
         item.command = {
-            title: l.bars.funcList.commandTitle,
+            title: statusItemsLoc.functionList.commandTitle,
             command: COMMON_COMMAND.FUNCTION_LIST
         };
 
+        return item;
+    }
+
+    public static initCurrentSyncedCommandItem() {
+        const item = createStatusBarItem('current-synced-command', StatusBarAlignment.Left);
+
+        item.name = statusItemsLoc.currentSyncedCommand.text;
+        item.command = SYNC_FEATURE_COMMAND.EDIT_COMMAND_DATA;
+        item.hide();
+        
         return item;
     }
 }
