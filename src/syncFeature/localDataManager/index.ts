@@ -1,17 +1,24 @@
+import { Uri } from "vscode";
+
 import { platform } from "os";
 import { access, mkdir, readFile, writeFile } from "fs/promises";
 
-import { EMPTY } from "../../generalConsts";
-import { LOCAL_DATA } from "../consts";
-import { Uri } from "vscode";
-import { UserEntry, SyncEntry, WorkspaceEntry } from "./enums";
+import { EMPTY } from "@general/consts";
+import { LOCAL_DATA } from "@syncFeature/consts";
 
-declare namespace LocalDataManager {
+import { UserEntry, SyncEntry, WorkspaceEntry, WriteAccountAction } from "@localDataManager/enums";
+
+export declare namespace LocalDataManager {
     namespace Data {
         namespace User {
             interface Object {
+                current: Account;
+                accounts: Account[];
+            }
+
+            interface Account {
+                username: string;
                 authToken: string;
-                botList: Bot.Data[];
             }
         }
 
@@ -59,8 +66,14 @@ declare namespace LocalDataManager {
 
 const isWindows = () => platform() === 'win32';
 
-export default class LocalData {
-    private readonly initUserData = JSON.stringify({ authToken: EMPTY });
+export class LocalData {
+    private readonly initUserData = JSON.stringify({
+        current: {
+            username: EMPTY,
+            authToken: EMPTY
+        },
+        accounts: []
+    });
     private readonly initSyncData = JSON.stringify({
         botID: EMPTY,
         commandData: {
@@ -106,28 +119,68 @@ export default class LocalData {
         return this;
     }
 
+    public async writeUserData(options: {
+        entry: UserEntry.CurrentAccount,
+        data: LocalDataManager.Data.User.Account
+    }): Promise<undefined>;
+    public async writeUserData(options: {
+        entry: UserEntry.Accounts,
+        data: LocalDataManager.Data.User.Account,
+        action: WriteAccountAction.Add
+    }): Promise<undefined>;
+    /**
+     * @returns An array of accounts which were removed, and an empty array if none of the provided accounts weren't deleted for some reason.
+     */
+    public async writeUserData(options: {
+        entry: UserEntry.Accounts,
+        data: LocalDataManager.Data.User.Account['username'][],
+        action: WriteAccountAction.Remove
+    }): Promise<LocalDataManager.Data.User.Account[]>;
 
     public async writeUserData(
         options:
-            | { entry: UserEntry.AuthToken, data: string }
-            | { entry: UserEntry.BotList, data: LocalDataManager.Bot.Data[] }
-    ): Promise<void> {
+            | { entry: UserEntry.CurrentAccount, data: LocalDataManager.Data.User.Account }
+            | { entry: UserEntry.Accounts, data: LocalDataManager.Data.User.Account, action: WriteAccountAction.Add }
+            | { entry: UserEntry.Accounts, data: LocalDataManager.Data.User.Account['username'][], action: WriteAccountAction.Remove }
+    ) {
         const userDataObject = await this.getUserData();
 
         switch (options.entry) {
-            case UserEntry.AuthToken:
-                userDataObject.authToken = options.data;
+            case UserEntry.CurrentAccount:
+                userDataObject.current = options.data;
                 break;
-            case UserEntry.BotList:
-                userDataObject.botList = options.data;
+            case UserEntry.Accounts:
+                switch (options.action) {
+                    case WriteAccountAction.Add:
+                        if (!userDataObject.accounts.find((value) => value.authToken == options.data.authToken))
+                            userDataObject.accounts.push(options.data);
+                        else
+                            throw new Error('[BDFD Extension] LocalDataManager: Failed to add an account because it is already added!');
+                        break;
+                    case WriteAccountAction.Remove:
+                        const deletedAccounts: LocalDataManager.Data.User.Account[] = [];
+
+                        for (const username of options.data) {
+                            const index = userDataObject.accounts.findIndex((account) => account.username == username);
+    
+                            if (index != -1)
+                                deletedAccounts.push(...userDataObject.accounts.splice(index, 1));
+                        }
+
+                        if (!deletedAccounts.length) return [];
+
+                        await writeFile(this.userDataPath, JSON.stringify(userDataObject));
+                        
+                        return deletedAccounts;
+                }
                 break;
         }
 
         await writeFile(this.userDataPath, JSON.stringify(userDataObject));
     }
 
-    public async getUserData(entry: UserEntry.AuthToken): Promise<string>;
-    public async getUserData(entry: UserEntry.BotList): Promise<LocalDataManager.Bot.Data[]>;
+    public async getUserData(entry: UserEntry.CurrentAccount): Promise<LocalDataManager.Data.User.Account>;
+    public async getUserData(entry: UserEntry.Accounts): Promise<LocalDataManager.Data.User.Account[]>;
     public async getUserData(): Promise<LocalDataManager.Data.User.Object>;
 
     public async getUserData(entry?: UserEntry) {
@@ -135,10 +188,10 @@ export default class LocalData {
         const userDataObject: LocalDataManager.Data.User.Object = JSON.parse(buffer.toString());
 
         switch (entry) {
-            case UserEntry.AuthToken:
-                return userDataObject.authToken;
-            case UserEntry.BotList:
-                return userDataObject.botList;
+            case UserEntry.CurrentAccount:
+                return userDataObject.current;
+            case UserEntry.Accounts:
+                return userDataObject.accounts;
             default:
                 return userDataObject;
         }
@@ -237,7 +290,6 @@ export default class LocalData {
         commandID: string
     }): Promise<string>;
     public async getWorkspaceData(): Promise<LocalDataManager.Data.Workspace.Data>;
-
 
     public async getWorkspaceData(
         options?:

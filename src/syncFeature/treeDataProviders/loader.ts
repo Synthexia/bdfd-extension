@@ -6,13 +6,12 @@ import {
     commands,
 } from "vscode";
 
-import LocalData from "../localDataManager";
-import { statusItems } from "../../extension";
+import { statusItems } from "@extension";
+import { LocalData } from "@localDataManager";
+import { COMMAND } from "@syncFeature/consts";
+import { StatusItem } from "@statusItems/enums";
 
-import { COMMAND } from "../consts";
-
-import { TreeView } from "../../generalEnums";
-import { StatusItem } from "../../statusItems/enums";
+import { TreeView } from "./enums";
 import { textDocumentSaved } from "./listeners/textDocumentSaved";
 import { activeTextEditorChangedListener } from "./listeners/activeTextEditorChanged";
 import { botSelected } from "./listeners/botSelected";

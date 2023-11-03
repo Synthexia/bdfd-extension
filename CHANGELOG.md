@@ -9,6 +9,7 @@
 - New README.
 - Updated the Sync guide.
 - Updated Change Log style.
+- Added Rich Presence (aka the activity status for Discord).
 
 <details><summary>Previous Updates</summary>
 

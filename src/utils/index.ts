@@ -1,9 +1,18 @@
 import { StatusBarItem, window } from "vscode";
-import * as localization from "../localization";
+
 import { LanguageName } from "@synthexia/bdfd-external/dist/enums";
 
+import { AUTH_TOKEN_SESSION_PART } from "@syncFeature/consts";
+
+import {
+    general as generalLoc,
+    statusItems as statusItemsLoc
+} from "@localization";
+
+const { currentSyncedCommand: currentSyncedCommandLoc } = statusItemsLoc;
+
 export function actionCancelledNotification() {
-    window.showWarningMessage(localization.general.actionCancelled);
+    window.showWarningMessage(generalLoc.actionCancelled);
     return;
 }
 
@@ -16,6 +25,15 @@ export function updateCurrentSyncedCommandSBIData(
         id: string
     }
 ) {
-    item.text = `$(check) ${command.name || 'Unnamed command'} - ${command.trigger || 'Non-triggerable'}`;
+    item.text = `$(check) ${command.name || currentSyncedCommandLoc.text.unnamedCommand} - ${command.trigger || currentSyncedCommandLoc.text.nonTriggerableCommand}`;
     item.tooltip = `${command.language} | ${command.id}`;
+}
+
+export function handleAuthToken(authToken: string) {
+    const authTokenParts = authToken.split('=');
+
+    if (authTokenParts[0] == AUTH_TOKEN_SESSION_PART)
+        return authToken.replace(`${AUTH_TOKEN_SESSION_PART}=`, '');
+    else
+        return authToken;
 }

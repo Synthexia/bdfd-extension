@@ -4,5 +4,5 @@ export const ICON = {
     BOT: new ThemeIcon('hubot'),
     FILE: new ThemeIcon('file'),
     DATABASE: new ThemeIcon('database'),
-    SYNC: new ThemeIcon('sync')
+    SYNC: new ThemeIcon('sync~spin')
 } as const;

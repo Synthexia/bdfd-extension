@@ -1,7 +1,8 @@
 import { TreeDataProvider, TreeItem, ProviderResult, TreeItemCollapsibleState } from "vscode";
-import { ICON } from "../consts";
+
 import { Request } from "@synthexia/bdfd-external";
 
+import { ICON } from "@treeDataProviders/consts";
 export class VariableList implements TreeDataProvider<VariableItem> {
     constructor(public readonly variableList: VariableItem[]) {}
 

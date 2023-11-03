@@ -1,12 +1,51 @@
 {
     "compilerOptions": {
+        "strict": true,
         "module": "CommonJS",
         "moduleResolution": "node",
         "target": "ESNext",
-        "lib": ["ESNext", "DOM"],
-        "strict": true,
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "rootDir": "src",
-        "outDir": "dist"
+        "outDir": "dist",
+        "paths": {
+            "@extension": ["./src/extension"],
+            "@localization": ["./src/localization"],
+            "@utils": ["./src/utils/index"],
+
+            "@general/consts": ["./src/generalConsts"],
+            
+            "@syncFeature": ["./src/syncFeature/loader"],
+            "@syncFeature/consts": ["./src/syncFeature/consts"],
+
+            "@treeDataProviders/consts": ["./src/syncFeature/treeDataProviders/consts"],
+            "@treeDataProviders/enums": ["./src/syncFeature/treeDataProviders/enums"],
+            "@treeDataProviders/loader": ["./src/syncFeature/treeDataProviders/loader"],
+            "@treeDataProviders/providers/*": ["./src/syncFeature/treeDataProviders/providers/*"],
+            
+            "@localDataManager": ["./src/syncFeature/localDataManager/index"],
+            "@localDataManager/enums": ["./src/syncFeature/localDataManager/enums"],
+
+            "@rpc": ["./src/rpc/index"],
+            "@rpc/consts": ["./src/rpc/consts"],
+            
+            "@experiments": ["./src/experiments/loader"],
+            "@experiments/consts": ["./src/experiments/consts"],
+
+            "@autoCompletions": ["./src/autoCompletions/loader"],
+            "@autoCompletions/consts": ["./src/autoCompletions/consts"],
+
+            "@contextMenuUtils": ["./src/contextMenuUtils/loader"],
+            "@contextMenuUtils/consts": ["./src/contextMenuUtils/consts"],
+
+            "@commonCommands": ["./src/commonCommands/loader"],
+            "@commonCommands/consts": ["./src/commonCommands/consts"],
+            "@commonCommands/enums": ["./src/commonCommands/enums"],
+            
+            "@statusItems": ["./src/statusItems/loader"],
+            "@statusItems/consts": ["./src/statusItems/consts"],
+            "@statusItems/enums": ["./src/statusItems/enums"],
+            "@statusItems/stateUpdaters": ["./src/statusItems/stateUpdaters"]
+        }
     },
-    "exclude": [ "node_modules/" ]
+    "exclude": ["node_modules/"]
 }

@@ -2,16 +2,14 @@ import { type ExtensionContext, commands, extensions, window, workspace, QuickPi
 
 import { Functions } from "@synthexia/bpapi-wrapper";
 
+import { EXTENSION_ID } from "@general/consts";
+import { commonCommands as commonCommandsLoc } from "@localization";
+import { actionCancelledNotification } from "@utils";
+import { updateFunctionListState } from "@statusItems/stateUpdaters";
+
 import { COMMAND, EXAMPLE, KEY } from "./consts";
-
-import * as localization from "../localization";
-
-import { updateFunctionListState } from "../statusItems/stateUpdaters";
 import { TextMateUpdateType } from "./enums";
-import { EXTENSION_ID } from "../generalConsts";
-import { actionCancelledNotification } from "../utils";
 
-const { commonCommands: commonCommandsLoc } = localization;
 const {
     customizeHighlighting: customizeHighlightingLoc,
     functionList: functionListLoc
@@ -52,7 +50,7 @@ const {
     showQuickPick
 } = window;
 
-export default function loadCommonCommands(context: ExtensionContext) {
+export function loadCommonCommands(context: ExtensionContext) {
     context.subscriptions.push(
         commands.registerCommand(COMMAND.FUNCTION_LIST, functionList),
         commands.registerCommand(COMMAND.TOKEN_CUSTOMIZATION, tokenCustomization),
@@ -100,9 +98,8 @@ async function tokenCustomization() {
             }
         });
 
-        workspace.getConfiguration(KEY.EDITOR).update(KEY.OPTION, {
-            textMateRules: customizedTokens
-        }, true);
+        workspace.getConfiguration(KEY.EDITOR)
+            .update(KEY.OPTION, { textMateRules: customizedTokens }, true);
     }
 
     const textMateRules: TextMate.Rule[] = extensions.getExtension(EXTENSION_ID)!
@@ -112,7 +109,7 @@ async function tokenCustomization() {
         .textMateRules;
 
     const categoriesForSelection = textMateRules.map((textMateRule) => <TextMate.QuickPickItem> {
-        description: `${customizeHighlightingLoc.quickPick.foreground.color}: ${textMateRule.settings.foreground ?? customizeHighlightingLoc.quickPick.foreground.noColor} | ${customizeHighlightingLoc.quickPick.font.style}: ${textMateRule.settings.fontStyle ?? localization.commonCommands.customizeHighlighting.quickPick.font.noStyle}`,
+        description: `${customizeHighlightingLoc.quickPick.foreground.color}: ${textMateRule.settings.foreground ?? customizeHighlightingLoc.quickPick.foreground.noColor} | ${customizeHighlightingLoc.quickPick.font.style}: ${textMateRule.settings.fontStyle ?? customizeHighlightingLoc.quickPick.font.noStyle}`,
         foreground: textMateRule.settings.foreground,
         fontStyle: textMateRule.settings.fontStyle,
         scope: textMateRule.scope,
@@ -180,7 +177,6 @@ function resetTokenCustomization() {
         .configurationDefaults[KEY.FULL]
         .textMateRules;
 
-    workspace.getConfiguration(KEY.EDITOR).update(KEY.OPTION, {
-        textMateRules: textMateRules
-    }, true);
+    workspace.getConfiguration(KEY.EDITOR)
+        .update(KEY.OPTION, { textMateRules }, true);
 }

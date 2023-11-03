@@ -4,18 +4,24 @@ import {
     type ExtensionContext,
     window
 } from "vscode";
+
 import { Command, Variable } from "@synthexia/bdfd-external";
+
 import { access, mkdir } from "fs/promises";
-import { TreeView } from "../../../generalEnums";
-import { actionCancelledNotification } from "../../../utils";
-import LocalData from "../../localDataManager";
+
+import { LocalData } from "@localDataManager";
+import { WorkspaceEntry } from "@localDataManager/enums";
+
+import { actionCancelledNotification } from "@utils";
+import * as localization from "@localization";
+
+import { TreeView } from "@treeDataProviders/enums";
+import { BotItem } from "@treeDataProviders/providers/botList";
+import { CommandItem, CommandList } from "@treeDataProviders/providers/commandList";
+import { VariableItem, VariableList } from "@treeDataProviders/providers/variableList";
+
 import { commandSelected } from "./commandSelected";
 import { variableSelected } from "./variableSelected";
-import * as localization from "../../../localization";
-import { BotItem } from "../providers/botList";
-import { CommandItem, CommandList } from "../providers/commandList";
-import { VariableItem, VariableList } from "../providers/variableList";
-import { WorkspaceEntry } from "../../localDataManager/enums";
 
 const { showOpenDialog, registerTreeDataProvider, createTreeView } = window;
 

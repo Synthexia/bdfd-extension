@@ -1,8 +1,10 @@
 import { type ExtensionContext, commands, window } from "vscode";
-import { COMMAND, } from "./consts";
-import { SPECIAL_CHARACTER } from "../generalConsts";
 
-export default function loadContextMenuUtils(context: ExtensionContext) {
+import { SPECIAL_CHARACTER } from "@general/consts";
+
+import { COMMAND, } from "./consts";
+
+export function loadContextMenuUtils(context: ExtensionContext) {
     context.subscriptions.push(
         commands.registerCommand(COMMAND.ESCAPE, escapeSelectedCode)
     );

@@ -5,11 +5,13 @@ import {
     Uri,
     commands
 } from "vscode";
-import { rpc } from "../../../extension";
-import LocalData from "../../localDataManager";
-import { CommandItem } from "../providers/commandList";
-import { updateCurrentSyncedCommandSBIData } from "../../../utils";
-import { WorkspaceEntry, SyncEntry } from "../../localDataManager/enums";
+
+import { rpc } from "@extension";
+import { LocalData } from "@localDataManager";
+import { WorkspaceEntry, SyncEntry } from "@localDataManager/enums";
+import { updateCurrentSyncedCommandSBIData } from "@utils";
+
+import { CommandItem } from "@treeDataProviders/providers/commandList";
 
 export async function commandSelected(
     selectedCommand: TreeViewSelectionChangeEvent<CommandItem>,

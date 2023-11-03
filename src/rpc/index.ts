@@ -1,6 +1,8 @@
 import { Client, type Presence } from "discord-rpc";
+
+import { richPresence as richPresenceLoc } from "@localization";
+
 import { CLIENT_ID, ICON, TRANSPORT } from "./consts";
-import { richPresence } from "../localization";
 
 const rpc = new Client({ transport: TRANSPORT });
 const startTimestamp = new Date();
@@ -16,7 +18,7 @@ export class RPC {
     private baseActivity = {
         largeImageKey: ICON,
         buttons: [{
-            label: richPresence.label,
+            label: richPresenceLoc.label,
             url: 'https://github.com/Synthexia/bdfd-extension'
         }],
         startTimestamp
@@ -73,7 +75,7 @@ export class RPC {
         const { botName, commandName, commandTrigger } = data;
 
         await this.setActivity({
-            details: richPresence.details(botName),
+            details: richPresenceLoc.details(botName),
             state: `${commandName} - ${commandTrigger}`
         });
     }

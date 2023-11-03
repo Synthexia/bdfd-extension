@@ -1,9 +1,12 @@
 import { type TreeViewSelectionChangeEvent, window } from "vscode";
+
 import { Variable } from "@synthexia/bdfd-external";
-import { ICON } from "../consts";
-import { actionCancelledNotification } from "../../../utils";
-import * as localization from "../../../localization";
-import { VariableItem } from "../providers/variableList";
+
+import { actionCancelledNotification } from "@utils";
+import * as localization from "@localization";
+
+import { ICON } from "@treeDataProviders/consts";
+import { VariableItem } from "@treeDataProviders/providers/variableList";
 
 const { showQuickPick, showInputBox } = window;
 

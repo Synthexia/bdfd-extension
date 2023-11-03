@@ -1,18 +1,21 @@
-import { Command } from "@synthexia/bdfd-external";
-import { updateCurrentSyncedCommandState } from "../../../statusItems/stateUpdaters";
-import { actionCancelledNotification } from "../../../utils";
-import LocalData from "../../localDataManager";
-import * as localization from "../../../localization";
 import { window } from "vscode";
+
+import { Command } from "@synthexia/bdfd-external";
 import { LanguageId, LanguageName } from "@synthexia/bdfd-external/dist/enums";
-import { UserEntry, SyncEntry } from "../../localDataManager/enums";
+
+import { updateCurrentSyncedCommandState } from "@statusItems/stateUpdaters";
+import { actionCancelledNotification } from "@utils";
+import { syncFeature as syncFeatureLoc } from "@localization";
+
+import { LocalData } from "@localDataManager";
+import { UserEntry, SyncEntry } from "@localDataManager/enums";
 
 const { showQuickPick, showInputBox } = window;
 
 const {
     showQuickPick: showQuickPickLoc,
     showInputBox: showInputBoxLoc
-} = localization.syncFeature.treeViews;
+} = syncFeatureLoc.treeViews;
 
 export async function editCommandDataCallback(local: LocalData) {
     const action = await showQuickPick(showQuickPickLoc.commands.actions, {
@@ -23,7 +26,7 @@ export async function editCommandDataCallback(local: LocalData) {
     if (!action)
         return actionCancelledNotification();
 
-    const authToken = await local.getUserData(UserEntry.AuthToken);
+    const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
     const botId = await local.getSyncData(SyncEntry.Bot);
     const { commandID, commandName, commandTrigger, commandLanguage } = await local.getSyncData(SyncEntry.CommandData);
 

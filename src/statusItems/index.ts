@@ -6,14 +6,13 @@ import {
     StatusBarAlignment
 } from "vscode";
 
-import { EXTENSION_ID, LANG } from "../generalConsts";
+import { EXTENSION_ID, LANG } from "@general/consts";
+import { COMMAND as COMMON_COMMAND } from "@commonCommands/consts";
+import { COMMAND as SYNC_FEATURE_COMMAND } from "@syncFeature/consts";
+
+import { statusItems as statusItemsLoc } from "@localization";
+
 import { ITEM } from "./consts";
-import { COMMAND as COMMON_COMMAND } from "../commonCommands/consts";
-import { COMMAND as SYNC_FEATURE_COMMAND } from "../syncFeature/consts";
-
-import * as localization from "../localization";
-
-const { statusItems: statusItemsLoc } = localization;
 
 const { createStatusBarItem } = window;
 const { createLanguageStatusItem } = languages;
@@ -72,7 +71,7 @@ export class StatusItems {
     public static initCurrentSyncedCommandItem() {
         const item = createStatusBarItem('current-synced-command', StatusBarAlignment.Left);
 
-        item.name = statusItemsLoc.currentSyncedCommand.text;
+        item.name = statusItemsLoc.currentSyncedCommand.name;
         item.command = SYNC_FEATURE_COMMAND.EDIT_COMMAND_DATA;
         item.hide();
         

@@ -1,6 +1,8 @@
 import { TreeDataProvider, TreeItem, ProviderResult, TreeItemCollapsibleState } from "vscode";
-import { ICON } from "../consts";
+
 import { Request } from "@synthexia/bdfd-external";
+
+import { ICON } from "@treeDataProviders/consts";
 
 export class BotList implements TreeDataProvider<BotItem> {
     constructor(public readonly botList: BotItem[]) {}
@@ -16,7 +18,7 @@ export class BotList implements TreeDataProvider<BotItem> {
 
 export class BotItem extends TreeItem {
     constructor(public readonly botData: Request.Response.BotList) {
-        const { id, name, commandCount, variableCount } = botData;
+        const { name, commandCount, variableCount } = botData;
 
         super(name, TreeItemCollapsibleState.None);
         this.tooltip = `${commandCount} | ${variableCount}`;

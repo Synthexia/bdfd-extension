@@ -1,5 +1,4 @@
 export const EXTENSION_ID = 'synthexia.bdfd-extension';
-export const TREE_DATA_PROVIDER = 'bdfd-container';
 
 export const EMPTY = '';
 export const SEMI_EMPTY = ' ';

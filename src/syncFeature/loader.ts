@@ -1,62 +1,84 @@
-import { window, type ExtensionContext } from "vscode";
+import { window, type ExtensionContext, commands } from "vscode";
 
-import { AUTH_TOKEN_SESSION_PART } from "./consts";
-
-import LocalData from "./localDataManager";
-import * as localization from "../localization";
-import { loadTreeDataProviders } from "./treeDataProviders/loader";
 import { Bot, User } from "@synthexia/bdfd-external";
-import { actionCancelledNotification } from "../utils";
-import { UserEntry } from "./localDataManager/enums";
-import { BotItem } from "./treeDataProviders/providers/botList";
+
+import { actionCancelledNotification, handleAuthToken } from "@utils";
+import { UserEntry, WriteAccountAction } from "@localDataManager/enums";
+import { syncFeature as syncFeatureLoc } from "@localization";
+
+import { LocalData, LocalDataManager } from "@localDataManager";
+import { loadTreeDataProviders } from "@treeDataProviders/loader";
+import { BotItem } from "@treeDataProviders/providers/botList";
+
+import { COMMAND } from "@syncFeature/consts";
+import { switchAccountCallback } from "./callbacks/switchAccount";
 
 const { showInformationMessage, showInputBox } = window;
+const { registerCommand } = commands;
 
-function handleAuthToken(authToken: string) {
-    const authTokenParts = authToken.split('=');
-
-    if (authTokenParts[0] == AUTH_TOKEN_SESSION_PART) return authToken.replace(`${AUTH_TOKEN_SESSION_PART}=`, '');
-    else return authToken;
-}
-
-export default async function loadSyncFeature(context: ExtensionContext) {
+export async function loadSyncFeature(context: ExtensionContext) {
     const local = await new LocalData().init();
     
-    const authToken = await local.getUserData(UserEntry.AuthToken);
+    context.subscriptions.push(
+        registerCommand(COMMAND.SWITCH_ACCOUNT, async () => await switchAccountCallback(local))
+    );
 
+    const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
+
+    await authorize(context, local, authToken);
+}
+
+async function authorize(context: ExtensionContext, local: LocalData, authToken: string, failed = false) {
     const username = await User.get(authToken)
-        .catch(() => {
-            showInformationMessage(localization.syncFeature.greeting.featureUnauthorized, localization.syncFeature.greeting.authorizeAction)
-                .then(async (item) => {
-                    if (item == localization.syncFeature.greeting.authorizeAction) {
-                        const input = await showInputBox({
-                            title: localization.syncFeature.command.configureSyncFeature.titles.title,
-                            placeHolder: localization.syncFeature.command.configureSyncFeature.placeholders.token,
-                            password: true
-                        });
+        .catch(async () => {
+            const action = await showInformationMessage(syncFeatureLoc.greeting.featureUnauthorized, syncFeatureLoc.greeting.authorizeAction);
+            
+            if (action == syncFeatureLoc.greeting.authorizeAction) {
+                const inputtedAuthToken = await showInputBox({
+                    title: syncFeatureLoc.command.configureSyncFeature.titles.title,
+                    placeHolder: syncFeatureLoc.command.configureSyncFeature.placeholders.placeholder,
+                    password: true
+                });
 
-                        if (!input)
-                            return actionCancelledNotification();
+                if (!inputtedAuthToken)
+                    return actionCancelledNotification();
 
-                        await local.writeUserData({
-                            entry: UserEntry.AuthToken,
-                            data: handleAuthToken(input)
-                        });
+                const handledAuthToken = handleAuthToken(inputtedAuthToken);
 
-                        loadSyncFeature(context);
+                await local.writeUserData({
+                    entry: UserEntry.CurrentAccount,
+                    data: {
+                        username: '',
+                        authToken: handledAuthToken
                     }
                 });
 
-            return;
+                await authorize(context, local, handledAuthToken, true);
+            }
         });
 
     if (!username) return;
+    
+    if (failed) {
+        const data: LocalDataManager.Data.User.Account = { username, authToken };
 
-    showInformationMessage(localization.syncFeature.greeting.featureAuthorized(username));
+        await local.writeUserData({
+            entry: UserEntry.CurrentAccount,
+            data
+        });
 
-    const items: BotItem[] = [];
+        await local.writeUserData({
+            entry: UserEntry.Accounts,
+            action: WriteAccountAction.Add,
+            data
+        });
+    }
+
+    showInformationMessage(syncFeatureLoc.greeting.featureAuthorized(username));
+
+    const botItems: BotItem[] = [];
     for (const bot of await Bot.list(authToken))
-        items.push(new BotItem(bot));
+        botItems.push(new BotItem(bot));
 
-    await loadTreeDataProviders(context, authToken, items);
+    await loadTreeDataProviders(context, authToken, botItems);
 }

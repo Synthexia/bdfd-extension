@@ -6,7 +6,7 @@
 	"icon": "assets/icons/ext-logo.png",
 	"displayName": "Bot Designer For Discord: New",
 	"description": "Enjoyed BDFD but want to code your bot comfortable using VS Code? The extension will solve your needs!",
-	"version": "3.1.0-dev.47",
+	"version": "3.1.0-dev.49",
 	"l10n": "./l10n",
 	"contributors": [
 		{
@@ -176,6 +176,12 @@
 				"category": "BDFD Sync Feature",
 				"title": "Edit Command Data",
 				"icon": "$(edit)"
+			},
+			{
+				"command": "bdfd-sync-feature.switch-account",
+				"category": "BDFD Sync Feature",
+				"title": "Switch Account",
+				"icon": "$(account)"
 			}
 		],
 		"menus": {

@@ -11,13 +11,19 @@ import {
     window
 } from "vscode";
 
-import { EMPTY, EMPTY_ARRAY, LANG, SPECIAL_CHARACTER } from "../generalConsts";
+import { EMPTY, EMPTY_ARRAY, LANG, SPECIAL_CHARACTER } from "@general/consts";
+import { autoCompletions as autoCompletionsLoc } from "@localization";
+
 import { ARGUMENT, EXCEPTION_TAG, PARENTHESIS_REGEX, TABSTOP_PART } from "./consts";
-import * as localization from "../localization";
 
-const buildTabstop = (index: number, tabstopPart: string) => SPECIAL_CHARACTER.DOLLAR.ESCAPED2 + SPECIAL_CHARACTER.LEFT_BRACE.NORMAL + index + tabstopPart + SPECIAL_CHARACTER.RIGHT_BRACE.NORMAL;
+const buildTabstop = (index: number, tabstopPart: string) =>
+    SPECIAL_CHARACTER.DOLLAR.ESCAPED2 +
+    SPECIAL_CHARACTER.LEFT_BRACE.NORMAL +
+    index +
+    tabstopPart +
+    SPECIAL_CHARACTER.RIGHT_BRACE.NORMAL;
 
-export default async function loadAutoCompletionsFeature(context: ExtensionContext) {
+export async function loadAutoCompletionsFeature(context: ExtensionContext) {
     const functionList = await Functions.list();
     const functionTagList = await Functions.tagList();
 
@@ -33,9 +39,9 @@ export default async function loadAutoCompletionsFeature(context: ExtensionConte
 
         if (tag.includes(SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL)) {
             const splittedTag = tag
-            .split(SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL)[1]
-            .split(SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL)[0]
-            .split(SPECIAL_CHARACTER.SEMICOLON.NORMAL);
+                .split(SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL)[1]
+                .split(SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL)[0]
+                .split(SPECIAL_CHARACTER.SEMICOLON.NORMAL);
             
             let argumentIndex = 0;
             for (const argument of splittedTag) {
@@ -57,8 +63,10 @@ export default async function loadAutoCompletionsFeature(context: ExtensionConte
                             functionTagList[functionIndex] == EXCEPTION_TAG.ADD_BUTTON
                             ||
                             functionTagList[functionIndex] == EXCEPTION_TAG.EDIT_BUTTON
-                        ) tabstop = buildTabstop(argumentIndex, TABSTOP_PART.BUTTON_STYLE);
-                        else tabstop = buildTabstop(argumentIndex, TABSTOP_PART.PARAGRAPH_STYLE);
+                        )
+                            tabstop = buildTabstop(argumentIndex, TABSTOP_PART.BUTTON_STYLE);
+                        else
+                            tabstop = buildTabstop(argumentIndex, TABSTOP_PART.PARAGRAPH_STYLE);
                         break;
                     case ARGUMENT.INDEX.A:
                         tabstop = buildTabstop(argumentIndex, TABSTOP_PART.INDEX);
@@ -89,18 +97,21 @@ export default async function loadAutoCompletionsFeature(context: ExtensionConte
 
                 tabstop = tabstop.replace(PARENTHESIS_REGEX, EMPTY);
 
-                if (argumentIndex == 1) tag = tag.replace(
-                    SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL + argument,
-                    SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL + tabstop
-                );
-                else if (argumentIndex == splittedTag.length) tag = tag.replace(
-                    argument + SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL,
-                    tabstop + SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL
-                );
-                else tag = tag.replace(
-                    SPECIAL_CHARACTER.SEMICOLON.NORMAL + argument + SPECIAL_CHARACTER.SEMICOLON.NORMAL,
-                    SPECIAL_CHARACTER.SEMICOLON.NORMAL + tabstop + SPECIAL_CHARACTER.SEMICOLON.NORMAL
-                );
+                if (argumentIndex == 1)
+                    tag = tag.replace(
+                        SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL + argument,
+                        SPECIAL_CHARACTER.LEFT_BRACKET.NORMAL + tabstop
+                    );
+                else if (argumentIndex == splittedTag.length)
+                    tag = tag.replace(
+                        argument + SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL,
+                        tabstop + SPECIAL_CHARACTER.RIGHT_BRACKET.NORMAL
+                    );
+                else
+                    tag = tag.replace(
+                        SPECIAL_CHARACTER.SEMICOLON.NORMAL + argument + SPECIAL_CHARACTER.SEMICOLON.NORMAL,
+                        SPECIAL_CHARACTER.SEMICOLON.NORMAL + tabstop + SPECIAL_CHARACTER.SEMICOLON.NORMAL
+                    );
             }
         }
 
@@ -112,23 +123,31 @@ export default async function loadAutoCompletionsFeature(context: ExtensionConte
                     empty: EMPTY
                 };
 
-                if (argument.required) flags.required = localization.autoCompletions.required;
-                else flags.required = localization.autoCompletions.notRequired;
+                if (argument.required)
+                    flags.required = autoCompletionsLoc.required;
+                else
+                    flags.required = autoCompletionsLoc.notRequired;
 
-                if (argument.empty) flags.empty = localization.autoCompletions.canBeEmpty;
-                else flags.empty = localization.autoCompletions.cannotBeEmpty;
+                if (argument.empty)
+                    flags.empty = autoCompletionsLoc.canBeEmpty;
+                else
+                    flags.empty = autoCompletionsLoc.cannotBeEmpty;
 
                 if (argument.enumData) {
                     const enumData = argument.enumData.join(', ');
-                    currentArgument = `---\n**${localization.autoCompletions.name}**: ${name}\n\n**${localization.autoCompletions.type}**: ${type}\n\n**${localization.autoCompletions.possibleValues}**: ${enumData}\n\n**${localization.autoCompletions.flags}**: ${flags.required} & ${flags.empty}\n\n---`;
-                } else currentArgument = `---\n**${localization.autoCompletions.name}**: ${name}\n\n**${localization.autoCompletions.type}**: ${type}\n\n**${localization.autoCompletions.flags}**: ${flags.required} & ${flags.empty}\n\n---`;
+                    currentArgument = `---\n**${autoCompletionsLoc.name}**: ${name}\n\n**${autoCompletionsLoc.type}**: ${type}\n\n**${autoCompletionsLoc.possibleValues}**: ${enumData}\n\n**${autoCompletionsLoc.flags}**: ${flags.required} & ${flags.empty}\n\n---`;
+                }
+                else
+                    currentArgument = `---\n**${autoCompletionsLoc.name}**: ${name}\n\n**${autoCompletionsLoc.type}**: ${type}\n\n**${autoCompletionsLoc.flags}**: ${flags.required} & ${flags.empty}\n\n---`;
 
                 argumentList += currentArgument;
                 argumentCount = info.args.length;
             }
-        } else argumentList = localization.autoCompletions.noArguments;
+        }
+        else
+            argumentList = autoCompletionsLoc.noArguments;
 
-        const documentation = '```bds\n' + functionTagList[functionIndex] + '\n```\n\n' + `#### ${localization.autoCompletions.arguments} (${argumentCount})\n${argumentList}`;
+        const documentation = '```bds\n' + functionTagList[functionIndex] + '\n```\n\n' + `#### ${autoCompletionsLoc.arguments} (${argumentCount})\n${argumentList}`;
 
         autoCompletionItems.push({
             label: functionTagList[functionIndex],

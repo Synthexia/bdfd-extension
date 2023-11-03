@@ -1,6 +1,11 @@
 export enum UserEntry {
-    AuthToken = 'authToken',
-    BotList = 'botList'
+    CurrentAccount = 'currentAccount',
+    Accounts = 'accounts'
+}
+
+export enum WriteAccountAction {
+    Add = 'add',
+    Remove = 'remove'
 }
 
 export enum SyncEntry {
