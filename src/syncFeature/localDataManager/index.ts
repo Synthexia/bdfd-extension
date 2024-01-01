@@ -152,8 +152,14 @@ export class LocalData {
             case UserEntry.Accounts:
                 switch (options.action) {
                     case WriteAccountAction.Add:
-                        if (!userDataObject.accounts.find((value) => value.authToken == options.data.authToken))
+                        if (!userDataObject.accounts.find((value) => value.authToken == options.data.authToken)) {
+                            // Check for duplicated/old username account. Remove if it already exists.
+                            const index = userDataObject.accounts.findIndex((value) => value.username == options.data.username);
+                            if (index != -1)
+                                userDataObject.accounts.splice(index, 1);
+
                             userDataObject.accounts.push(options.data);
+                        }
                         else
                             throw new Error('[BDFD Extension] LocalDataManager: Failed to add an account because it is already added!');
                         break;
@@ -258,7 +264,7 @@ export class LocalData {
         switch (options.entry) {
             case WorkspaceEntry.Root:
                 workspaceDataObject.root = options.path;
-                return;
+                break;
             case WorkspaceEntry.BotCommands:
                 const commandPath = workspaceDataObject.root + `/${options.botID}/${options.commandID}.bds`;
 
@@ -272,7 +278,10 @@ export class LocalData {
 
                 return Uri.file(commandPath);
         }
+
+        await writeFile(this.workspaceDataPath, JSON.stringify(workspaceDataObject));
     }
+        
 
     public async getWorkspaceData(options: {
         entry: WorkspaceEntry.Root

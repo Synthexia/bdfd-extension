@@ -2,7 +2,7 @@ import { Client, type Presence } from "discord-rpc";
 
 import { richPresence as richPresenceLoc } from "@localization";
 
-import { CLIENT_ID, ICON, TRANSPORT } from "./consts";
+import { CLIENT_ID, ICON, TRANSPORT } from "@rpc/consts";
 
 const rpc = new Client({ transport: TRANSPORT });
 const startTimestamp = new Date();
@@ -34,6 +34,7 @@ export class RPC {
             | 'largeImageKey'
             | 'largeImageText'
             | 'startTimestamp'
+            | 'buttons'
         >
     ) {
         await this.client.setActivity({
@@ -56,19 +57,26 @@ export class RPC {
 
         this.client.on('error', (e: Error) => {
             if (e.name == 'RPC_CONNECTION_TIMEOUT') {
-                console.info('RPC Connection timed out... Reconnecting');
-                this.client.login({ clientId: CLIENT_ID });
+                console.info('RPC Connection timed out... Reconnecting in 5 seconds');
+                
+                setTimeout(() => this.makeConnection(CLIENT_ID), 5000);
             }
+            else
+                console.error('Unhandled RPC Error:', e);
         });
         
-        this.client.login({ clientId: CLIENT_ID })
-            .then(async () => {
-                await this.setActivity({
-                    details: 'Just starting a session...'
-                });
-            });
+        this.makeConnection(CLIENT_ID);
 
         return this;
+    }
+
+    private makeConnection(clientId: string) {
+        this.client.login({ clientId })
+            .then(async () => {
+                await this.setActivity({
+                    details: richPresenceLoc.loginDetails
+                });
+            });
     }
 
     public async updateActivity(data: PresenceData) {
