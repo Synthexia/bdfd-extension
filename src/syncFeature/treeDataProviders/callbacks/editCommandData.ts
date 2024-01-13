@@ -7,7 +7,7 @@ import { updateCurrentSyncedCommandState } from "@statusItems/stateUpdaters";
 import { actionCancelledNotification } from "@utils";
 import { syncFeature as syncFeatureLoc } from "@localization";
 
-import { LocalData } from "@localDataManager";
+import { type LocalData } from "@localDataManager";
 import { UserEntry, SyncEntry } from "@localDataManager/enums";
 
 const { showQuickPick, showInputBox } = window;
