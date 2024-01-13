@@ -11,6 +11,8 @@ export const LOCAL_DATA = {
 } as const;
 
 export const COMMAND = {
+    DELETE_COMMAND: 'bdfd-sync-feature.delete-command',
+    DELETE_VARIABLE: 'bdfd-sync-feature.delete-variable',
     EDIT_COMMAND_DATA: 'bdfd-sync-feature.edit-command',
     SWITCH_ACCOUNT: 'bdfd-sync-feature.switch-account'
 } as const;

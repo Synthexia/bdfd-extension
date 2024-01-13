@@ -27,6 +27,7 @@ export async function activeTextEditorChangedListener(
 
     const { name, trigger, language } = await Command.get(authToken, botId, commandId);
     
+    await local.writeSyncData({ entry: SyncEntry.Bot, data: botId });
     await local.writeSyncData({
         entry: SyncEntry.CommandData,
         data: {

@@ -10,7 +10,7 @@ import { Command, Variable } from "@synthexia/bdfd-external";
 import { access, mkdir } from "fs/promises";
 
 import { LocalData } from "@localDataManager";
-import { WorkspaceEntry } from "@localDataManager/enums";
+import { SyncEntry, WorkspaceEntry } from "@localDataManager/enums";
 
 import { actionCancelledNotification } from "@utils";
 import * as localization from "@localization";
@@ -58,13 +58,15 @@ export async function botSelected(
 
     await access(`${folderWithBots}/${botId}`).catch(async () => await mkdir(`${folderWithBots}/${botId}`));
 
+    await local.writeSyncData({ entry: SyncEntry.Bot, data: botId });
+
     const commandList: CommandItem[] = [];
     const variableList: VariableItem[] = [];
 
     for (const command of await Command.list(authToken, botId))
-        commandList.push(new CommandItem(command));
+        commandList.push(new CommandItem({ ...command, botReference: botId }));
     for (const variable of await Variable.list(authToken, botId))
-        variableList.push(new VariableItem(variable));
+        variableList.push(new VariableItem({ ...variable, botReference: botId }));
 
     const commandListProvider = new CommandList(commandList);
     const variableListProvider = new VariableList(variableList);
@@ -78,7 +80,7 @@ export async function botSelected(
         .onDidChangeSelection(async (selectedCommand) => {
             await commandSelected(selectedCommand, local, currentSyncedCommandSBI, authToken, botId);
         });
-
+        
     const treeWithVariableList = createTreeView(TreeView.VariableList, { treeDataProvider: variableListProvider })
         .onDidChangeSelection(async (selectedVariable) => {
             await variableSelected(selectedVariable, authToken, botId);

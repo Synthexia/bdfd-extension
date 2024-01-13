@@ -1,4 +1,9 @@
-import { TreeDataProvider, TreeItem, ProviderResult, TreeItemCollapsibleState } from "vscode";
+import {
+    type TreeDataProvider,
+    type ProviderResult,
+    TreeItem,
+    TreeItemCollapsibleState
+} from "vscode";
 
 import { Request } from "@synthexia/bdfd-external";
 
