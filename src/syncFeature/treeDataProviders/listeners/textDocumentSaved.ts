@@ -4,12 +4,12 @@ import { Command } from "@synthexia/bdfd-external";
 
 import { LANG, EMPTY } from "@general/consts";
 
-import { LocalData } from "@localDataManager";
+import { type LocalData } from "@localDataManager";
 import { UserEntry } from "@localDataManager/enums";
 
 import { updateCurrentSyncedCommandState } from "@statusItems/stateUpdaters";
 
-export async function textDocumentSaved(document: TextDocument, local: LocalData) {
+export async function textDocumentSavedListener(document: TextDocument, local: LocalData) {
     if (document.languageId != LANG) return;
     
     const { authToken } = await local.getUserData(UserEntry.CurrentAccount);

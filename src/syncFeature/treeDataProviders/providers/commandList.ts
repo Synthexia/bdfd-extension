@@ -24,7 +24,7 @@ export class CommandList implements TreeDataProvider<CommandItem> {
 
 export class CommandItem extends TreeItem {
     constructor(public readonly commandData: Request.Response.CommandList & { botReference: string }) {
-        const { id, name, trigger, botReference } = commandData;
+        const { name, trigger } = commandData;
 
         super(name || 'Unnamed command', TreeItemCollapsibleState.None);
         this.description = trigger || 'Non-triggerable';

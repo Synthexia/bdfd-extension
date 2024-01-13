@@ -2,9 +2,12 @@ import { type TextEditor, type StatusBarItem } from "vscode";
 import { Command, Bot } from "@synthexia/bdfd-external";
 
 import { rpc } from "@extension";
+
 import { LANG, EMPTY } from "@general/consts";
-import { LocalData } from "@localDataManager";
+
+import { type LocalData } from "@localDataManager";
 import { UserEntry, SyncEntry } from "@localDataManager/enums";
+
 import { updateCurrentSyncedCommandSBIData } from "@utils";
 
 export async function activeTextEditorChangedListener(

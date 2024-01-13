@@ -7,13 +7,15 @@ import {
 } from "vscode";
 
 import { rpc } from "@extension";
-import { LocalData } from "@localDataManager";
+
+import { type LocalData } from "@localDataManager";
 import { WorkspaceEntry, SyncEntry } from "@localDataManager/enums";
+
 import { updateCurrentSyncedCommandSBIData } from "@utils";
 
-import { CommandItem } from "@treeDataProviders/providers/commandList";
+import { type CommandItem } from "@treeDataProviders/providers/commandList";
 
-export async function commandSelected(
+export async function commandSelectedListener(
     selectedCommand: TreeViewSelectionChangeEvent<CommandItem>,
     local: LocalData,
     currentSyncedCommandSBI: StatusBarItem,

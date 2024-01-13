@@ -24,7 +24,7 @@ export class VariableList implements TreeDataProvider<VariableItem> {
 
 export class VariableItem extends TreeItem {
     constructor(public readonly variableData: Request.Response.VariableList & { botReference: string }) {
-        const { id, name, value, botReference } = variableData;
+        const { name, value } = variableData;
 
         super(name || 'Unnamed variable', TreeItemCollapsibleState.None);
         this.tooltip = value || 'No value';

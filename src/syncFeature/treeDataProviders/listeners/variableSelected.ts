@@ -6,7 +6,7 @@ import { actionCancelledNotification } from "@utils";
 import * as localization from "@localization";
 
 import { ICON } from "@treeDataProviders/consts";
-import { VariableItem } from "@treeDataProviders/providers/variableList";
+import { type VariableItem } from "@treeDataProviders/providers/variableList";
 
 const { showQuickPick, showInputBox } = window;
 
@@ -15,7 +15,7 @@ const {
     showInputBox: showInputBoxLoc
 } = localization.syncFeature.treeViews;
 
-export async function variableSelected(
+export async function variableSelectedListener(
     selectedVariable: TreeViewSelectionChangeEvent<VariableItem>,
     authToken: string,
     botId: string

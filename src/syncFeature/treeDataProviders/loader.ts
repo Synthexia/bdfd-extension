@@ -12,15 +12,15 @@ import { COMMAND } from "@syncFeature/consts";
 import { StatusItem } from "@statusItems/enums";
 
 import { TreeView } from "./enums";
-import { textDocumentSaved } from "./listeners/textDocumentSaved";
+import { textDocumentSavedListener } from "./listeners/textDocumentSaved";
 import { activeTextEditorChangedListener } from "./listeners/activeTextEditorChanged";
-import { botSelected } from "./listeners/botSelected";
-import { BotItem, BotList } from "./providers/botList";
+import { botSelectedListener } from "./listeners/botSelected";
 
 import { editCommandDataCallback } from "./callbacks/editCommandData";
 import { deleteCommandCallback } from "./callbacks/deleteCommand";
 import { deleteVariableCallback } from "./callbacks/deleteVariable";
 
+import { BotItem, BotList } from "./providers/botList";
 import { type CommandItem } from "./providers/commandList";
 import { type VariableItem } from "./providers/variableList";
 
@@ -39,7 +39,7 @@ export async function loadTreeDataProviders(context: ExtensionContext, authToken
     
     subscriptions.push(
         registerTreeDataProvider(TreeView.BotList, botListProvider),
-        onDidSaveTextDocument(async (document) => await textDocumentSaved(document, local)),
+        onDidSaveTextDocument(async (document) => await textDocumentSavedListener(document, local)),
         onDidChangeActiveTextEditor(async (editor) => await activeTextEditorChangedListener(editor, local, currentSyncedCommandSBI)),
         registerCommand(COMMAND.DELETE_COMMAND, async (args: CommandItem) => await deleteCommandCallback(local, args)),
         registerCommand(COMMAND.DELETE_VARIABLE, async (args: VariableItem) => await deleteVariableCallback(local, args)),
@@ -48,7 +48,7 @@ export async function loadTreeDataProviders(context: ExtensionContext, authToken
 
     const treeWithBotList = createTreeView(TreeView.BotList, { treeDataProvider: botListProvider })
         .onDidChangeSelection(async (selectedBot) => {
-            await botSelected(selectedBot, local, currentSyncedCommandSBI, authToken, subscriptions);
+            await botSelectedListener(selectedBot, local, currentSyncedCommandSBI, authToken, subscriptions);
         });
 
     subscriptions.push(treeWithBotList);

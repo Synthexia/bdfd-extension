@@ -9,7 +9,7 @@ import { Command, Variable } from "@synthexia/bdfd-external";
 
 import { access, mkdir } from "fs/promises";
 
-import { LocalData } from "@localDataManager";
+import { type LocalData } from "@localDataManager";
 import { SyncEntry, WorkspaceEntry } from "@localDataManager/enums";
 
 import { actionCancelledNotification } from "@utils";
@@ -20,12 +20,16 @@ import { BotItem } from "@treeDataProviders/providers/botList";
 import { CommandItem, CommandList } from "@treeDataProviders/providers/commandList";
 import { VariableItem, VariableList } from "@treeDataProviders/providers/variableList";
 
-import { commandSelected } from "./commandSelected";
-import { variableSelected } from "./variableSelected";
+import { commandSelectedListener } from "./commandSelected";
+import { variableSelectedListener } from "./variableSelected";
 
-const { showOpenDialog, registerTreeDataProvider, createTreeView } = window;
+const {
+    showOpenDialog,
+    registerTreeDataProvider,
+    createTreeView
+} = window;
 
-export async function botSelected(
+export async function botSelectedListener(
     selectedBot: TreeViewSelectionChangeEvent<BotItem>,
     local: LocalData,
     currentSyncedCommandSBI: StatusBarItem,
@@ -78,12 +82,12 @@ export async function botSelected(
 
     const treeWithCommandList = createTreeView(TreeView.CommandList, { treeDataProvider: commandListProvider })
         .onDidChangeSelection(async (selectedCommand) => {
-            await commandSelected(selectedCommand, local, currentSyncedCommandSBI, authToken, botId);
+            await commandSelectedListener(selectedCommand, local, currentSyncedCommandSBI, authToken, botId);
         });
         
     const treeWithVariableList = createTreeView(TreeView.VariableList, { treeDataProvider: variableListProvider })
         .onDidChangeSelection(async (selectedVariable) => {
-            await variableSelected(selectedVariable, authToken, botId);
+            await variableSelectedListener(selectedVariable, authToken, botId);
         });
 
     subscriptions.push(treeWithCommandList, treeWithVariableList);
