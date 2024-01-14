@@ -12,6 +12,7 @@ import { COMMAND } from "@syncFeature/consts";
 import { StatusItem } from "@statusItems/enums";
 
 import { TreeView } from "./enums";
+
 import { textDocumentSavedListener } from "./listeners/textDocumentSaved";
 import { activeTextEditorChangedListener } from "./listeners/activeTextEditorChanged";
 import { botSelectedListener } from "./listeners/botSelected";
@@ -26,11 +27,13 @@ import { type VariableItem } from "./providers/variableList";
 
 const { registerCommand } = commands;
 const { onDidSaveTextDocument } = workspace;
-const { registerTreeDataProvider, createTreeView, onDidChangeActiveTextEditor } = window;
+const {
+    registerTreeDataProvider,
+    createTreeView,
+    onDidChangeActiveTextEditor
+} = window;
 
-export async function loadTreeDataProviders(context: ExtensionContext, authToken: string, botList: BotItem[]) {
-    const { subscriptions } = context;
-
+export async function loadTreeDataProviders(subscriptions: ExtensionContext['subscriptions'], authToken: string, botList: BotItem[]) {
     const local = await new LocalData().init();
 
     const botListProvider = new BotList(botList);

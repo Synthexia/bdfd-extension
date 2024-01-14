@@ -2,7 +2,7 @@ import { QuickPickItem, ThemeIcon, window } from "vscode";
 
 import { type Data, User } from "@synthexia/bdfd-external";
 
-import { LocalData, LocalDataManager } from "@localDataManager";
+import { type LocalData, type LocalDataManager } from "@localDataManager";
 import { UserEntry, WriteAccountAction } from "@localDataManager/enums";
 
 import { syncFeature as syncFeatureLoc } from "@localization";

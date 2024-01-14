@@ -23,7 +23,7 @@ const buildTabstop = (index: number, tabstopPart: string) =>
     tabstopPart +
     SPECIAL_CHARACTER.RIGHT_BRACE.NORMAL;
 
-export async function loadAutoCompletionsFeature(context: ExtensionContext) {
+export async function loadAutoCompletionsFeature(subscriptions: ExtensionContext['subscriptions']) {
     const functionList = await Functions.list();
     const functionTagList = await Functions.tagList();
 
@@ -160,7 +160,7 @@ export async function loadAutoCompletionsFeature(context: ExtensionContext) {
         functionIndex++;
     }
 
-    context.subscriptions.push(
+    subscriptions.push(
         languages.registerCompletionItemProvider(LANG, {
             provideCompletionItems() {
                 const selection = window.activeTextEditor!.selection;

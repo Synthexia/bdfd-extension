@@ -4,8 +4,8 @@ import { SPECIAL_CHARACTER } from "@general/consts";
 
 import { COMMAND, } from "./consts";
 
-export function loadContextMenuUtils(context: ExtensionContext) {
-    context.subscriptions.push(
+export function loadContextMenuUtils(subscriptions: ExtensionContext['subscriptions']) {
+    subscriptions.push(
         commands.registerCommand(COMMAND.ESCAPE, escapeSelectedCode)
     );
 }

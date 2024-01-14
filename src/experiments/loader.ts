@@ -7,9 +7,9 @@ import { EXPERIMENT } from "./consts";
 
 const getConfiguration = workspace.getConfiguration().get;
 
-export function loadExperiments(context: ExtensionContext) {
+export function loadExperiments(subscriptions: ExtensionContext['subscriptions']) {
     if (getConfiguration(EXPERIMENT.AUTO_COMPLETIONS))
-        loadAutoCompletionsFeature(context);
+        loadAutoCompletionsFeature(subscriptions);
     if (getConfiguration(EXPERIMENT.SYNC))
-        loadSyncFeature(context);
+        loadSyncFeature(subscriptions);
 }

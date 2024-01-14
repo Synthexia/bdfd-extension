@@ -50,8 +50,8 @@ const {
     showQuickPick
 } = window;
 
-export function loadCommonCommands(context: ExtensionContext) {
-    context.subscriptions.push(
+export function loadCommonCommands(subscriptions: ExtensionContext['subscriptions']) {
+    subscriptions.push(
         commands.registerCommand(COMMAND.FUNCTION_LIST, functionList),
         commands.registerCommand(COMMAND.TOKEN_CUSTOMIZATION, tokenCustomization),
         commands.registerCommand(COMMAND.RESET_TOKEN_CUSTOMIZATION, resetTokenCustomization)

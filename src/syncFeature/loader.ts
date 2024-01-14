@@ -16,19 +16,19 @@ import { switchAccountCallback } from "./callbacks/switchAccount";
 const { showInformationMessage, showInputBox } = window;
 const { registerCommand } = commands;
 
-export async function loadSyncFeature(context: ExtensionContext) {
+export async function loadSyncFeature(subscriptions: ExtensionContext['subscriptions']) {
     const local = await new LocalData().init();
     
-    context.subscriptions.push(
+    subscriptions.push(
         registerCommand(COMMAND.SWITCH_ACCOUNT, async () => await switchAccountCallback(local))
     );
 
     const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
 
-    await authorize(context, local, authToken);
+    await authorize(subscriptions, local, authToken);
 }
 
-async function authorize(context: ExtensionContext, local: LocalData, authToken: string, failed = false) {
+async function authorize(subscriptions: ExtensionContext['subscriptions'], local: LocalData, authToken: string, failed = false) {
     const username = await User.get(authToken)
         .catch(async () => {
             const action = await showInformationMessage(syncFeatureLoc.greeting.featureUnauthorized, syncFeatureLoc.greeting.authorizeAction);
@@ -53,7 +53,7 @@ async function authorize(context: ExtensionContext, local: LocalData, authToken:
                     }
                 });
 
-                await authorize(context, local, handledAuthToken, true);
+                await authorize(subscriptions, local, handledAuthToken, true);
             }
         });
 
@@ -80,5 +80,5 @@ async function authorize(context: ExtensionContext, local: LocalData, authToken:
     for (const bot of await Bot.list(authToken))
         botItems.push(new BotItem(bot));
 
-    await loadTreeDataProviders(context, authToken, botItems);
+    await loadTreeDataProviders(subscriptions, authToken, botItems);
 }

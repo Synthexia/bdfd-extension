@@ -15,11 +15,10 @@ export async function activeTextEditorChangedListener(
     local: LocalData,
     currentSyncedCommandSBI: StatusBarItem
 ) {
-    if (!editor)
+    if (!editor || editor.document.languageId != LANG) {
+        await rpc.clearActivity();
         return currentSyncedCommandSBI.hide();
-
-    if (editor.document.languageId != LANG)
-        return currentSyncedCommandSBI.hide();
+    }
 
     const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
     const splittedFileName = editor.document.fileName.split('\\');

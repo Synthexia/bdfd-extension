@@ -10,9 +10,11 @@ export const statusItems = loadStatusItems();
 export const rpc = new RPC().login();
 
 export function activate(context: ExtensionContext) {
-    loadCommonCommands(context);
-    loadContextMenuUtils(context);
-    loadExperiments(context);
+    const { subscriptions } = context;
+    
+    loadCommonCommands(subscriptions);
+    loadContextMenuUtils(subscriptions);
+    loadExperiments(subscriptions);
 }
 
 export async function deactivate() {

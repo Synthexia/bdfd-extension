@@ -88,6 +88,12 @@ export class RPC {
         });
     }
 
+    public async clearActivity() {
+        await this.setActivity({
+            details: richPresenceLoc.loginDetails
+        });
+    }
+
     public async destroy() {
         await this.client.destroy();
     }
