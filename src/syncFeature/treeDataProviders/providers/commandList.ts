@@ -8,7 +8,10 @@ import {
 import { Request } from "@synthexia/bdfd-external";
 
 import { ICON } from "@treeDataProviders/consts";
-import { COMMAND } from "@syncFeature/consts";
+
+import { syncFeature as syncFeatureLoc } from "@localization";
+
+const { label, description } = syncFeatureLoc.treeViews.treeItems;
 
 export class CommandList implements TreeDataProvider<CommandItem> {
     constructor(public readonly commandList: CommandItem[]) {}
@@ -26,8 +29,8 @@ export class CommandItem extends TreeItem {
     constructor(public readonly commandData: Request.Response.CommandList & { botReference: string }) {
         const { name, trigger } = commandData;
 
-        super(name || 'Unnamed command', TreeItemCollapsibleState.None);
-        this.description = trigger || 'Non-triggerable';
+        super(name || label.unnamedCommand, TreeItemCollapsibleState.Expanded);
+        this.description = trigger || description.nonTriggerable;
         this.iconPath = ICON.FILE;
         this.contextValue = 'bdfd-command';
     }

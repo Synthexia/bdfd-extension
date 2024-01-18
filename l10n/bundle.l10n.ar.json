@@ -62,6 +62,8 @@
     "Editing Command Trigger": "جاري تحرير بادئة الأمر",
     "Editing Variable Name": "جاري تحرير إسم المتغير",
     "Editing Variable Value": "جاري تحرير قيمة المتغير",
+    "Unnamed variable": "Unnamed variable",
+    "No value": "No value",
     "{vscode} Extension": "{vscode} إمتداد",
     "Thinking...": "تفكير...",
     "Working on {botName}!": "يعمل على {botName}!"

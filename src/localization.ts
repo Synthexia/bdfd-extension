@@ -160,6 +160,18 @@ export const syncFeature = {
                     editingVariableValue: t('Editing Variable Value')
                 }
             }
+        },
+        treeItems: {
+            label: {
+                unnamedCommand: t('Unnamed command'),
+                unnamedVariable: t('Unnamed variable')
+            },
+            tooltip: {
+                noValue: t('No value')
+            },
+            description: {
+                nonTriggerable: t('Non-triggerable')
+            }
         }
     }
 };

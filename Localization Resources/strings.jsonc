@@ -25,8 +25,9 @@
     "Extension Version": "",
     // Status Items -> Current Synced Command -> Name
     "Current Synced Command": "",
-    // Status Items -> Current Synced Command -> Text
+    // Status Items -> Current Synced Command -> Text & Sync Feature -> Tree Views -> Tree Items -> Label
     "Unnamed command": "",
+    // Status Items -> Current Synced Command -> Text & Sync Feature -> Tree Views -> Tree Items -> Description
     "Non-triggerable": "",
     // Common Commands
     // Common Commands -> Function List -> Intents
@@ -89,6 +90,11 @@
     "Editing Command Trigger": "",
     "Editing Variable Name": "",
     "Editing Variable Value": "",
+    // Sync Feature -> Tree Views -> Tree Items -> Label
+    "Unnamed variable" : "",
+    // Sync Feature -> Tree Views -> Tree Items -> Tooltip
+    "No value": "",
+    // Sync Feature -> Tree Views -> Tree Items -> Tooltip
     // Rich Presence -> Label (Optionally can be edited)
     "{vscode} Extension": "{vscode} Extension",
     // Rich Presence -> Login Details

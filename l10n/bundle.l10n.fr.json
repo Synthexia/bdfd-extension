@@ -62,6 +62,8 @@
     "Editing Command Trigger": "Modification du déclencheur de la commande",
     "Editing Variable Name": "Modification du nom de la variable",
     "Editing Variable Value": "Modification de la valeur de la variable",
+    "Unnamed variable": "Unnamed variable",
+    "No value": "No value",
     "{vscode} Extension": "{vscode} Extension",
     "Thinking...": "Réfléchit...",
     "Working on {botName}!": "Travaille sur {botName} !"

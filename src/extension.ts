@@ -9,7 +9,11 @@ import { RPC } from './rpc';
 export const statusItems = loadStatusItems();
 export const rpc = new RPC().login();
 
+export let extensionContext: ExtensionContext;
+
 export function activate(context: ExtensionContext) {
+    extensionContext = context;
+
     const { subscriptions } = context;
     
     loadCommonCommands(subscriptions);
