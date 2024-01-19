@@ -5,8 +5,8 @@
         "moduleResolution": "node",
         "target": "ESNext",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
-        "rootDir": "src",
-        "outDir": "dist",
+        "rootDir": "./src/",
+        "outDir": "./dist/",
         "paths": {
             "@extension": ["./src/extension"],
             "@localization": ["./src/localization"],
@@ -47,5 +47,6 @@
             "@statusItems/stateUpdaters": ["./src/statusItems/stateUpdaters"]
         }
     },
-    "exclude": ["node_modules/"]
+    "exclude": ["./node_modules/"],
+    "include": ["./src/"]
 }

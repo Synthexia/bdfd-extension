@@ -29,7 +29,7 @@ export class CommandItem extends TreeItem {
     constructor(public readonly commandData: Request.Response.CommandList & { botReference: string }) {
         const { name, trigger } = commandData;
 
-        super(name || label.unnamedCommand, TreeItemCollapsibleState.Expanded);
+        super(name || label.unnamedCommand, TreeItemCollapsibleState.None);
         this.description = trigger || description.nonTriggerable;
         this.iconPath = ICON.FILE;
         this.contextValue = 'bdfd-command';

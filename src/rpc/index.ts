@@ -54,16 +54,6 @@ export class RPC {
         this.client.on('disconnected', async () => {
             await rpc.destroy();
         });
-
-        this.client.on('error', (e: Error) => {
-            if (e.name == 'RPC_CONNECTION_TIMEOUT') {
-                console.info('RPC Connection timed out... Reconnecting in 5 seconds');
-                
-                setTimeout(() => this.makeConnection(CLIENT_ID), 5000);
-            }
-            else
-                console.error('Unhandled RPC Error:', e);
-        });
         
         this.makeConnection(CLIENT_ID);
 
@@ -76,6 +66,15 @@ export class RPC {
                 await this.setActivity({
                     details: richPresenceLoc.loginDetails
                 });
+            })
+            .catch((e: Error) => {
+                if (e.message == 'RPC_CONNECTION_TIMEOUT') {
+                    console.info('RPC Connection timed out... Reconnecting in 10 seconds');
+                    
+                    setTimeout(() => this.makeConnection(CLIENT_ID), 10e3);
+                }
+                else
+                    console.error('Unhandled RPC Error:', e);
             });
     }
 
