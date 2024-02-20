@@ -1,10 +1,11 @@
-import { Client, type Presence } from "discord-rpc";
+import { Client, type SetActivity } from "@xhayper/discord-rpc";
 
 import { richPresence as richPresenceLoc } from "@localization";
 
-import { CLIENT_ID, ICON, TRANSPORT } from "@rpc/consts";
+import { CLIENT_ID as clientId, ICON } from "@rpc/consts";
 
-const rpc = new Client({ transport: TRANSPORT });
+const rpc = new Client({ clientId });
+
 const startTimestamp = new Date();
 
 interface PresenceData {
@@ -22,46 +23,52 @@ export class RPC {
             url: 'https://github.com/Synthexia/bdfd-extension'
         }],
         startTimestamp
-    } satisfies Presence;
+    } satisfies SetActivity;
 
     constructor() {
         this.client = rpc;
     }
 
-    private async setActivity(
-        data: Omit<
-            Presence,
-            | 'largeImageKey'
-            | 'largeImageText'
-            | 'startTimestamp'
-            | 'buttons'
-        >
-    ) {
-        await this.client.setActivity({
-            ...this.baseActivity,
-            ...data
-        });
-    }
-
+    
     /**
      * Initialize
      */
-    public login() {
+    public connect() {
         this.client.on('ready', async () => {
-            await rpc.setActivity({...this.baseActivity});
+            if (!rpc.user) return;
+
+            await rpc.user.setActivity({...this.baseActivity});
         });
         
         this.client.on('disconnected', async () => {
             await rpc.destroy();
         });
         
-        this.makeConnection(CLIENT_ID);
+        this.makeConnection();
 
         return this;
     }
 
-    private makeConnection(clientId: string) {
-        this.client.login({ clientId })
+    private async setActivity(
+        data: Omit<
+            SetActivity,
+            | 'largeImageKey'
+            | 'largeImageText'
+            | 'startTimestamp'
+            | 'buttons'
+        >
+    ) {
+        if (!this.client.user)
+            return console.error('[BDFD Sync Feature - RPC] Failed to set activity because client user is undefined.');
+
+        await this.client.user.setActivity({
+            ...this.baseActivity,
+            ...data
+        });
+    }
+
+    private makeConnection() {
+        this.client.connect()
             .then(async () => {
                 await this.setActivity({
                     details: richPresenceLoc.loginDetails
@@ -71,19 +78,19 @@ export class RPC {
                 if (e.message == 'RPC_CONNECTION_TIMEOUT') {
                     console.info('RPC Connection timed out... Reconnecting in 10 seconds');
                     
-                    setTimeout(() => this.makeConnection(CLIENT_ID), 10e3);
+                    setTimeout(() => this.makeConnection(), 10e3);
                 }
                 else
-                    console.error('Unhandled RPC Error:', e);
+                    console.error('[BDFD Sync Feature - RPC] Unhandled RPC Error:', e);
             });
     }
 
     public async updateActivity(data: PresenceData) {
         const { botName, commandName, commandTrigger } = data;
-
+        
         await this.setActivity({
             details: richPresenceLoc.details(botName),
-            state: `${commandName} - ${commandTrigger}`
+            state: `${commandName || richPresenceLoc.state.unnamedCommand} - ${commandTrigger || richPresenceLoc.state.nontriggerable}`
         });
     }
 

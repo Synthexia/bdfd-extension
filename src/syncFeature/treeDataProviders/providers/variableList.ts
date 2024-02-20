@@ -5,7 +5,7 @@ import {
     TreeItemCollapsibleState
 } from "vscode";
 
-import { Request } from "@synthexia/bdfd-external";
+import { type Data } from "@synthexia/bdfd-external";
 
 import { ICON } from "@treeDataProviders/consts";
 
@@ -26,7 +26,7 @@ export class VariableList implements TreeDataProvider<VariableItem> {
 }
 
 export class VariableItem extends TreeItem {
-    constructor(public readonly variableData: Request.Response.VariableList & { botReference: string }) {
+    constructor(public readonly variableData: Data.Variable.Base & { botReference: string }) {
         const { name, value } = variableData;
 
         super(name || label.unnamedVariable, TreeItemCollapsibleState.None);

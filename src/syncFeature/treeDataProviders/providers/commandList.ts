@@ -5,7 +5,11 @@ import {
     TreeItemCollapsibleState
 } from "vscode";
 
-import { Request } from "@synthexia/bdfd-external";
+import {
+    type Data,
+    type OmitCode,
+    type OmitLanguage
+} from "@synthexia/bdfd-external";
 
 import { ICON } from "@treeDataProviders/consts";
 
@@ -26,7 +30,7 @@ export class CommandList implements TreeDataProvider<CommandItem> {
 }
 
 export class CommandItem extends TreeItem {
-    constructor(public readonly commandData: Request.Response.CommandList & { botReference: string }) {
+    constructor(public readonly commandData: OmitCode<OmitLanguage<Data.Command.Base>> & { botReference: string }) {
         const { name, trigger } = commandData;
 
         super(name || label.unnamedCommand, TreeItemCollapsibleState.None);

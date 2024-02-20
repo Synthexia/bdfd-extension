@@ -1,6 +1,6 @@
 import { type TreeViewSelectionChangeEvent, window } from "vscode";
 
-import { Variable } from "@synthexia/bdfd-external";
+import { BDFDExternalRequestError, Variable } from "@synthexia/bdfd-external";
 
 import { actionCancelledNotification } from "@utils";
 import * as localization from "@localization";
@@ -8,7 +8,7 @@ import * as localization from "@localization";
 import { ICON } from "@treeDataProviders/consts";
 import { type VariableItem } from "@treeDataProviders/providers/variableList";
 
-const { showQuickPick, showInputBox } = window;
+const { showQuickPick, showInputBox, showErrorMessage } = window;
 
 const {
     showQuickPick: showQuickPickLoc,
@@ -48,7 +48,13 @@ export async function variableSelectedListener(
                 return actionCancelledNotification();
 
             selection.iconPath = ICON.SYNC;
-            await Variable.update(authToken, botId, variableId, { name: newVariableName });
+            
+            const _variable = await Variable.update(authToken, botId, variableId, { name: newVariableName }).catch((r: BDFDExternalRequestError) => r.message);
+            if (typeof _variable == 'string') {
+                showErrorMessage("The variable can't be edited because it doesn't exist in the real space");
+                return;
+            }
+            
             selection.label = variableName;
             break;
         case showQuickPickLoc.variables.actions[1]: // Edit Variable Value
@@ -61,7 +67,13 @@ export async function variableSelectedListener(
                 return actionCancelledNotification();
             
             selection.iconPath = ICON.SYNC;
-            await Variable.update(authToken, botId, variableId, { value: newVariableValue });
+
+            const __variable = await Variable.update(authToken, botId, variableId, { value: newVariableValue }).catch((r: BDFDExternalRequestError) => r.message);
+            if (typeof __variable == 'string') {
+                showErrorMessage("The variable can't be edited because it doesn't exist in the real space");
+                return;
+            }
+
             selection.tooltip = variableValue;
             break;
     }

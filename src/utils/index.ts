@@ -1,6 +1,6 @@
 import { StatusBarItem, window } from "vscode";
 
-import { LanguageName } from "@synthexia/bdfd-external/dist/enums";
+import { LanguageName } from "@synthexia/bdfd-external";
 
 import { AUTH_TOKEN_SESSION_PART } from "@syncFeature/consts";
 

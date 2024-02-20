@@ -1,9 +1,10 @@
-import { Command, Bot } from "@synthexia/bdfd-external";
+import { Command, Bot, BDFDExternalRequestError } from "@synthexia/bdfd-external";
 import {
     type TreeViewSelectionChangeEvent,
     type StatusBarItem,
     Uri,
-    commands
+    commands,
+    window
 } from "vscode";
 
 import { rpc } from "@extension";
@@ -30,7 +31,14 @@ export async function commandSelectedListener(
         name: commandName,
         trigger: commandTrigger,
     } = selection.commandData;
-    const { code, language } = await Command.get(authToken, botId, commandId);
+    const command = await Command.get(authToken, botId, commandId).catch((r: BDFDExternalRequestError) => r.message);
+
+    if (typeof command == 'string') {
+        window.showErrorMessage("The command can't be opened because it doesn't exist in the real space");
+        return;
+    }
+
+    const { code, language } = command;
 
     let commandRecord: Uri | string | undefined = await local.getWorkspaceData({
         entry: WorkspaceEntry.CommandPath,

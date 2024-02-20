@@ -179,5 +179,9 @@ export const syncFeature = {
 export const richPresence = {
     label: t('{vscode} Extension', { vscode: 'VS Code' }),
     loginDetails: t('Thinking...'),
-    details: (botName: string) => t('Working on {botName}!', { botName })
+    details: (botName: string) => t('Working on {botName}!', { botName }),
+    state: {
+        unnamedCommand: t('Unnamed command'),
+        nontriggerable: t('Non-triggerable')
+    }
 };

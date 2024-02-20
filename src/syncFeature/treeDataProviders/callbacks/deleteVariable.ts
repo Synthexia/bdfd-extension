@@ -1,6 +1,6 @@
 import { window } from "vscode";
 
-import { Variable } from "@synthexia/bdfd-external";
+import { BDFDExternalRequestError, Variable } from "@synthexia/bdfd-external";
 
 import { actionCancelledNotification } from "@utils";
 
@@ -11,7 +11,8 @@ import { type VariableItem } from "@treeDataProviders/providers/variableList";
 
 const {
     showInformationMessage,
-    showWarningMessage
+    showWarningMessage,
+    showErrorMessage
 } = window;
 
 export async function deleteVariableCallback(local: LocalData, args: VariableItem) {
@@ -23,6 +24,11 @@ export async function deleteVariableCallback(local: LocalData, args: VariableIte
     const { id, botReference } = args.variableData;
     const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
 
-    await Variable.delete(authToken, botReference, id);
+    const _variable = await Variable.delete(authToken, botReference, id).catch((r: BDFDExternalRequestError) => r.message);
+    if (typeof _variable == 'string') {
+        showErrorMessage("The variable can't be deleted because it doesn't exist in the real space");
+        return;
+    }
+
     showInformationMessage('The variable was successfully deleted!');
 }

@@ -1,6 +1,6 @@
 import { window } from "vscode";
 
-import { Command } from "@synthexia/bdfd-external";
+import { BDFDExternalRequestError, Command } from "@synthexia/bdfd-external";
 
 import { actionCancelledNotification } from "@utils";
 
@@ -11,7 +11,8 @@ import { type CommandItem } from "@treeDataProviders/providers/commandList";
 
 const {
     showInformationMessage,
-    showWarningMessage
+    showWarningMessage,
+    showErrorMessage
 } = window;
 
 export async function deleteCommandCallback(local: LocalData, args: CommandItem) {
@@ -23,6 +24,11 @@ export async function deleteCommandCallback(local: LocalData, args: CommandItem)
     const { id, botReference} = args.commandData;
     const { authToken } = await local.getUserData(UserEntry.CurrentAccount);
 
-    await Command.delete(authToken, botReference, id);
+    const _command = await Command.delete(authToken, botReference, id).catch((r: BDFDExternalRequestError) => r.message);
+    if (typeof _command == 'string') {
+        showErrorMessage("The command can't be deleted because it doesn't exist in the real space");
+        return;
+    }
+
     showInformationMessage('The command was successfully deleted!');
 }

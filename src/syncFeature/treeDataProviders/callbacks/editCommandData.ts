@@ -1,7 +1,6 @@
 import { window } from "vscode";
 
-import { Command } from "@synthexia/bdfd-external";
-import { LanguageId, LanguageName } from "@synthexia/bdfd-external/dist/enums";
+import { Command, LanguageId, LanguageName } from "@synthexia/bdfd-external";
 
 import { updateCurrentSyncedCommandState } from "@statusItems/stateUpdaters";
 import { actionCancelledNotification } from "@utils";

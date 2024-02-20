@@ -5,7 +5,7 @@ import {
     TreeItemCollapsibleState
 } from "vscode";
 
-import { Request } from "@synthexia/bdfd-external";
+import { type Data } from "@synthexia/bdfd-external";
 
 import { ICON } from "@treeDataProviders/consts";
 
@@ -22,7 +22,7 @@ export class BotList implements TreeDataProvider<BotItem> {
 }
 
 export class BotItem extends TreeItem {
-    constructor(public readonly botData: Request.Response.BotList) {
+    constructor(public readonly botData: Data.Bot.Base) {
         const { name, commandCount, variableCount } = botData;
 
         super(name, TreeItemCollapsibleState.None);

@@ -7,7 +7,7 @@ import { loadStatusItems } from './statusItems/loader';
 import { RPC } from './rpc';
 
 export const statusItems = loadStatusItems();
-export const rpc = new RPC().login();
+export const rpc = new RPC().connect();
 
 export let extensionContext: ExtensionContext;
 

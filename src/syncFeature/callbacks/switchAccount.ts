@@ -1,6 +1,6 @@
 import { QuickPickItem, ThemeIcon, window } from "vscode";
 
-import { type Data, User } from "@synthexia/bdfd-external";
+import { User, type BDFDExternalRequestError } from "@synthexia/bdfd-external";
 
 import { type LocalData, type LocalDataManager } from "@localDataManager";
 import { UserEntry, WriteAccountAction } from "@localDataManager/enums";
@@ -55,7 +55,7 @@ export async function switchAccountCallback(local: LocalData) {
     if (!pick)
         return actionCancelledNotification();
 
-    // pick.label equals to an account's username
+    // pick.label also equals to an account's username
     switch (pick.label) {
         case addAccountAction:
             const input = await showInputBox({
@@ -69,7 +69,7 @@ export async function switchAccountCallback(local: LocalData) {
 
             const authToken = handleAuthToken(input);
             const username = await User.get(authToken)
-                .catch((e: Data.Error) => {
+                .catch((e: BDFDExternalRequestError) => {
                     showErrorMessage(e.message);
                 });
 
