@@ -70,7 +70,7 @@ export async function commandSelectedListener(
     const bot = await Bot.get(authToken, botId);
     const botName = bot?.name ?? 'Unknown';
 
-    await rpc.updateActivity({
+    await rpc?.updateActivity({
         botName,
         commandName,
         commandTrigger

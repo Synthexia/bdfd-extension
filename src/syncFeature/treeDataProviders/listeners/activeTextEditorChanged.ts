@@ -16,7 +16,7 @@ export async function activeTextEditorChangedListener(
     currentSyncedCommandSBI: StatusBarItem
 ) {
     if (!editor || editor.document.languageId != LANG) {
-        await rpc.clearActivity();
+        await rpc?.clearActivity();
         return currentSyncedCommandSBI.hide();
     }
 
@@ -43,7 +43,7 @@ export async function activeTextEditorChangedListener(
     const bot = await Bot.get(authToken, botId);
     const botName = bot?.name ?? 'Unknown';
 
-    await rpc.updateActivity({
+    await rpc?.updateActivity({
         botName,
         commandName: name,
         commandTrigger: trigger,
