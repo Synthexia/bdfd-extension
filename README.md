@@ -44,7 +44,17 @@ It shows your bot, command and trigger name you work on while using the [Sync fe
 
 ### Language And Syntax
 
-...
+The extension adds a new file extension (`.bds`) and a kind of syntax highlighting.
+
+![Syntax Highlighting Preview]()
+
+It also adds autocompletions but it's still an experimental feature.
+
+![Autocompletions Preview]()
+
+> [!NOTE]
+> It's enabled by default.\
+> If you wish, you can disable this feature in settings.
 
 ### Sync
 
@@ -53,12 +63,12 @@ Please read the [Take Attention](#take-attention) section first before using it.
 
 ![Sync Preview]()
 
-Please read the [Sync Guide]() for setting up the feature.
+Please read the [Sync Guide](./resources/syncGuide.md) for setting up the feature.
 
-### Util
-
-...
+---
 
 ## Localization
 
-...
+The extension supports different localizations.\
+The current used localization depends on your current VS Code localization.\
+If you would like to contribute, please read the [Localization Guide](./resources/localizationGuide.md).

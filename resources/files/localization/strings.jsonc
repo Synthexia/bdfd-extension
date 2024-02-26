@@ -1,0 +1,104 @@
+{
+    // General
+    "Action cancelled.": "",
+    // Auto Completions
+    "Required": "",
+    "Not required": "",
+    "Can be empty": "",
+    "Can't be empty": "",
+    "Name": "",
+    "Type": "",
+    "Possible values": "",
+    "Flags": "",
+    "Arguments": "",
+    "No arguments": "",
+    // Status Items
+    // Status Items -> Function List -> Text
+    "Function List": "",
+    // Status Items -> Function List -> Command Title
+    "Show List": "",
+    // Status Items -> Customize Highlighting -> Text
+    "Customize Highlighting": "",
+    // Status Items -> Customize Highlighting -> Command Title
+    "Show Editor": "",
+    // Status Items -> Extension Version -> Text
+    "Extension Version": "",
+    // Status Items -> Current Synced Command -> Name
+    "Current Synced Command": "",
+    // Status Items -> Current Synced Command -> Text & Sync Feature -> Tree Views -> Tree Items -> Label
+    "Unnamed command": "",
+    // Status Items -> Current Synced Command -> Text & Sync Feature -> Tree Views -> Tree Items -> Description
+    "Non-triggerable": "",
+    // Common Commands
+    // Common Commands -> Function List -> Intents
+    "Intents": "",
+    // Common Commands -> Function List -> Premium
+    "Premium": "",
+    "Yes": "",
+    "No": "",
+    // Common Commands -> Function List -> Open Wiki
+    "Open wiki": "",
+    // Common Commands -> Function List -> Select Function
+    "Select Function": "",
+    // Common Commands -> Customize Highlighting -> Quick Pick -> Foreground
+    "Foreground": "",
+    "Foreground Color": "",
+    "No Foreground Color": "",
+    "Change the functions' foreground color": "",
+    // Common Commands -> Customize Highlighting -> Quick Pick -> Font
+    "Font": "",
+    "Font Style": "",
+    "No Font Style": "",
+    "Change the functions' font style": "",
+    // Common Commands -> Customize Highlighting -> Input Box -> General
+    "Example": "",
+    // Common Commands -> Customize Highlighting -> Input Box -> Foreground
+    "Changing Foreground Color": "",
+    // Common Commands -> Customize Highlighting -> Input Box -> Font
+    "Changing Font Style": "",
+    // Sync Feature -> Greeting
+    "Welcome back, {username}!": "",
+    "Dear User, you haven't authorized to use the Sync feature yet.": "",
+    "Authorize now!": "",
+    // Sync Feature -> Command -> Configure Sync Feature
+    "BDFD Sync Configuration": "",
+    "Changing an auth token": "",
+    "Type your auth token here": "",
+    // Sync Feature -> Command -> Switch Account -> Input Box
+    "Adding An Account": "",
+    "Please input the auth token": "",
+    // Sync Feature -> Command -> Switch Account -> Quick Pick
+    "Switching An Account": "",
+    "Removing An Account": "",
+    "Please select accounts you want to remove": "",
+    "Add an account": "",
+    "Remove an account": "",
+    // Sync Feature -> Tree Views -> Dialogs
+    "Save bot commands here": "",
+    "Please select a folder where the extension will store your bots with their commands as files": "",
+    // Sync Feature -> Tree Views -> Quick Pick
+    "Choose An Action": "",
+    "Changing Scripting Language": "",
+    "Current Scripting Language: ${scriptingLanguageName}": "",
+    "Edit Command Name": "",
+    "Edit Command Trigger": "",
+    "Change Scripting Language": "",
+    "Edit Variable Name": "",
+    "Edit Variable Value": "",
+    // Sync Feature -> Tree Views -> Input Box
+    "Editing Command Name": "",
+    "Editing Command Trigger": "",
+    "Editing Variable Name": "",
+    "Editing Variable Value": "",
+    // Sync Feature -> Tree Views -> Tree Items -> Label
+    "Unnamed variable" : "",
+    // Sync Feature -> Tree Views -> Tree Items -> Tooltip
+    "No value": "",
+    // Sync Feature -> Tree Views -> Tree Items -> Tooltip
+    // Rich Presence -> Label (Optionally can be edited)
+    "{vscode} Extension": "{vscode} Extension",
+    // Rich Presence -> Login Details
+    "Thinking...": "",
+    // Rich Presence -> Details
+    "Working on {botName}!": ""
+}

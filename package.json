@@ -113,7 +113,7 @@
 			{
 				"id": "bds",
 				"aliases": ["bdscript"],
-				"extensions": [".bds", ".bdsu", ".bds2"],
+				"extensions": [".bds"],
 				"configuration": "./language-configuration.json",
 				"icon": {
 					"light": "./assets/icons/icon-l.png",
