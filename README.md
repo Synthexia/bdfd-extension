@@ -2,8 +2,6 @@
 
 # Introduction
 
----
-
 **Join Synthexia server for getting support with the extension**
 
 [![Synthexia Server Banner](https://discord.com/api/guilds/1044327411115884676/embed.png?style=banner2)](https://discord.gg/wKADUUfcpj)
@@ -36,7 +34,7 @@ The extension adds the Rich Presence feature (also known as activity status) for
 The presence is titled as Bot Designer For Discord with the Playing activity type.\
 It shows your bot, command and trigger name you work on while using the [Sync feature](#sync).
 
-![Rich Presence Preview]()
+![Rich Presence Preview](https://github.com/Synthexia/bdfd-extension/assets/70456337/df65afcd-91b9-4570-ba0f-4de30f9236a9)
 
 > [!NOTE]
 > It's enabled by default.\
@@ -46,11 +44,11 @@ It shows your bot, command and trigger name you work on while using the [Sync fe
 
 The extension adds a new file extension (`.bds`) and a kind of syntax highlighting.
 
-![Syntax Highlighting Preview]()
+![Syntax Highlighting Preview](https://github.com/Synthexia/bdfd-extension/assets/70456337/fbef5a70-1c8f-467c-8396-79249268f24b)
 
 It also adds autocompletions but it's still an experimental feature.
 
-![Autocompletions Preview]()
+![Autocompletions Preview](https://github.com/Synthexia/bdfd-extension/assets/70456337/e390c1d0-9f5b-4f73-b2f7-af3c598e2de8)
 
 > [!NOTE]
 > It's enabled by default.\
@@ -61,9 +59,10 @@ It also adds autocompletions but it's still an experimental feature.
 The Sync feature, the main extension's feature, allows you to work on your BDFD bots outside of the BDFD App.\
 Please read the [Take Attention](#take-attention) section first before using it.
 
-![Sync Preview]()
+![Sync Preview](https://github.com/Synthexia/bdfd-extension/assets/70456337/0b0d77f0-f9b1-4782-abec-eb966e2a1084)
 
-Please read the [Sync Guide](./resources/syncGuide.md) for setting up the feature.
+> [!NOTE]
+> Please read the [Sync Guide](./resources/syncGuide.md) for setting up the feature.
 
 ---
 
