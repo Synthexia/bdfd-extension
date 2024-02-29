@@ -1,7 +1,3 @@
-# Introduction
-
-The page will introduce you to the Sync feature, will list & describe its features.
-
 ## Auth Token
 
 Auth Token - the token which is being used to authorize in the Sync feature. It's required if you want to use this feature.\
