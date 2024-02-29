@@ -133,7 +133,7 @@ export const syncFeature = {
             },
             commands: {
                 placeholder: (scriptingLanguageName: string) =>
-                    t('Current Scripting Language: ${scriptingLanguageName}', { scriptingLanguageName }),
+                    t('Current Scripting Language: {scriptingLanguageName}', { scriptingLanguageName }),
                 actions: [
                     t('Edit Command Name'),
                     t('Edit Command Trigger'),

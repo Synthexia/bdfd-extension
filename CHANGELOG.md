@@ -5,11 +5,11 @@
 ### 3.1.0
 - [Repository Changes] Updated Change Log style.
 - [Repository Changes] New README.
-- [New Feature] Added Rich Presence (aka the activity status for Discord).
-- [Feature Fix] Fixed highlighting customization.
 - [Source Code] Source code refactoring.
 - [Source Code] Disposables for commands and providers.
-- [Sync Feature] The new Sync Feature.
+- [Feature Fix] Fixed highlighting customization.
+- [New Feature] Added Rich Presence (the activity status for Discord).
+- [Sync Feature, New Feature] The new Sync feature.
 - [Sync Feature] Added the Switch Account feature.
 - [Sync Feature, Localization] Updated the Sync and Localization guides. They are also stored under the common `resources` directory now.
 - [Sync Feature, Local Data, Source Code] Updated the Local Data class. Removed old (now unused) entry keys. Now the local data manager will create separatre folders for data files on any (major) update labeled with the current Local Data Manager version in order not to have any data conflict in the future.
