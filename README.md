@@ -21,8 +21,8 @@
 > The extension can only be used for improved bot development process which is possible by using VS Code and its fancy features, as well as by [extension's own features](#features).
 
 > [!NOTE]
-> The [Sync feature](#sync)'s features are based from the BDFD Web App (it will be changed as soon as BDFD releases its special API for interacting with BDFD outside of the mobile and web app).\
-Please note that it's not possible to implement such features as editing Slash Commands because it's not implement in the BDFD Web App.
+> The [Sync feature](#sync)'s features are based on the BDFD Web App (it will be changed as soon as BDFD releases its special API for interacting with BDFD outside of the mobile and web app).\
+Please note that it's not possible to implement such features as editing Slash Commands because it's not implemented in the BDFD Web App.
 
 ---
 
