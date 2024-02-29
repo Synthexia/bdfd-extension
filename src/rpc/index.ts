@@ -90,7 +90,7 @@ export class RPC {
         
         await this.setActivity({
             details: richPresenceLoc.details(botName),
-            state: `${commandName || richPresenceLoc.state.unnamedCommand} - ${commandTrigger || richPresenceLoc.state.nontriggerable}`
+            state: `${commandName || richPresenceLoc.state.unnamedCommand} - ${commandTrigger || richPresenceLoc.state.nonTriggerable}`
         });
     }
 

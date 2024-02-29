@@ -182,6 +182,6 @@ export const richPresence = {
     details: (botName: string) => t('Working on {botName}!', { botName }),
     state: {
         unnamedCommand: t('Unnamed command'),
-        nontriggerable: t('Non-triggerable')
+        nonTriggerable: t('Non-triggerable')
     }
 };
