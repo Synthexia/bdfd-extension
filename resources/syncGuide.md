@@ -23,7 +23,6 @@ After authorization, it's only being stored locally aka only on your own machine
     console.log(token);
     ```
     ![Code Execution](https://user-images.githubusercontent.com/70456337/223182621-4eb12b08-e5f5-4614-889a-33ee09248357.png)
-    > [!NOTE]
     > If this code for some reason returns an error, use this:
     > 
     > ```js
@@ -31,9 +30,29 @@ After authorization, it's only being stored locally aka only on your own machine
     > ```
     > 
     > The returned value will be a bit different but don't worry!
-5. Copy the returned value.
-6. Follow the steps in the [next article](#authorization).
+6. Copy the returned value.
+7. Follow the steps in the [next article](#authorization).
 
 ### Authorization
 
-...
+1. Start the extension.
+2. Once the extension is started and you aren't logged in, you will see this notification:\
+   ![Notification](https://github.com/Synthexia/bdfd-extension/assets/70456337/54f8e252-7ed4-4339-aa01-f96021fbf4f5)
+3. Click "Authorize now!" and input your token you got [there](#get-your-token):\
+   ![Inputting token](https://github.com/Synthexia/bdfd-extension/assets/70456337/27c138ed-7a78-412a-865c-a8661b7016d1)
+4. If the token works, you'll be welcomed:\
+   ![Welcoming](https://github.com/Synthexia/bdfd-extension/assets/70456337/c52b6feb-384b-4f11-8e9f-378275b46b6e)
+
+### Switching Accounts
+
+The Sync feature has the account switcher feature.\
+You can use it by running the command:\
+![Switch Account Command](https://github.com/Synthexia/bdfd-extension/assets/70456337/15a2aeed-e80e-455c-bb32-612980ab5a92)
+
+There you can switch, add and remove your accounts:\
+![image](https://github.com/Synthexia/bdfd-extension/assets/70456337/ab15689f-4d64-41a7-875c-6efc73c9c62d)
+
+
+
+
+
