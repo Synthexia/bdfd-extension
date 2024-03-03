@@ -2,7 +2,6 @@ export const EXTENSION_ID = 'synthexia.bdfd-extension';
 
 export const EMPTY = '';
 export const SEMI_EMPTY = ' ';
-export const EMPTY_ARRAY = [];
 
 export const LANG = 'bds';
 

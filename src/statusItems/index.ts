@@ -21,7 +21,17 @@ const selector: DocumentSelector = {
 };
 
 export class StatusItems {
-    public static initExtensionVersionItem() {
+    public static load() {
+        return [
+            this.functionListItem(),
+            this.customizeTokensItem(),
+            this.syncFeatureItem(),
+            this.extensionVersionItem(),
+            this.currentSyncedCommandItem()
+        ];
+    }
+
+    private static extensionVersionItem() {
         const extensionVersion = extensions.getExtension(EXTENSION_ID)!.packageJSON.version;
 
         const item = createLanguageStatusItem(ITEM.EXTENSION_VERSION.ID, selector);
@@ -33,7 +43,7 @@ export class StatusItems {
         return item;
     }
 
-    public static initCustomizeTokensItem() {
+    private static customizeTokensItem() {
         const item = createLanguageStatusItem(ITEM.CUSTOMIZE_TOKENS.ID, selector);
 
         item.name = ITEM.NAME;
@@ -46,7 +56,7 @@ export class StatusItems {
         return item;
     }
 
-    public static initSyncFeatureItem() {
+    private static syncFeatureItem() {
         const item = createLanguageStatusItem(ITEM.SYNC_FEATURE.ID, selector);
 
         item.name = ITEM.NAME;
@@ -55,7 +65,7 @@ export class StatusItems {
         return item;
     }
 
-    public static initFunctionListItem() {
+    private static functionListItem() {
         const item = createLanguageStatusItem(ITEM.FUNCTION_LIST.ID, selector);
 
         item.name = ITEM.NAME;
@@ -68,7 +78,7 @@ export class StatusItems {
         return item;
     }
 
-    public static initCurrentSyncedCommandItem() {
+    private static currentSyncedCommandItem() {
         const item = createStatusBarItem('current-synced-command', StatusBarAlignment.Left);
 
         item.name = statusItemsLoc.currentSyncedCommand.name;

@@ -11,7 +11,7 @@ import {
     window
 } from "vscode";
 
-import { EMPTY, EMPTY_ARRAY, LANG, SPECIAL_CHARACTER } from "@general/consts";
+import { EMPTY, LANG, SPECIAL_CHARACTER } from "@general/consts";
 import { autoCompletions as autoCompletionsLoc } from "@localization";
 
 import { ARGUMENT, EXCEPTION_TAG, PARENTHESIS_REGEX, TABSTOP_PART } from "./consts";
@@ -27,7 +27,7 @@ export async function loadAutoCompletionsFeature(subscriptions: ExtensionContext
     const functionList = await Functions.list();
     const functionTagList = await Functions.tagList();
 
-    const autoCompletionItems: CompletionItem[] = EMPTY_ARRAY;
+    const autoCompletionItems: CompletionItem[] = [];
 
     let functionIndex = 0;
     for (const info of functionList) {

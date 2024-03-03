@@ -7,7 +7,7 @@ let minify = false;
 if (argument == '--minify')
     minify = true;
 
-console.log(`Building the extension... Minify: ${minify}.`);
+console.log(`Building the extension...\nMinify: ${minify}.`);
 
 await build({
     minify,

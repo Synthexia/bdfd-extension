@@ -1,15 +1,12 @@
-import { type ExtensionContext, workspace } from "vscode";
+import { type ExtensionContext } from "vscode";
 
+import { isAutoCompletionsEnabled, isSyncFeatureEnabled } from "@config";
 import { loadAutoCompletionsFeature } from "@autoCompletions";
 import { loadSyncFeature } from "@syncFeature";
 
-import { EXPERIMENT } from "./consts";
-
-const getConfiguration = workspace.getConfiguration().get;
-
 export function loadExperiments(subscriptions: ExtensionContext['subscriptions']) {
-    if (getConfiguration(EXPERIMENT.AUTO_COMPLETIONS))
+    if (isAutoCompletionsEnabled())
         loadAutoCompletionsFeature(subscriptions);
-    if (getConfiguration(EXPERIMENT.SYNC))
+    if (isSyncFeatureEnabled())
         loadSyncFeature(subscriptions);
 }

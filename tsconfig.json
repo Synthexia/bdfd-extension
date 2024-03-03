@@ -9,6 +9,7 @@
         "outDir": "./dist/",
         "paths": {
             "@extension": ["./src/extension"],
+            "@config": ["./src/config"],
             "@localization": ["./src/localization"],
             "@utils": ["./src/utils/index"],
 
@@ -41,7 +42,7 @@
             "@commonCommands/consts": ["./src/commonCommands/consts"],
             "@commonCommands/enums": ["./src/commonCommands/enums"],
             
-            "@statusItems": ["./src/statusItems/loader"],
+            "@statusItems": ["./src/statusItems/index"],
             "@statusItems/consts": ["./src/statusItems/consts"],
             "@statusItems/enums": ["./src/statusItems/enums"],
             "@statusItems/stateUpdaters": ["./src/statusItems/stateUpdaters"]

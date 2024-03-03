@@ -2,6 +2,11 @@
 
 ## Release Stage
 
+### 3.1.1
+- [Source Code] Source code refactoring.
+
+<details><summary>Previous Updates</summary>
+
 ### 3.1.0
 - [Repository Changes] Updated Change Log style.
 - [Repository Changes] New README.
@@ -12,10 +17,8 @@
 - [Sync Feature, New Feature] The new Sync feature.
 - [Sync Feature] Added the Switch Account feature.
 - [Sync Feature, Localization] Updated the Sync and Localization guides. They are also stored under the common `resources` directory now.
-- [Sync Feature, Local Data, Source Code] Updated the Local Data class. Removed old (now unused) entry keys. Now the local data manager will create separatre folders for data files on any (major) update labeled with the current Local Data Manager version in order not to have any data conflict in the future.
+- [Sync Feature, Local Data, Source Code] Updated the Local Data class. Removed old (now unused) entry keys. Now the local data manager will create separate folders for data files on any (major) update labeled with the current Local Data Manager version in order not to have any data conflict in the future.
 - [Other Changes] Other minor changes.
-
-<details><summary>Previous Updates</summary>
 
 ### 3.0.0
 - Package Renamed / Extension ID Changed.

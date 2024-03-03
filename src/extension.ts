@@ -1,20 +1,20 @@
-import { workspace, type ExtensionContext } from 'vscode';
+import { type ExtensionContext } from 'vscode';
 
-import { loadExperiments } from './experiments/loader';
-import { loadContextMenuUtils } from './contextMenuUtils/loader';
-import { loadCommonCommands } from './commonCommands/loader';
-import { loadStatusItems } from './statusItems/loader';
-import { RPC } from './rpc';
-import { EXPERIMENT } from '@experiments/consts';
+import { isRichPresenceEnabled } from '@config';
+import { RPC } from '@rpc';
+import { loadCommonCommands } from '@commonCommands';
+import { loadContextMenuUtils } from '@contextMenuUtils';
+import { loadExperiments } from '@experiments';
+import { StatusItems } from '@statusItems';
 
 export let rpc: RPC | undefined;
 export let extensionContext: ExtensionContext;
-export const statusItems = loadStatusItems();
+export const statusItems = StatusItems.load();
 
 export function activate(context: ExtensionContext) {
     extensionContext = context;
 
-    if (workspace.getConfiguration().get(EXPERIMENT.RICH_PRESENCE))
+    if (isRichPresenceEnabled())
         rpc = new RPC().connect();
 
     const { subscriptions } = context;
