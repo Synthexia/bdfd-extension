@@ -60,6 +60,7 @@ export async function botSelectedListener(
         await local.writeWorkspaceData({ entry: WorkspaceEntry.Root, path: folderWithBots });
     }
 
+    await access(folderWithBots).catch(async () => await mkdir(folderWithBots));    
     await access(`${folderWithBots}/${botId}`).catch(async () => await mkdir(`${folderWithBots}/${botId}`));
 
     await local.writeSyncData({ entry: SyncEntry.Bot, data: botId });

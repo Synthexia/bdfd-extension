@@ -15,6 +15,7 @@ import { WorkspaceEntry, SyncEntry } from "@localDataManager/enums";
 import { updateCurrentSyncedCommandSBIData } from "@utils";
 
 import { type CommandItem } from "@treeDataProviders/providers/commandList";
+import { access } from "fs/promises";
 
 export async function commandSelectedListener(
     selectedCommand: TreeViewSelectionChangeEvent<CommandItem>,
@@ -55,6 +56,15 @@ export async function commandSelectedListener(
         });
     else
         commandRecord = Uri.file(commandRecord);
+
+    await access(commandRecord.fsPath).catch(async () => {
+        commandRecord = await local.writeWorkspaceData({
+            entry: WorkspaceEntry.BotCommands,
+            botID: botId,
+            commandID: commandId,
+            commandCode: code
+        });
+    });
 
     await commands.executeCommand<void>('vscode.open', commandRecord);
     await local.writeSyncData({

@@ -1,6 +1,7 @@
 import { Uri } from "vscode";
 
 import { platform } from "os";
+import path = require("path");
 import { access, mkdir, readFile, writeFile } from "fs/promises";
 
 import { EMPTY } from "@general/consts";
@@ -267,6 +268,8 @@ export class LocalData {
                 break;
             case WorkspaceEntry.BotCommands:
                 const commandPath = workspaceDataObject.root + `/${options.botID}/${options.commandID}.bds`;
+
+                await access(commandPath).catch(async () => await mkdir(path.dirname(commandPath), { recursive: true }));
 
                 workspaceDataObject.bots[options.botID] = {
                     ...workspaceDataObject.bots[options.botID],

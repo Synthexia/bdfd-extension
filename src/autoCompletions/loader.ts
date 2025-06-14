@@ -7,8 +7,7 @@ import {
     MarkdownString,
     Range,
     SnippetString,
-    languages,
-    window
+    languages
 } from "vscode";
 
 import { EMPTY, LANG, SPECIAL_CHARACTER } from "@general/consts";
@@ -162,19 +161,22 @@ export async function loadAutoCompletionsFeature(subscriptions: ExtensionContext
 
     subscriptions.push(
         languages.registerCompletionItemProvider(LANG, {
-            provideCompletionItems() {
-                const selection = window.activeTextEditor!.selection;
+            provideCompletionItems(document, position) {
+                const lineText = document.lineAt(position.line).text;
+                const cursor = position.character;
 
-                try {
-                    autoCompletionItems.forEach((x) => x.range = new Range(
-                        selection.active.line,
-                        selection.active.character - 1,
-                        selection.end.line,
-                        selection.end.character - 1
-                    ));
-                    return autoCompletionItems;
-                } catch {}
+                const match = lineText.slice(0, cursor).match(/\$[a-zA-Z_]*$/);
+                if (!match)
+                    return
+
+                const wordStart = cursor - match[0].length;
+                const range = new Range(position.line, wordStart, position.line, cursor);
+                return autoCompletionItems.map((item) => {
+                    item.range = range;
+                    item.filterText = item.label.toString();
+                    return item;
+                })
             }
-        }, '$')
+        })
     );
 }
